@@ -8,7 +8,6 @@ use Yii;
 class RoleForm extends ItemForm
 {
 
-
     public function init()
     {
         parent::init();

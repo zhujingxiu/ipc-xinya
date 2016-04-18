@@ -26,7 +26,7 @@ echo Menu::widget(
                         'label' => Yii::t('app', 'Settings'),
                         'url' => ['/setting'],
                         'icon' => 'fa fa-wrench',
-                        //'visible' => (Yii::$app->user->identity->username == 'admin'),
+                        'visible' => Yii::$app->user->can('setting'),
                     ],
                     
                     [

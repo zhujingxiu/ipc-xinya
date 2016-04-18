@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <p>
-    <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','form'=>'user-form']) ?>
+    <?= Html::submitButton( Yii::t('app', 'Save'), ['class' => 'btn btn-primary','form'=>'user-form']) ?>
 </p
 <?php $form = ActiveForm::begin(['id'=>'user-form']); ?>
 <div class="col-lg-5">
@@ -43,7 +43,8 @@ use yii\helpers\ArrayHelper;
         </div>
 
         <div class="user-form box-body">
-            <?= $form->field($model, 'role')->radioList(User::getArrayRole()) ?>
+        
+            <?=  $form->field($model, 'role')->radioList(User::getArrayRole()) ?>
         </div>
 
     </div>

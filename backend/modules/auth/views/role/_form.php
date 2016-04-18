@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 /* @var $model backend\modules\auth\models\Role */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<p class="text-right"><?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['form'=>'role-form','class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?></p>
+<p><?= Html::submitButton('Save', ['form'=>'role-form','class' => 'btn btn-primary']) ?></p>
 <?php $form = ActiveForm::begin(['id'=>'role-form']); ?>
 <div class="col-lg-4">
     <div class="box">
@@ -20,11 +20,11 @@ use yii\helpers\ArrayHelper;
 
             <?= $form->field($model, 'type')->hiddenInput()->label(false) ?>
 
-            <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'rule_name')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
+            <?= $form->field($model, 'data')->textarea(['rows' => 2]) ?>
 
         </div>
     </div>

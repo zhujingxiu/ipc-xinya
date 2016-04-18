@@ -35,12 +35,16 @@ class RoleController extends ItemController
 
         if ($model->load(Yii::$app->request->post()) ) {
             $role = new \yii\rbac\Role();
-            $role->name = $model->name;
+            $role->description = $model->description;
             $role->type = $model->type;
+            $role->ruleName = empty($model->rule_name) ? null : $model->rule_name;
+            $role->data = $model->data;
 
             $this->authManager->add($role);
-            foreach($model->child as $name){
-                $this->authManager->addChild($role,$this->authManager->getPermission($name));
+            if(is_array($model->child) && count($model->child)){
+                foreach($model->child as $name){
+                    $this->authManager->addChild($role,$this->authManager->getPermission($name));
+                }
             }
             return $this->redirect(['update', 'id' => $model->name]);
         } else {
@@ -62,14 +66,23 @@ class RoleController extends ItemController
         $role = $this->authManager->getRole($id);
         $model = new RoleForm();
         $model->name = $role->name;
+        $model->description = $role->description;
+        $model->rule_name = $role->ruleName;
+        $model->data = $role->data;
         if ($model->load(Yii::$app->request->post())) {
             $role = new \yii\rbac\Role();
             $role->name = $model->name;
+            $role->description = $model->description;
             $role->type = $model->type;
+            $role->ruleName = empty($model->rule_name) ? null : $model->rule_name;
+            $role->data = $model->data;
+
             $this->authManager->update($id,$role);
             $this->authManager->removeChildren($role);
-            foreach($model->child as $name){
-                $this->authManager->addChild($role,$this->authManager->getPermission($name));
+            if(is_array($model->child) && count($model->child)){
+                foreach($model->child as $name){
+                    $this->authManager->addChild($role,$this->authManager->getPermission($name));
+                }
             }
             return $this->redirect(['update', 'id' => $model->name]);
         } else {

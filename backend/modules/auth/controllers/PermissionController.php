@@ -26,14 +26,15 @@ class PermissionController extends ItemController
         $model = new PermissionForm();
 
         if ($model->load(Yii::$app->request->post()) ) {
-            $role = new \yii\rbac\Permission();
-            $role->name = $model->name;
-            $role->type = $model->type;
+            $permission = new \yii\rbac\Permission();
+            $permission->name = $model->name;
+            $permission->description = $model->description;
+            $permission->type = $model->type;
+            $permission->ruleName = empty($model->rule_name) ? null : $model->rule_name;
+            $permission->data = $model->data;
 
-            $this->authManager->add($role);
-            foreach($model->child as $name){
-                $this->authManager->addChild($role,$this->authManager->getPermission($name));
-            }
+            $this->authManager->add($permission);
+
             return $this->redirect(['update', 'id' => $model->name]);
         } else {
             return $this->render('create', [
@@ -47,10 +48,17 @@ class PermissionController extends ItemController
         $permission = $this->authManager->getPermission($id);
         $model = new PermissionForm();
         $model->name = $permission->name;
+        $model->description = $permission->description;
+        $model->rule_name = $permission->ruleName;
+        $model->data = $permission->data;
         if ($model->load(Yii::$app->request->post())) {
             $permission = new \yii\rbac\Permission();
             $permission->name = $model->name;
+            $permission->description = $model->description;
             $permission->type = $model->type;
+            $permission->ruleName = empty($model->rule_name) ? null : $model->rule_name;
+            $permission->data = $model->data;
+            
             $this->authManager->update($id,$permission);
 
             return $this->redirect(['update', 'id' => $model->name]);

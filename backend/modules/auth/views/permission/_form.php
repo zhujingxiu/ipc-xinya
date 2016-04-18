@@ -8,28 +8,26 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <p>
-    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['form'=>'permission-form','class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::submitButton( 'Save', ['form'=>'permission-form','class' => 'btn btn-primary']) ?>
 </p>
 <div class="box">
 
-    <div class="box-body permission-form" id="permission-form">
-
-            <?php $form = ActiveForm::begin(); ?>
-
-            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-            <?= $form->field($model, 'type')->hiddenInput()->label(false) ?>
-
-            <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-            <?= $form->field($model, 'rule_name')->textInput(['maxlength' => true]) ?>
-
-            <?= $form->field($model, 'data')->textarea(['rows' => 6]) ?>
+    <div class="box-body permission-form" >
 
 
+        <?php $form = ActiveForm::begin(['id'=>'permission-form']); ?>
 
-            <?php ActiveForm::end(); ?>
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'type')->hiddenInput()->label(false) ?>
+
+        <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'rule_name')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'data')->textarea(['rows' => 2]) ?>
+
+        <?php ActiveForm::end(); ?>
 
     </div>
 </div>
