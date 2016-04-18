@@ -38,12 +38,15 @@ return [
 
     'System' => '系统',
     'Settings' => '设置',
+    'Users Roles' => '用户与角色',
     'User' => '用户',
     'Users' => '用户',
     'Role' => '角色',
     'Roles' => '角色',
     'Auth Role' => '角色',
     'Auth Roles' => '角色',
+    'Permission' => '权限',
+    'Permissions' => '权限',
     'Name' => '名称',
     'Description' => '描述',
     'Permissions' => '权限',
@@ -73,5 +76,19 @@ return [
     'Comment' => '评论',
     'Tag' => '标签',
 
+    'Customer' => '客户管理',
+    'Service' => '信贷业务',
+    'Project' => '信贷项目',
+    'Config' => '参数设置',
+    'Repayment' => '还款选项',
+    'Tender' => '标的类型',
+    'Status' => '业务流程',
+    'Apply' => '客户申请',
+    'Accept' => '认定受理',
+    'Check' => '调查评估',
+    'Approve' => '审批',
+    'Sign' => '签订合同',
+    'Borrowing' => '借款挂标',
+    'Manage' => '贷后管理'
 
 ];

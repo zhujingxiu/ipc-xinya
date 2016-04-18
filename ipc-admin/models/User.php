@@ -24,7 +24,7 @@ class User extends \common\models\User
     public $password;
     public $repassword;
     private $_statusLabel;
-    //private $_roleLabel;
+    private $_roleLabel;
 
     /**
      * @inheritdoc
@@ -49,7 +49,7 @@ class User extends \common\models\User
             self::STATUS_DELETED => Yii::t('app', 'STATUS_DELETED'),
         ];
     }
-    /*
+
     public static function getArrayRole()
     {
         return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
@@ -60,22 +60,11 @@ class User extends \common\models\User
 
         if ($this->_roleLabel === null) {
             $roles = self::getArrayRole();
-            $_roles = explode(",",$this->roles);
-            $_tmp = array();
-            if(is_array($_roles) && count($_roles)){
-
-                foreach($_roles as $item){
-                    if(!empty($roles[$item]))
-                        $_tmp[] = $roles[$item];
-                }
-            }
-
-            $this->_roleLabel = implode(' ',$_tmp);
-
+            $this->_roleLabel = $roles[$this->role];
         }
         return $this->_roleLabel;
     }
-    */
+
     /**
       * @inheritdoc
       */
@@ -99,8 +88,8 @@ class User extends \common\models\User
             //['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
 
-            //['role', 'in', 'range' => array_keys(self::getArrayRole())],
-            [['roles'], 'string'],
+            ['role', 'in', 'range' => array_keys(self::getArrayRole())],
+            
         ];
     }
 
@@ -110,8 +99,8 @@ class User extends \common\models\User
     public function scenarios()
     {
         return [
-            'admin-create' => ['username', 'email', 'password', 'repassword', 'status','roles'],
-            'admin-update' => ['username', 'email', 'password', 'repassword', 'status','roles']
+            'admin-create' => ['username', 'email', 'password', 'repassword', 'status','role'],
+            'admin-update' => ['username', 'email', 'password', 'repassword', 'status','role']
         ];
     }
 

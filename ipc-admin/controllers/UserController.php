@@ -77,24 +77,10 @@ class UserController extends \system\libs\base\BaseController
     public function actionCreate()
     {
         $model = new User(['scenario' => 'admin-create']);
-
-
-        if ($model->load(Yii::$app->request->post())) {
-
-            if(is_array($model->roles)){
-                $model->roles = implode(',',$model->roles);
-            }
-            if ($model->validate() &&  $model->save()) {
-                $_roles = explode(",", $model->roles);
-                if (is_array($_roles) && count($_roles)) {
-                    foreach ($_roles as $item) {
-                        Yii::$app->authManager->assign(Yii::$app->authManager->getRole($item), $model->user_id);
-                    }
-                }
-            }
-            return $this->redirect(['view', 'id' => $model->user_id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $model->id);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $model->loadDefaultValues();
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -112,24 +98,11 @@ class UserController extends \system\libs\base\BaseController
         $model = $this->findModel($id);
         $model->setScenario('admin-update');
 
-        if ($model->load(Yii::$app->request->post())) {
-            if(is_array($model->roles)){
-                $model->roles = implode(',',$model->roles);
-            }
-            if($model->save()) {
-
-                Yii::$app->authManager->revokeAll($id);
-                $_roles = explode(",", $model->roles);
-                if (is_array($_roles) && count($_roles)) {
-                    foreach ($_roles as $item) {
-                        Yii::$app->authManager->assign(Yii::$app->authManager->getRole($item), $model->user_id);
-                    }
-                }
-            }
-
-            return $this->redirect(['view', 'id' => $model->user_id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->authManager->revokeAll($id);
+            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $id);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $model->roles = explode(',',$model->roles);
             return $this->render('update', [
                 'model' => $model,
             ]);

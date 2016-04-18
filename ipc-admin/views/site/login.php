@@ -10,7 +10,6 @@ $this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 
 
-
 $fieldOptions1 = [
     'options' => ['class' => 'form-group has-feedback'],
     'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
@@ -25,7 +24,7 @@ $fieldOptions2 = [
 <div class="login-box">
 
     <div class="login-logo">
-        <a href="#"><b><?php echo Html::encode(Yii::t('app','Login')/*Yii::$app->setting->get('siteName')*/); ?></b></a>
+        <a href="#"><b><?php echo Html::encode(Yii::$app->setting->get('siteName')); ?></b></a>
     </div>
     <div class="login-box-body">
         <p class="login-box-msg"></p>

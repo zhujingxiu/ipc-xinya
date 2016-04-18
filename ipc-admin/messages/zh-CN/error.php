@@ -8,5 +8,5 @@
 
 return [
     'error' => '错误',
-
+    'Incorrect username or password.' => '用户名或密码错误',
 ];

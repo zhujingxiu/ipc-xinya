@@ -29,7 +29,7 @@ AppAsset::register($this);
     <header class="main-header">
         <a href="<?= Yii::$app->homeUrl ?>" class="logo">
             <!-- Add the class icon to your logo image or logo icon to add the margining -->
-            <?= $this->title;//Yii::$app->setting->get('siteTitle') ?>
+            <?= Yii::$app->setting->get('siteTitle') ?>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -44,7 +44,7 @@ AppAsset::register($this);
                 </div>
             </form>
             <div class="navbar-custom-menu">
-                <?= $this->render('//layouts/top-menu.php') ?>
+                <?= $this->render('//layouts/top.php') ?>
             </div>
             <?php
             /*$menuItemsMain = [
@@ -96,7 +96,7 @@ AppAsset::register($this);
                 </div>
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
-            <?= $this->render('//layouts/sidebar-menu') ?>
+            <?= $this->render('//layouts/sidebar') ?>
         </section>
         <!-- /.sidebar -->
     </aside>
