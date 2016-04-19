@@ -28,8 +28,8 @@ class Repayment extends \system\libs\base\BaseActiveRecord
     public function rules()
     {
         return [
-            [['repayment_id', 'title', 'code', 'status'], 'required'],
-            [['repayment_id', 'status'], 'integer'],
+            [[ 'title', 'code', 'status'], 'required'],
+            [[ 'status'], 'integer'],
             [['title', 'code'], 'string', 'max' => 32],
         ];
     }

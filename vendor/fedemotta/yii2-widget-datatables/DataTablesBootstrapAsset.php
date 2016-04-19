@@ -28,4 +28,6 @@ class DataTablesBootstrapAsset extends AssetBundle
         'yii\web\JqueryAsset',
         'fedemotta\datatables\DataTablesAsset',
     ];
+
+
 }

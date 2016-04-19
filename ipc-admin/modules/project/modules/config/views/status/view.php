@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-
+//use yii\widgets\DetailView;
+use kartik\detail\DetailView;
 /* @var $this yii\web\View */
 /* @var $model ipc\modules\project\modules\config\models\Status */
 
@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="status-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->status_id], ['class' => 'btn btn-primary']) ?>
@@ -25,13 +24,29 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
+    <?php /* echo DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'status_id',
+            //'status_id',
             'title',
             'code',
         ],
-    ]) ?>
-
+    ]) */?>
+<?php
+echo DetailView::widget([
+    'model'=>$model,
+    'condensed'=>true,
+    'hover'=>true,
+    'mode'=>DetailView::MODE_VIEW,
+    'panel'=>[
+        'heading'=>'Status # ' . $model->title,
+        'type'=>DetailView::TYPE_INFO,
+    ],
+    'attributes'=>[
+        'code',
+        'title',
+       // ['attribute'=>'publish_date', 'type'=>DetailView::INPUT_DATE],
+    ]
+]);
+?>
 </div>

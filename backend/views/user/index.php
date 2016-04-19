@@ -15,7 +15,7 @@ $this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <p>
-    <?= Html::a('<i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success','title'=>Yii::t('app', 'Create ') . Yii::t('app', 'User')]) ?>
+    <?= Html::a('<i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success', 'title' => Yii::t('app', 'Create ') . Yii::t('app', 'User')]) ?>
 </p>
 <div class="user-index box">
 
@@ -24,40 +24,40 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
     <div class="box-body  ">
-    <?= DataTables::widget([
-        'tableOptions' => [
-            'id' => 'user-list',
-            'class' => 'table table-responsive'
-        ],
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        <?= DataTables::widget([
+            'tableOptions' => [
+                'id' => 'user-list',
+                'class' => 'table table-responsive'
+            ],
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            'username',
-            // 'auth_key',
-            // 'password_hash',
-            // 'password_reset_token',
-            'email:email',
+                //'id',
+                'username',
+                // 'auth_key',
+                // 'password_hash',
+                // 'password_reset_token',
+                'email:email',
 
-            [
-                'attribute' => 'role',
-                'value' => function ($model) {
+                [
+                    'attribute' => 'role',
+                    'value' => function ($model) {
 
-                            return $model->roleLabel;
-                        },
-                'filter' => Html::activeDropDownList(
+                        return $model->roleLabel;
+                    },
+                    'filter' => Html::activeDropDownList(
                         $searchModel,
                         'role',
                         $arrayRole,
                         ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
                     )
-            ],
-            [
-                'attribute' => 'status',
-                'format' => 'html',
-                'value' => function ($model) {
+                ],
+                [
+                    'attribute' => 'status',
+                    'format' => 'html',
+                    'value' => function ($model) {
                         if ($model->status === $model::STATUS_ACTIVE) {
                             $class = 'label-success';
                         } elseif ($model->status === $model::STATUS_INACTIVE) {
@@ -68,49 +68,52 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         return '<span class="label ' . $class . '">' . $model->statusLabel . '</span>';
                     },
-                'filter' => Html::activeDropDownList(
+                    'filter' => Html::activeDropDownList(
                         $searchModel,
                         'status',
                         $arrayStatus,
                         ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
                     )
-            ],
-            //'created_at',
-            [
-                'attribute' => 'created_at',
-                'format' => ['date', 'Y-M-d H:i:s'],
-            ],
-            //'updated_at',
+                ],
+                //'created_at',
+                [
+                    'attribute' => 'created_at',
+                    'format' => ['date', 'Y-M-d H:i:s'],
+                ],
+                //'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-        /*'clientOptions' => [
-            "lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
-            "info"=>false,
-            "responsive"=>true, 
-            "dom"=> 'lfTrtip',
-            "tableTools"=>[
-                "aButtons"=> [  
-                    [
-                    "sExtends"=> "copy",
-                    "sButtonText"=> Yii::t('app',"Copy to clipboard")
-                    ],[
-                    "sExtends"=> "csv",
-                    "sButtonText"=> Yii::t('app',"Save to CSV")
-                    ],[
-                    "sExtends"=> "xls",
-                    "oSelectorOpts"=> ["page"=> 'current']
-                    ],[
-                    "sExtends"=> "pdf",
-                    "sButtonText"=> Yii::t('app',"Save to PDF")
-                    ],[
-                    "sExtends"=> "print",
-                    "sButtonText"=> Yii::t('app',"Print")
-                    ],
+                [
+                    'class' => 'system\components\ActionColumn',
+                    'template' => ' {user-update:update} {user-del:delete} ',
+                ],
+            ],
+            /*'clientOptions' => [
+                "lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+                "info"=>false,
+                "responsive"=>true,
+                "dom"=> 'lfTrtip',
+                "tableTools"=>[
+                    "aButtons"=> [
+                        [
+                        "sExtends"=> "copy",
+                        "sButtonText"=> Yii::t('app',"Copy to clipboard")
+                        ],[
+                        "sExtends"=> "csv",
+                        "sButtonText"=> Yii::t('app',"Save to CSV")
+                        ],[
+                        "sExtends"=> "xls",
+                        "oSelectorOpts"=> ["page"=> 'current']
+                        ],[
+                        "sExtends"=> "pdf",
+                        "sButtonText"=> Yii::t('app',"Save to PDF")
+                        ],[
+                        "sExtends"=> "print",
+                        "sButtonText"=> Yii::t('app',"Print")
+                        ],
+                    ]
                 ]
-            ]
-        ],*/
-    ]); ?>
+            ],*/
+        ]); ?>
     </div>
 </div>
 

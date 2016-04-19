@@ -16,6 +16,9 @@
 			"sIconClassLast": "glyphicon glyphicon-forward",
 			"sIconClassPrevious": "glyphicon glyphicon-chevron-left",
 			"sIconClassNext": "glyphicon glyphicon-chevron-right"
+		},
+		"language":{
+			url :"./zh-CN.json"
 		}
 	} );
 

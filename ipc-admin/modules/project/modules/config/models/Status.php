@@ -27,7 +27,7 @@ class Status extends \system\libs\base\BaseActiveRecord
     public function rules()
     {
         return [
-            [['status_id', 'title', 'code'], 'required'],
+            [[ 'title', 'code'], 'required'],
             [['status_id'], 'integer'],
             [['title', 'code'], 'string', 'max' => 32],
         ];

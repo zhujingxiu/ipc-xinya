@@ -82,7 +82,30 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'system\components\ActionColumn',
+                'template' => ' {user-update:update} {user-del:delete} ',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'View'),
+                            'aria-label' => Yii::t('yii', 'View'),
+                            'data-pjax' => '0',
+                            'class' => 'btn btn-primary'
+                        ];
+                        return Html::a('<i class="fa fa-pencil"></i>', $url, $options);
+                    },
+                    'delete' => function ($url, $model, $key) {
+                        $options = [
+                            'title' => Yii::t('yii', 'Delete'),
+                            'aria-label' => Yii::t('yii', 'Delete'),
+                            'data-pjax' => '0',
+                            'class' => 'btn btn-warning'
+                        ];
+                        return Html::a('<i class="fa fa-trash"></i>', $url, $options);
+                    },
+                ]
+            ],
         ],
         /*'clientOptions' => [
             "lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],

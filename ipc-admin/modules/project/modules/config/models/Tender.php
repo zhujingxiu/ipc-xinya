@@ -28,8 +28,8 @@ class Tender extends \system\libs\base\BaseActiveRecord
     public function rules()
     {
         return [
-            [['tender_id', 'title', 'code', 'status'], 'required'],
-            [['tender_id', 'status'], 'integer'],
+            [[ 'title', 'code', 'status'], 'required'],
+            [[ 'status'], 'integer'],
             [['title', 'code'], 'string', 'max' => 32],
         ];
     }

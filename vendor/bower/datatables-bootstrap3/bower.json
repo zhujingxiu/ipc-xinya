@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": [
     "BS3/assets/css/datatables.css",
+    "BS3/assets/js/zh-CN.json",
     "BS3/assets/images/sort_asc.png",
     "BS3/assets/images/sort_asc_disabled.png",
     "BS3/assets/images/sort_both.png",

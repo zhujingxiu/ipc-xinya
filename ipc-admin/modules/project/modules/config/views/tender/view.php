@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-
+//use yii\widgets\DetailView;
+use kartik\detail\DetailView;
 /* @var $this yii\web\View */
 /* @var $model ipc\modules\project\modules\config\models\Tender */
 
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
+    <?php /*echo DetailView::widget([
         'model' => $model,
         'attributes' => [
             'tender_id',
@@ -33,6 +33,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'code',
             'status',
         ],
-    ]) ?>
-
+    ]) */ ?>
+<?php
+echo DetailView::widget([
+    'model'=>$model,
+    'condensed'=>true,
+    'hover'=>true,
+    'mode'=>DetailView::MODE_VIEW,
+    'panel'=>[
+        'heading'=>'Status # ' . $model->title,
+        'type'=>DetailView::TYPE_INFO,
+    ],
+    'attributes'=>[
+        'code',
+        'title',
+        [
+            'attribute'=>'status', 
+            'type'=>DetailView::INPUT_SWITCH ,
+            'value'=>$model->status ? '<span class="label label-success">Yes</span>' : '<span class="label label-danger">No</span>',
+            'widgetOptions' => [
+                'pluginOptions' => [
+                    'onText' => 'Yes',
+                    'offText' => 'No',
+                ]
+            ],
+            'valueColOptions'=>['style'=>'width:30%']
+        ],
+    ]
+]);
+?>
 </div>
