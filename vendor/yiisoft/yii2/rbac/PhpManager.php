@@ -151,14 +151,6 @@ class PhpManager extends BaseManager
     /**
      * @inheritdoc
      */
-    public function canAddChild($parent, $child)
-    {
-        return !$this->detectLoop($parent, $child);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function addChild($parent, $child)
     {
         if (!isset($this->items[$parent->name], $this->items[$child->name])) {
@@ -540,11 +532,9 @@ class PhpManager extends BaseManager
             return;
         }
 
-        foreach ($this->assignments as $i => $assignments) {
-            foreach ($assignments as $n => $assignment) {
-                if (isset($names[$assignment->roleName])) {
-                    unset($this->assignments[$i][$n]);
-                }
+        foreach ($this->assignments as $i => $assignment) {
+            if (isset($names[$assignment->roleName])) {
+                unset($this->assignments[$i]);
             }
         }
         foreach ($this->children as $name => $children) {
@@ -827,7 +817,7 @@ class PhpManager extends BaseManager
         $result = [];
         foreach ($this->assignments as $userID => $assignments) {
             foreach ($assignments as $userAssignment) {
-                if ($userAssignment->roleName === $roleName && $userAssignment->userId == $userID) {
+                if ($userAssignment->roleName === $roleName && $userAssignment->userId === $userID) {
                     $result[] = (string)$userID;
                 }
             }

@@ -1,12 +1,6 @@
 Yii Framework 2 swiftmailer extension Change Log
 ================================================
 
-2.0.6 under development
------------------------
-
-- Enh #27: Added ability to specify message signature (klimov-paul)
-
-
 2.0.5 March 17, 2016
 --------------------
 

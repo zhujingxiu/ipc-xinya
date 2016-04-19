@@ -10,7 +10,7 @@ return [
     'id' => 'app-ipc',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'ipc\controllers',
-    'bootstrap' => ['log','ipc\modules\setting\bootstrap'],
+    'bootstrap' => ['log'],
     'modules' => [
         'setting' => [
             'class' => 'ipc\modules\setting\Module',
@@ -46,6 +46,22 @@ return [
                 ],
             ],
         ],
+        'treemanager' =>  [
+            'class' => '\kartik\tree\Module',
+            // other module settings, refer detailed documentation
+            'treeStructure' => [
+                'treeAttribute' => 'pid',
+                'leftAttribute' => 'lft',
+                'rightAttribute' => 'rgt',
+                'depthAttribute' => 'lvl',
+            ],
+            'dataStructure' => [
+                'keyAttribute' => 'node_id',
+                'nameAttribute' => 'name',
+                'iconAttribute' => 'icon',
+                'iconTypeAttribute' => 'icon_type'
+            ]
+        ]
     ],
     'components' => [
         'db' => [

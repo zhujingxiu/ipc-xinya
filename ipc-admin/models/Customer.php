@@ -47,13 +47,13 @@ class Customer extends \system\libs\base\BaseActiveRecord
     public function attributeLabels()
     {
         return [
-            'customer_id' => 'Customer ID',
-            'realname' => 'Realname',
-            'phone' => 'Phone',
-            'ic_sernum' => 'Ic Sernum',
-            'identition' => 'Identition',
-            'addtime' => 'Addtime',
-            'status' => 'Status',
+            'customer_id' => Yii::t('customer','Customer ID'),
+            'realname' => Yii::t('customer', 'Realname'),
+            'phone' => Yii::t('customer', 'Phone'),
+            'ic_sernum' => Yii::t('customer', 'Ic Sernum'),
+            'identition' => Yii::t('customer', 'Identition'),
+            'addtime' => Yii::t('customer', 'Addtime'),
+            'status' => Yii::t('customer', 'Status'),
         ];
     }
 }

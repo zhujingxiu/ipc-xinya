@@ -9,16 +9,13 @@ Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
-With Composer installed, you can then install the extension using the following commands:
+Either run
 
-    composer global require "fxp/composer-asset-plugin:~1.0.0"
-    composer require --prefer-dist fedemotta/yii2-widget-datatables "*"
+```
+php composer.phar require --prefer-dist fedemotta/yii2-widget-datatables "*"
+```
 
-The first command installs the [composer asset plugin](https://github.com/francoispluchino/composer-asset-plugin/)
-which allows managing bower and npm package dependencies through Composer. You only need to run this command
-once for all. The second command installs the datatables widget.
-
-You can also add (instead of the second command):
+or add
 
 ```
 "fedemotta/yii2-widget-datatables": "*"
@@ -86,7 +83,7 @@ The TableTools plugin is also available. Specify the DOM and the tableTools sett
 ...
 ```
 
-You can also use DataTables in the JavaScript layer of your application. To achieve this, you need to include DataTables as a dependency of your Asset file. In this case, you could use yii\grid\GridView or using the datatables options retrieve => true to avoid errors. In both case all options must be in the Javascript object.
+You can also use DataTables in the JavaScript layer of your application. To achieve this, you need to include DataTables as a dependency of your Asset file.
 
 ```php
 public $depends = [

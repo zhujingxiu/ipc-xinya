@@ -75,6 +75,7 @@ return [
     'Post' => '文章',
     'Comment' => '评论',
     'Tag' => '标签',
+    'Status' => '状态',
 
     'Customer' => '客户管理',
     'Service' => '信贷业务',
@@ -82,7 +83,7 @@ return [
     'Config' => '参数设置',
     'Repayment' => '还款选项',
     'Tender' => '标的类型',
-    'Status' => '业务流程',
+    'Project Status' => '业务流程',
     'Apply' => '客户申请',
     'Accept' => '认定受理',
     'Check' => '调查评估',

@@ -16,20 +16,22 @@ echo Menu::widget(
             [
                 'label' => Yii::t('app','Customer'),
                 'url' => ['/customer'],
-                'icon' => 'fa-child'
+                'icon' => 'fa-child',
+                'visible' => Yii::$app->user->can('customer'),
             ],
             [
                 'label' => Yii::t('app', 'Service'),
                 'url' => ['#'],
-                'icon' => 'fa fa-cubes',
+                'icon' => 'fa-cubes',
                 'options' => [
                     'class' => 'treeview',
                 ],
+                'visible' => Yii::$app->user->can('service'),
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Project'),
                         'url' => ['#'],
-                        'icon' => 'fa fa-database',
+                        'icon' => 'fa-database',
                         'options' => [
                             'class' => 'treeview',
                         ],
@@ -37,7 +39,7 @@ echo Menu::widget(
                             [
                                 'label' => Yii::t('app', 'Apply'),
                                 'url' => ['/project/apply/'],
-                                'icon' => 'fa fa-envelope',
+                                'icon' => 'fa-envelope',
                                 //'visible' => (Yii::$app->user->identity->username == 'admin'),
                             ],
                             [
@@ -81,7 +83,7 @@ echo Menu::widget(
                     [
                         'label' => Yii::t('app', 'Config'),
                         'url' => ['#'],
-                        'icon' => 'fa fa-puzzle-piece',
+                        'icon' => 'fa-puzzle-piece',
                         'options' => [
                             'class' => 'treeview',
                         ],
@@ -89,17 +91,17 @@ echo Menu::widget(
                             [
                                 'label' => Yii::t('app', 'Repayment'),
                                 'url' => ['/project-config/repayment/'],
-                                'icon' => 'fa fa-money',
+                                'icon' => 'fa-money',
                                 //'visible' => (Yii::$app->user->identity->username == 'admin'),
                             ],
                             [
                                 'label' => Yii::t('app', 'Tender'),
                                 'url' => ['/project-config/tender/'],
-                                'icon' => 'fa fa-flask',
+                                'icon' => 'fa-flask',
                                 //'visible' => (Yii::$app->user->identity->username == 'admin'),
                             ],
                             [
-                                'label' => Yii::t('app', 'Status'),
+                                'label' => Yii::t('app', 'Project Status'),
                                 'url' => ['/project-config/status/'],
                                 'icon' => 'fa-road',
                                 //'visible' => (Yii::$app->user->identity->username == 'admin'),
@@ -111,7 +113,7 @@ echo Menu::widget(
             [
                 'label' => Yii::t('app', 'System'),
                 'url' => ['#'],
-                'icon' => 'fa fa-cog',
+                'icon' => 'fa-cog',
                 'options' => [
                     'class' => 'treeview',
                 ],
@@ -119,7 +121,7 @@ echo Menu::widget(
                     [
                         'label' => Yii::t('app', 'Settings'),
                         'url' => ['/setting'],
-                        'icon' => 'fa fa-wrench',
+                        'icon' => 'fa-wrench',
                         'visible' => Yii::$app->user->can('setting'),
                     ],
                     
@@ -127,7 +129,7 @@ echo Menu::widget(
 
                         'label' => Yii::t('app', 'Users Roles'),
                         'url' => ['#'],
-                        'icon' => 'fa fa-sitemap',
+                        'icon' => 'fa-sitemap',
                         'options' => [
                             'class' => 'treeview',
                         ],
@@ -135,20 +137,19 @@ echo Menu::widget(
                             [
                                 'label' => Yii::t('app', 'User'),
                                 'url' => ['/user/index'],
-                                'icon' => 'fa fa-user',
-
+                                'icon' => 'fa-user',
+                                'visible' => Yii::$app->user->can('setting'),
                                 //'visible' => (Yii::$app->user->identity->username == 'admin'),
                             ],
                             [
                                 'label' => Yii::t('app', 'Role'),
                                 'url' => ['/auth/role/index'],
-                                'icon' => 'fa fa-users',
-                                'active' => Yii::$app->request->url === Yii::$app->homeUrl
+                                'icon' => 'fa-users',
                             ],
                             [
                                 'label' => Yii::t('app', 'Permission'),
                                 'url' => ['/auth/permission/index'],
-                                'icon' => 'fa fa-key',
+                                'icon' => 'fa-key',
                             ],
                         ],
                     ],

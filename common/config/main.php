@@ -15,7 +15,6 @@ return [
                     // 'sourceLanguage' => 'zh-CN',
                     'fileMap' => [
                         'app' => 'app.php',
-                        'auth' => 'auth.php',
                         'app/error' => 'error.php',
                     ],
                 ],

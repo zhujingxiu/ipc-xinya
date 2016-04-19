@@ -2,6 +2,7 @@
 
 namespace ipc\modules\auth\models;
 
+use ipc\modules\auth\Module;
 use system\libs\base\BaseModel;
 use Yii;
 
@@ -33,9 +34,9 @@ class AssignmentForm extends BaseModel
     public function attributeLabels()
     {
         return [
-            'item_name' => Yii::t('auth','Role'),
-            'user_id' => 'User ID',
-            'created_at' => 'Created At',
+            'item_name' => Module::t('auth','Role'),
+            'user_id' => Module::t('auth','User ID'),
+            'created_at' => Module::t('auth','Created At'),
         ];
     }
 

@@ -36,8 +36,8 @@ class ItemChildForm extends BaseModel
     public function attributeLabels()
     {
         return [
-            'parent' => 'Parent',
-            'child' => 'Child',
+            'parent' => Module::t('auth','Parent'),
+            'child' => Module::t('auth','Child'),
         ];
     }
 

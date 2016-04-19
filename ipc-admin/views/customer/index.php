@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use fedemotta\datatables\DataTables;
 /* @var $this yii\web\View */
 /* @var $searchModel ipc\models\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -10,29 +10,33 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Customers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="customer-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<p>
+    <?= Html::a('<i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success']) ?>
+</p>
+<div class="box">
+    <div class="customer-index box-body">
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Customer'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'customer_id',
-            'realname',
-            'phone',
-            'ic_sernum',
-            'identition',
-            // 'addtime:datetime',
-            // 'status',
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+
+        <?= DataTables::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+
+                //'customer_id',
+                'realname',
+                'phone',
+                'ic_sernum',
+                'identition',
+                // 'addtime:datetime',
+                // 'status',
+
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
+    </div>
 </div>

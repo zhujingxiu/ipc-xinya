@@ -23,6 +23,9 @@ use Yii;
  */
 class Project extends \system\libs\base\BaseActiveRecord
 {
+
+    const STATUS_QUEUING = 0;
+    const STATUS_ACCEPT = 1;
     /**
      * @inheritdoc
      */

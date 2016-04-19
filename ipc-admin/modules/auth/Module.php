@@ -21,11 +21,22 @@ class Module extends \system\libs\base\BaseModule
         parent::init();
 
         // custom initialization code goes here
+        $this->registerTranslations();
+    }
+    public function registerTranslations()
+    {
+        Yii::$app->i18n->translations['modules/auth/*'] = [
+            'class' => 'yii\i18n\PhpMessageSource',
+            //'sourceLanguage' => 'en-US',
+            'basePath' => '@ipc/modules/auth/messages',
+            'fileMap' => [
+                'modules/auth/auth' => 'auth.php',
+            ],
+        ];
     }
 
     public static function t($category, $message, $params = [], $language = null)
     {
-
-        return Yii::t('backend/modules/' . $category, $message, $params, $language);
+        return Yii::t('modules/auth/' . $category, $message, $params, $language);
     }
 }

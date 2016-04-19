@@ -2,6 +2,7 @@
 
 namespace ipc\modules\auth\models;
 
+use ipc\modules\auth\Module;
 use system\libs\base\BaseModel;
 use Yii;
 
@@ -36,13 +37,13 @@ class ItemForm extends BaseModel
     public function attributeLabels()
     {
         return [
-            'name' => 'Name',
-            'type' => 'Type',
-            'description' => 'Description',
-            'rule_name' => 'Rule Name',
-            'data' => 'Data',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'name' => Module::t('auth','Name'),
+            'type' => Module::t('auth','Type'),
+            'description' => Module::t('auth', 'Description'),
+            'rule_name' => Module::t('auth', 'Rule Name'),
+            'data' => Module::t('auth', 'Data'),
+            'created_at' => Module::t('auth', 'Created At'),
+            'updated_at' => Module::t('auth', 'Updated At'),
         ];
     }
 

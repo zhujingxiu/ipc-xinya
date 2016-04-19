@@ -9,7 +9,6 @@ namespace yii\imagine;
 
 use Yii;
 use Imagine\Image\Box;
-use Imagine\Image\BoxInterface;
 use Imagine\Image\Color;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
@@ -54,21 +53,6 @@ class BaseImage
      */
     private static $_imagine;
 
-    /**
-     * @var string background color to use when creating thumbnails in `ImageInterface::THUMBNAIL_INSET` mode with
-     * both width and height specified. Default is white.
-     *
-     * @since 2.0.4
-     */
-    public static $thumbnailBackgroundColor = 'FFF';
-
-    /**
-     * @var string background alpha (transparency) to use when creating thumbnails in `ImageInterface::THUMBNAIL_INSET`
-     * mode with both width and height specified. Default is solid.
-     *
-     * @since 2.0.4
-     */
-    public static $thumbnailBackgroundAlpha = 100;
 
     /**
      * Returns the `Imagine` object that supports various image manipulations.
@@ -154,53 +138,38 @@ class BaseImage
     }
 
     /**
-     * Creates a thumbnail image.
-     *
-     * If one of thumbnail dimensions is set to `null`, another one is calculated automatically based on aspect ratio of
-     * original image. Note that calculated thumbnail dimension may vary depending on the source image in this case.
-     *
-     * If both dimensions are specified, resulting thumbnail would be exactly the width and height specified. How it's
-     * achieved depends on the mode.
-     *
-     * If `ImageInterface::THUMBNAIL_OUTBOUND` mode is used, which is default, then the thumbnail is scaled so that
-     * its smallest side equals the length of the corresponding side in the original image. Any excess outside of
-     * the scaled thumbnail’s area will be cropped, and the returned thumbnail will have the exact width and height
-     * specified.
-     *
-     * If thumbnail mode is `ImageInterface::THUMBNAIL_INSET`, the original image is scaled down so it is fully
-     * contained within the thumbnail dimensions. The rest is filled with background that could be configured via
-     * [[Image::$thumbnailBackgroundColor]] and [[Image::$thumbnailBackgroundAlpha]].
-     *
+     * Creates a thumbnail image. The function differs from `\Imagine\Image\ImageInterface::thumbnail()` function that
+     * it keeps the aspect ratio of the image.
      * @param string $filename the image file path or path alias.
      * @param integer $width the width in pixels to create the thumbnail
      * @param integer $height the height in pixels to create the thumbnail
-     * @param string $mode mode of resizing original image to use in case both width and height specified
+     * @param string $mode
      * @return ImageInterface
      */
     public static function thumbnail($filename, $width, $height, $mode = ManipulatorInterface::THUMBNAIL_OUTBOUND)
     {
+        $box = new Box($width, $height);
         $img = static::getImagine()->open(Yii::getAlias($filename));
 
-        $sourceBox = $img->getSize();
-        $thumbnailBox = static::getThumbnailBox($sourceBox, $width, $height);
-
-        if (($sourceBox->getWidth() <= $thumbnailBox->getWidth() && $sourceBox->getHeight() <= $thumbnailBox->getHeight()) || (!$thumbnailBox->getWidth() && !$thumbnailBox->getHeight())) {
+        if (($img->getSize()->getWidth() <= $box->getWidth() && $img->getSize()->getHeight() <= $box->getHeight()) || (!$box->getWidth() && !$box->getHeight())) {
             return $img->copy();
         }
 
-        $img = $img->thumbnail($thumbnailBox, $mode);
+        $img = $img->thumbnail($box, $mode);
 
         // create empty image to preserve aspect ratio of thumbnail
-        $thumb = static::getImagine()->create($thumbnailBox, new Color(static::$thumbnailBackgroundColor, static::$thumbnailBackgroundAlpha));
+        $thumb = static::getImagine()->create($box, new Color('FFF', 100));
 
         // calculate points
+        $size = $img->getSize();
+
         $startX = 0;
         $startY = 0;
-        if ($sourceBox->getWidth() < $width) {
-            $startX = ceil($width - $sourceBox->getWidth()) / 2;
+        if ($size->getWidth() < $width) {
+            $startX = ceil($width - $size->getWidth()) / 2;
         }
-        if ($sourceBox->getHeight() < $height) {
-            $startY = ceil($height - $sourceBox->getHeight()) / 2;
+        if ($size->getHeight() < $height) {
+            $startY = ceil($height - $size->getHeight()) / 2;
         }
 
         $thumb->paste($img, new Point($startX, $startY));
@@ -286,36 +255,5 @@ class BaseImage
         $image->paste($img, $pasteTo);
 
         return $image;
-    }
-    
-    /**
-     * Returns box for a thumbnail to be created. If one of the dimensions is set to `null`, another one is calculated
-     * automatically based on width to height ratio of original image box.
-     *
-     * @param BoxInterface $sourceBox original image box
-     * @param int $width thumbnail width
-     * @param int $height thumbnail height
-     * @return BoxInterface thumbnail box
-     *
-     * @since 2.0.4
-     */
-    protected static function getThumbnailBox(BoxInterface $sourceBox, $width, $height)
-    {
-        if ($width !== null && $height !== null) {
-            return new Box($width, $height);
-        }
-
-        if ($width === null && $height === null) {
-            throw new InvalidParamException('Width and height cannot be null at same time.');
-        }
-
-        $ratio = $sourceBox->getWidth() / $sourceBox->getHeight();
-        if ($height === null) {
-            $height = ceil($width / $ratio);
-        } else {
-            $width = ceil($height * $ratio);
-        }
-
-        return new Box($width, $height);
     }
 }
