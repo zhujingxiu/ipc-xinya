@@ -21,6 +21,41 @@ use Yii;
  */
 class Customer extends \system\libs\base\BaseActiveRecord
 {
+
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 0;
+
+    const GENDER_MALE = 'male';
+    const GENDER_FEMALE = 'female';
+    const GENDER_UNKNOWN = 'unkonwn';
+
+    public $_genderLabel ;
+
+    public function getArrayStatus()
+    {
+        return [
+            self::STATUS_ENABLED => Yii::t('customer', 'Enabled'),
+            self::STATUS_DISABLED => Yii::t('customer', 'Disabled'),
+        ];
+    }
+
+
+    public function getArrayGender()
+    {
+        return [
+            self::GENDER_MALE => Yii::t('customer', 'Male'),
+            self::GENDER_FEMALE => Yii::t('customer', 'Female'),
+            self::GENDER_UNKNOWN => Yii::t('customer', 'Unkonwn'),
+        ];
+    }
+
+    public function getGenderLabel(){
+        if ($this->_genderLabel === null) {
+            $genders = self::getArrayGender();
+            $this->_genderLabel = $genders[$this->gender];
+        }
+        return $this->_genderLabel;
+    }
     /**
      * @inheritdoc
      */
@@ -42,6 +77,9 @@ class Customer extends \system\libs\base\BaseActiveRecord
             [['realname'], 'string', 'max' => 64],
             [['phone', 'idnumber'], 'string', 'max' => 32],
             [['email'], 'string', 'max' => 128],
+            [['phone','idnumber'], 'unique','message'=>'{attribute}已经被占用了'],
+            ['phone','match','pattern'=>'/^1[0-9]{10}$/','message'=>'不是有效的{attribute}'],
+            [['email'],'email'],
         ];
     }
 
@@ -64,4 +102,6 @@ class Customer extends \system\libs\base\BaseActiveRecord
             'status' => Yii::t('customer', 'Status'),
         ];
     }
+
+
 }

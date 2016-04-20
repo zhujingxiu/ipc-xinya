@@ -7,7 +7,7 @@ use fedemotta\datatables\DataTables;
 /* @var $searchModel ipc\models\CustomerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('Customer', 'Customers');
+$this->title = Yii::t('customer', 'Customers');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="customer-index">

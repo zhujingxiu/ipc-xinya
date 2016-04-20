@@ -84,16 +84,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'system\components\ActionColumn',
-                'template' => ' {update:update} {del:delete} ',
+                'template' => ' {view:view} {del:delete} ',
                 'buttons' => [
-                    'update' => function ($url, $model, $key) {
+                    'view' => function ($url, $model, $key) {
                         $options = [
                             'title' => Yii::t('yii', 'View'),
                             'aria-label' => Yii::t('yii', 'View'),
                             'data-pjax' => '0',
                             'class' => 'btn btn-primary'
                         ];
-                        return Html::a('<i class="fa fa-pencil"></i>', $url, $options);
+                        return Html::a('<i class="fa fa-eye"></i>', $url, $options);
                     },
                     'delete' => function ($url, $model, $key) {
                         $options = [

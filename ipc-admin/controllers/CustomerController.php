@@ -51,9 +51,19 @@ class CustomerController extends BaseController
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model=$this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('kv-detail-success', Yii::t('customer','Saved record successfully'));
+            // Multiple alerts can be set like below
+            /*
+            Yii::$app->session->setFlash('kv-detail-warning', 'A last warning for completing all data.');
+            Yii::$app->session->setFlash('kv-detail-info', '<b>Note:</b> You can proceed by clicking <a href="#">this link</a>.');
+            */
+            return $this->redirect(['view', 'id'=>$model->customer_id]);
+        } else {
+            return $this->render('view', ['model'=>$model]);
+        }
     }
 
     /**

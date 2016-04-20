@@ -24,8 +24,8 @@ use Yii;
 class Project extends \system\libs\base\BaseActiveRecord
 {
 
-    const STATUS_QUEUING = 0;
-    const STATUS_ACCEPT = 1;
+    const STATUS_QUEUING = 1;
+    const STATUS_ACCEPT = 2;
     /**
      * @inheritdoc
      */
@@ -40,8 +40,8 @@ class Project extends \system\libs\base\BaseActiveRecord
     public function rules()
     {
         return [
-            [['project_sn', 'borrower', 'phone', 'company', 'amount', 'due', 'tender', 'income', 'fee', 'repayment', 'prebidding', 'addtime'], 'required'],
-            [['project_sn', 'due', 'tender', 'repayment', 'addtime'], 'integer'],
+            [['project_sn', 'borrower', 'phone', 'company', 'amount', 'due', 'tender', 'income', 'fee', 'repayment', 'prebidding', 'status'], 'required'],
+            [['project_sn', 'due', 'tender', 'repayment', 'addtime','status','user_id','edittime'], 'integer'],
             [['amount', 'income', 'fee'], 'number'],
             [['prebidding'], 'safe'],
             [['borrower'], 'string', 'max' => 64],
@@ -69,6 +69,9 @@ class Project extends \system\libs\base\BaseActiveRecord
             'repayment' => Yii::t('app', 'Repayment'),
             'prebidding' => Yii::t('app', 'Prebidding'),
             'addtime' => Yii::t('app', 'Addtime'),
+            'status' => Yii::t('app', 'Status'),
+            'edittime' => Yii::t('app', 'Edittime'),
+            'user_id' => Yii::t('app', 'Operator'),
         ];
     }
 }

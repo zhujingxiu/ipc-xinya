@@ -85,7 +85,7 @@ return [
     'Tender' => '标的类型',
     'Project Status' => '业务流程',
     'Apply' => '客户申请',
-    'Accept' => '认定受理',
+    'Confirm' => '认定受理',
     'Check' => '调查评估',
     'Approve' => '审批',
     'Sign' => '签订合同',
