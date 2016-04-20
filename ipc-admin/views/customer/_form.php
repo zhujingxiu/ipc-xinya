@@ -2,76 +2,40 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use pendalf89\filemanager\widgets\FileInput;
+
 /* @var $this yii\web\View */
 /* @var $model ipc\models\Customer */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+<p class="form-group">
+    <?= Html::submitButton('<i class="fa fa-save"></i>', ['class' => 'btn btn-success' ,'form'=>'customer-form']) ?>
+</p>
+<div class="box">
 
-<div class="customer-form">
+<div class="box-body customer-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id'=>'customer-form']); ?>
 
     <?= $form->field($model, 'realname')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'ic_sernum')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'identition')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'gender')->radioList([ 'male' => 'Male', 'female' => 'Female', 'unknown' => 'Unknown', ], ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'addtime')->textInput() ?>
+    <?= $form->field($model, 'birthday')->dateInput() ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-<?php
-    echo $form->field($model, 'original_thumbnail')->widget(FileInput::className(), [
-    'buttonTag' => 'button',
-    'buttonName' => 'Browse',
-    'buttonOptions' => ['class' => 'btn btn-default'],
-    'options' => ['class' => 'form-control'],
-    // Widget template
-    'template' => '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
-    // Optional, if set, only this image can be selected by user
-    'thumb' => 'original',
-    // Optional, if set, in container will be inserted selected image
-    'imageContainer' => '.img',
-    // Default to FileInput::DATA_URL. This data will be inserted in input field
-    'pasteData' => FileInput::DATA_URL,
-    // JavaScript function, which will be called before insert file data to input.
-    // Argument data contains file data.
-    // data example: [alt: "Ведьма с кошкой", description: "123", url: "/uploads/2014/12/vedma-100x100.jpeg", id: "45"]
-    'callbackBeforeInsert' => 'function(e, data) {
-    console.log( data );
-    }',
-    ]);
-echo FileInput::widget([
-    'name' => 'mediafile',
-    'buttonTag' => 'button',
-    'buttonName' => 'Browse',
-    'buttonOptions' => ['class' => 'btn btn-default'],
-    'options' => ['class' => 'form-control'],
-    // Widget template
-    'template' => '<div class="input-group">{input}<span class="input-group-btn">{button}</span></div>',
-    // Optional, if set, only this image can be selected by user
-    'thumb' => 'original',
-    // Optional, if set, in container will be inserted selected image
-    'imageContainer' => '.img',
-    // Default to FileInput::DATA_IDL. This data will be inserted in input field
-    'pasteData' => FileInput::DATA_ID,
-    // JavaScript function, which will be called before insert file data to input.
-    // Argument data contains file data.
-    // data example: [alt: "Ведьма с кошкой", description: "123", url: "/uploads/2014/12/vedma-100x100.jpeg", id: "45"]
-    'callbackBeforeInsert' => 'function(e, data) {
-        console.log( data );
-    }',
-]);
+    <?= $form->field($model, 'idnumber')->textInput(['maxlength' => true]) ?>
 
-?>
+    <?= $form->field($model, 'approved')->radioList([ '1' => 'Yes', '0' => 'No']) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+    <?= $form->field($model, 'vip')->radioList([ '1' => 'Yes', '0' => 'No'])  ?>
+
+    <?= $form->field($model, 'status')->radioList([ '1' => 'Enable', '0' => 'Disable'])  ?>
 
     <?php ActiveForm::end(); ?>
+
+</div>
 
 </div>

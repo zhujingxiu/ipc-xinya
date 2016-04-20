@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'system\components\ActionColumn',
-                'template' => ' {user-update:update} {user-del:delete} ',
+                'template' => ' {update:update} {del:delete} ',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         $options = [

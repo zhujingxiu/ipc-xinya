@@ -21,17 +21,25 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'phone') ?>
 
-    <?= $form->field($model, 'ic_sernum') ?>
+    <?= $form->field($model, 'email') ?>
 
-    <?= $form->field($model, 'identition') ?>
+    <?= $form->field($model, 'gender') ?>
+
+    <?php // echo $form->field($model, 'birthday') ?>
+
+    <?php // echo $form->field($model, 'identition') ?>
+
+    <?php // echo $form->field($model, 'approved') ?>
+
+    <?php // echo $form->field($model, 'vip') ?>
 
     <?php // echo $form->field($model, 'addtime') ?>
 
     <?php // echo $form->field($model, 'status') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('Cusotmer', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('Cusotmer', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
