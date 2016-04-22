@@ -2,13 +2,13 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use ipc\models\User;
+use system\models\User;
 use yii\helpers\ArrayHelper;
 
 use fedemotta\datatables\DataTables;
 
 /* @var $this yii\web\View */
-/* @var $searchModel ipc\models\UserSearch */
+/* @var $searchModel system\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Users');
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-index box">
 
     <div class="box-header">
-        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php //  echo $this->render('_search', ['model' => $searchModel]); ?>
 
     </div>
     <div class="box-body  ">

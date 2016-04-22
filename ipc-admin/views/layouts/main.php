@@ -29,7 +29,7 @@ AppAsset::register($this);
     <header class="main-header">
         <a href="<?= Yii::$app->homeUrl ?>" class="logo">
             <!-- Add the class icon to your logo image or logo icon to add the margining -->
-            <?= Yii::$app->setting->get('siteName') ?>
+            <?= Yii::$app->config->get('siteName') ?>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">

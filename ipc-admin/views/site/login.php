@@ -24,7 +24,7 @@ $fieldOptions2 = [
 <div class="login-box">
 
     <div class="login-logo">
-        <a href="#"><b><?php echo Html::encode(Yii::$app->setting->get('siteName')); ?></b></a>
+        <a href="#"><b><?php echo Html::encode(Yii::$app->config->get('siteName')); ?></b></a>
     </div>
     <div class="login-box-body">
         <p class="login-box-msg"></p>

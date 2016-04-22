@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'gender')->radioList([ 'male' => 'Male', 'female' => 'Female', 'unknown' => 'Unknown', ], ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'birthday')->dateInput() ?>
+    <?= $form->field($model, 'birthday')->textInput() ?>
 
     <?= $form->field($model, 'idnumber')->textInput(['maxlength' => true]) ?>
 

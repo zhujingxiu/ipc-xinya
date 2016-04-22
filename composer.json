@@ -13,6 +13,7 @@
         "source": "https://github.com/yiisoft/yii2"
     },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.6",
@@ -20,6 +21,7 @@
         "yiisoft/yii2-swiftmailer": "*",
         "fedemotta/yii2-widget-datatables": "*",
         "pendalf89/yii2-filemanager": "*",
+        "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-tree-manager": "@dev",
         "kartik-v/yii2-detail-view": "*",
         "kartik-v/yii2-dialog": "*",

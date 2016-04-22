@@ -12,11 +12,11 @@ return [
     'controllerNamespace' => 'ipc\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        'setting' => [
-            'class' => 'ipc\modules\setting\Module',
+        'config' => [
+            'class' => 'system\modules\config\Module',
         ],
         'auth' => [
-            'class' => 'ipc\modules\auth\Module',
+            'class' => 'system\modules\auth\Module',
         ],
         'project' => [
             'class' => 'ipc\modules\project\Module',
@@ -50,7 +50,7 @@ return [
             'class' => '\kartik\tree\Module',
             // other module settings, refer detailed documentation
             'treeStructure' => [
-                'treeAttribute' => 'pid',
+                'treeAttribute' => 'parent_id',
                 'leftAttribute' => 'lft',
                 'rightAttribute' => 'rgt',
                 'depthAttribute' => 'lvl',
@@ -61,6 +61,14 @@ return [
                 'iconAttribute' => 'icon',
                 'iconTypeAttribute' => 'icon_type'
             ]
+        ]
+    ],
+    'controllerMap' =>[
+        'site' => [
+            'class' => 'system\controllers\SiteController'
+        ],
+        'user' => [
+            'class' => 'system\controllers\UserController'
         ]
     ],
     'components' => [
@@ -76,7 +84,7 @@ return [
             'class' => 'yii\rbac\DbManager'
         ],
         'user' => [
-            'identityClass' => 'ipc\models\User',
+            'identityClass' => 'system\models\User',
             'enableAutoLogin' => true,
         ],
         'log' => [
@@ -98,10 +106,10 @@ return [
             'rules' => [
             ],
         ],
-        'setting' => [
-            'class' => 'ipc\modules\setting\Setting',
+        'config' => [
+            'class' => 'system\modules\config\Config',
         ],
-        
+
     ],
     'params' => $params,
 ];

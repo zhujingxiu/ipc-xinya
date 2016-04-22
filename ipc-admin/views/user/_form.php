@@ -2,12 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use ipc\models\User;
+use system\models\User;
 use yii\helpers\ArrayHelper;
 
 
 /* @var $this yii\web\View */
-/* @var $model ipc\models\User */
+/* @var $model system\models\User */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <p>

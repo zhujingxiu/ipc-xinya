@@ -53,7 +53,7 @@ echo Menu::widget(
                             [
                                 'label' => Yii::t('app', 'Check'),
                                 'url' => ['/project/check/'],
-                                'icon' => 'fa-check-square',
+                                'icon' => 'fa-binoculars',
                                 'active' => Yii::$app->request->pathInfo === 'project/check',
                                 //'visible' => (Yii::$app->user->identity->username == 'admin'),
                             ],
@@ -130,7 +130,7 @@ echo Menu::widget(
                 'items' => [
                     [
                         'label' => Yii::t('app', 'Settings'),
-                        'url' => ['/setting'],
+                        'url' => ['/config'],
                         'icon' => 'fa-wrench',
                         'visible' => Yii::$app->user->can('setting'),
                     ],
