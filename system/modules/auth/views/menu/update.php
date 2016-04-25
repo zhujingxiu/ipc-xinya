@@ -3,16 +3,16 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model system\modules\auth\models\Role */
+/* @var $model system\modules\auth\models\Menu */
 
 $this->title = Yii::t('auth', 'Update {modelClass}: ', [
-    'modelClass' => 'Role',
+    'modelClass' => 'Menu',
 ]) . $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('auth', 'Roles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('auth', 'Menus'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->node_id]];
 $this->params['breadcrumbs'][] = Yii::t('auth', 'Update');
 ?>
-<div class="role-update">
+<div class="menu-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

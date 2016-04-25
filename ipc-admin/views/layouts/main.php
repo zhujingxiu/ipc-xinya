@@ -131,7 +131,11 @@ AppAsset::register($this);
 
 
     </div>
+
+    <?= $this->render('//layouts/footer') ?>
+
     <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

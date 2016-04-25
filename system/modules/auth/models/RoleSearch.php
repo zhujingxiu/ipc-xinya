@@ -5,12 +5,12 @@ namespace system\modules\auth\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use system\modules\auth\models\Node;
+use system\modules\auth\models\Role;
 
 /**
- * NodeSearch represents the model behind the search form about `ipc\modules\auth\models\Node`.
+ * RoleSearch represents the model behind the search form about `system\modules\auth\models\Role`.
  */
-class NodeSearch extends Node
+class RoleSearch extends Role
 {
     /**
      * @inheritdoc
@@ -19,7 +19,7 @@ class NodeSearch extends Node
     {
         return [
             [['node_id', 'parent_id', 'lft', 'rgt', 'lvl', 'icon_type', 'active', 'selected', 'disabled', 'readonly', 'visible', 'collapsed', 'movable_u', 'movable_d', 'movable_l', 'movable_r', 'removable', 'removable_all'], 'integer'],
-            [['name', 'icon'], 'safe'],
+            [['name', 'icon', 'mode', 'path'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class NodeSearch extends Node
      */
     public function search($params)
     {
-        $query = Node::find();
+        $query = Role::find();
 
         // add conditions that should always apply here
 
@@ -80,7 +80,9 @@ class NodeSearch extends Node
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'icon', $this->icon]);
+            ->andFilterWhere(['like', 'icon', $this->icon])
+            ->andFilterWhere(['like', 'mode', $this->mode])
+            ->andFilterWhere(['like', 'path', $this->path]);
 
         return $dataProvider;
     }

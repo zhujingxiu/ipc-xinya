@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model ipc\modules\auth\models\Permission */
+/* @var $model system\modules\auth\models\Permission */
 
-$this->title = 'Create Permission';
-$this->params['breadcrumbs'][] = ['label' => 'Permissions', 'url' => ['index']];
+$this->title = Yii::t('auth', 'Create Permission');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('auth', 'Permissions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="permission-create">

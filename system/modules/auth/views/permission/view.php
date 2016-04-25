@@ -4,10 +4,10 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model ipc\modules\auth\models\Permission */
+/* @var $model system\modules\auth\models\Permission */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Permissions', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('auth', 'Permissions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="permission-view">
@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->name], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->name], [
+        <?= Html::a(Yii::t('auth', 'Update'), ['update', 'id' => $model->node_id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('auth', 'Delete'), ['delete', 'id' => $model->node_id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => Yii::t('auth', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
@@ -28,13 +28,28 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'node_id',
+            'parent_id',
+            'lft',
+            'rgt',
+            'lvl',
             'name',
-            'type',
-            'description:ntext',
-            'rule_name',
-            'data:ntext',
-            'created_at',
-            'updated_at',
+            'icon',
+            'icon_type',
+            'mode',
+            'path',
+            'active',
+            'selected',
+            'disabled',
+            'readonly',
+            'visible',
+            'collapsed',
+            'movable_u',
+            'movable_d',
+            'movable_l',
+            'movable_r',
+            'removable',
+            'removable_all',
         ],
     ]) ?>
 

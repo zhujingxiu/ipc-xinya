@@ -4,31 +4,60 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model ipc\modules\auth\models\Permission */
+/* @var $model system\modules\auth\models\Permission */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-<p>
-    <?= Html::submitButton( 'Save', ['form'=>'permission-form','class' => 'btn btn-primary']) ?>
-</p>
-<div class="box">
 
-    <div class="box-body permission-form" >
+<div class="permission-form">
 
+    <?php $form = ActiveForm::begin(); ?>
 
-        <?php $form = ActiveForm::begin(['id'=>'permission-form']); ?>
+    <?= $form->field($model, 'parent_id')->textInput() ?>
 
-        <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'lft')->textInput() ?>
 
-        <?= $form->field($model, 'type')->hiddenInput()->label(false) ?>
+    <?= $form->field($model, 'rgt')->textInput() ?>
 
-        <?= $form->field($model, 'description')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'lvl')->textInput() ?>
 
-        <?= $form->field($model, 'rule_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-        <?= $form->field($model, 'data')->textarea(['rows' => 2]) ?>
+    <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
 
-        <?php ActiveForm::end(); ?>
+    <?= $form->field($model, 'icon_type')->textInput() ?>
 
+    <?= $form->field($model, 'mode')->dropDownList([ 'menu' => 'Menu', 'role' => 'Role', 'permission' => 'Permission', ], ['prompt' => '']) ?>
+
+    <?= $form->field($model, 'path')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'active')->textInput() ?>
+
+    <?= $form->field($model, 'selected')->textInput() ?>
+
+    <?= $form->field($model, 'disabled')->textInput() ?>
+
+    <?= $form->field($model, 'readonly')->textInput() ?>
+
+    <?= $form->field($model, 'visible')->textInput() ?>
+
+    <?= $form->field($model, 'collapsed')->textInput() ?>
+
+    <?= $form->field($model, 'movable_u')->textInput() ?>
+
+    <?= $form->field($model, 'movable_d')->textInput() ?>
+
+    <?= $form->field($model, 'movable_l')->textInput() ?>
+
+    <?= $form->field($model, 'movable_r')->textInput() ?>
+
+    <?= $form->field($model, 'removable')->textInput() ?>
+
+    <?= $form->field($model, 'removable_all')->textInput() ?>
+
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('auth', 'Create') : Yii::t('auth', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
-</div>
 
+    <?php ActiveForm::end(); ?>
+
+</div>

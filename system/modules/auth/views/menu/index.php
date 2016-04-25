@@ -2,13 +2,13 @@
 
 use yii\helpers\Html;
 use kartik\tree\TreeView;
-use system\modules\auth\models\Role;
+use system\modules\auth\models\Menu;
 
 use system\modules\auth\Module;
 /* @var $this yii\web\View */
 
 
-$this->title = Module::t('auth', 'Roles');
+$this->title = Module::t('auth', 'Nodes');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="node-index">
@@ -53,11 +53,11 @@ $this->params['breadcrumbs'][] = $this->title;
     echo TreeView::widget([
         // single query fetch to render the tree
         // use the Product model you have in the previous step
-        'query' =>$model->find()->andWhere(['mode'=>$model->mode])->addOrderBy('parent_id, lft'),
+        'query' => $model->find()->where(['mode'=>$model->mode])->addOrderBy('parent_id, lft'),
         'nodeAddlViews' => [
-            kartik\tree\Module::VIEW_PART_2 => '@system/modules/auth/views/role/_treePart2'
+            kartik\tree\Module::VIEW_PART_2 => '@system/modules/auth/views/node/_treePart2'
         ],
-        'headingOptions' => ['label' => 'Roles'],
+        'headingOptions' => ['label' => 'Nodes'],
         'fontAwesome' => true,     // optional
         'isAdmin' => false,         // optional (toggle to enable admin mode)
         'displayValue' => $model->getFirstNode(),        // initial display value
@@ -65,7 +65,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'cacheSettings' => [
             'enableCache' => true   // defaults to true
         ],
-
+        'treeOptions' => [
+            'style' => 'height:600px'
+        ]
     ]);
     /*
         echo kartik\tree\TreeViewInput::widget([

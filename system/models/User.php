@@ -3,6 +3,8 @@ namespace system\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use system\modules\auth\models\Menu;
+use yii\helpers\Html;
 
 /**
  * User model
@@ -26,6 +28,7 @@ class User extends \common\models\User
     private $_statusLabel;
     private $_roleLabel;
 
+    private $_nodes;
     /**
      * @inheritdoc
      */
@@ -138,4 +141,12 @@ class User extends \common\models\User
         return false;
     }
 
+    public function getMenuNodes()
+    {
+        if($this->_nodes ===null){
+            $this->_nodes = Menu::find()->andWhere(['mode'=>'menu'])->addOrderBy('parent_id, lft')->asArray()->all();
+        }
+        return $this->_nodes;
+
+    }
 }

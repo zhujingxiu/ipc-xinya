@@ -2,62 +2,91 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use kartik\tree\TreeView;
+use system\modules\auth\models\Permission;
 
+use system\modules\auth\Module;
 /* @var $this yii\web\View */
-/* @var $searchModel ipc\modules\auth\models\search\PermissionSearch */
+/* @var $searchModel system\modules\auth\models\NodeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Permissions';
+$this->title = Module::t('auth', 'Permissions');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="permission-index">
+<div class="node-index">
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Permission', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Module::t('auth', 'Create Node'), ['create'], ['class' => 'btn btn-success hidden']) ?>
     </p>
-    <div class="box">
-        <div class="box-body">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>权限</th>
-                    <th>规则</th>
-                    <th>参数</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach($dataProvider as $item): ?>
-                    <tr>
-                        <td><input name="selected[]" type="checkbox" value="<?php echo $item->name ?>"> </td>
-                        <td><span><?php echo $item->description .' '. $item->name ?></span> </td>
-                        <td><span><?php echo $item->ruleName  ?></span> </td>
-                        <td><span><?php echo $item->data  ?></span> </td>
-                        <td><a class="btn btn-link" href="/auth/permission/update?id=<?php echo $item->name ?>"><i class="fa fa-pencil"></i> </a> </td>
-                    </tr>
-                <?php endforeach ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <?php /* ?>
-    <?= GridView::widget([
+    <?php /* echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'name',
-            'type',
-            'description:ntext',
-            'rule_name',
-            'data:ntext',
-            // 'created_at',
-            // 'updated_at',
+            'node_id',
+            'pid',
+            'lft',
+            'rgt',
+            'lvl',
+            // 'name',
+            // 'icon',
+            // 'icon_type',
+            // 'active',
+            // 'selected',
+            // 'disabled',
+            // 'readonly',
+            // 'visible',
+            // 'collapsed',
+            // 'movable_u',
+            // 'movable_d',
+            // 'movable_l',
+            // 'movable_r',
+            // 'removable',
+            // 'removable_all',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
- <?php */?>
+    ]); */ ?>
+
+    <?php
+    echo TreeView::widget([
+        // single query fetch to render the tree
+        // use the Product model you have in the previous step
+        'query' => $model->find()->where(['mode'=>$model->mode])->addOrderBy('parent_id, lft'),
+        'nodeAddlViews' => [
+            kartik\tree\Module::VIEW_PART_2 => '@system/modules/auth/views/permission/_treePart2'
+        ],
+        'headingOptions' => ['label' => 'Permissions'],
+        'fontAwesome' => true,     // optional
+        'isAdmin' => false,         // optional (toggle to enable admin mode)
+        'displayValue' => $model->getFirstNode(),        // initial display value
+        'softDelete' => true,       // defaults to true
+        'cacheSettings' => [
+            'enableCache' => true   // defaults to true
+        ],
+        'treeOptions' => [
+            'style' => 'height:680px'
+        ]
+    ]);
+    /*
+        echo kartik\tree\TreeViewInput::widget([
+            // single query fetch to render the tree
+            // use the Product model you have in the previous step
+            'query' => Node::find()->addOrderBy('pid, lft'),
+            'headingOptions'=>['label'=>'Categories'],
+            'name' => 'kv-node', // input name
+            'value' => '1,2,3',     // values selected (comma separated for multiple select)
+            'asDropdown' => false,   // will render the tree input widget as a dropdown.
+            'multiple' => true,     // set to false if you do not need multiple selection
+            'fontAwesome' => true,  // render font awesome icons
+            'rootOptions' => [
+                'label'=>'<i class="fa fa-tree"></i>',  // custom root label
+                'class'=>'text-success'
+            ],
+            //'options'=>['disabled' => true],
+        ]);*/
+    ?>
 </div>

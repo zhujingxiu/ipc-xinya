@@ -11,41 +11,54 @@ use yii\bootstrap\NavBar;
 ]);*/
 $menuItems = [
     [
-        'label' => Yii::t('app', 'Home'),
-        'url' => ['/site/index']
+        'label' => '',
+        'url' => ['/config'],
+        'linkOptions' => [
+            'class' => 'fa fa-gears',
+            'title' => Yii::t('app','Settings')
+        ],
+        'visible' => Yii::$app->user->can('setting'),
+        'active' => Yii::$app->request->pathInfo === 'config',
     ],
     [
-        'label' => Yii::t('app', 'Logout') . '(' . Yii::$app->user->identity->username . ')',
-        'url' => ['/site/logout'],
-        'linkOptions' => ['data-method' => 'post']
-    ]
+        'label' => '',
+        'url' => ['/'],
+        'linkOptions' => [
+            'class' => 'fa fa-dashboard',
+            'title' => Yii::t('app','Home')
+        ],
+        'active' => Yii::$app->request->url === Yii::$app->homeUrl
+    ],
+    [
+        'label' => '',
+        'url' => '#',
+        'linkOptions' => [
+            'data-toggle' => 'control-sidebar',
+            'class' => 'fa fa-bell'
+        ]
+    ],
+
+
 ];
 echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
+    'options' => ['class' => 'navbar-nav navbar-left'],
     'items' => $menuItems,
 ]);
 
 $menuItemsMain = [
-
     [
-        'label' => '<i class="fa fa-cog"></i> ' . Yii::t('app', 'System'),
-        'url' => ['#'],
-        'active' => false,
-        //'visible' => Yii::$app->user->can('haha'),
-        'items' => [
-            [
-                'label' => '<i class="fa fa-user"></i> ' . Yii::t('app', 'User'),
-                'url' => ['/user'],
-            ],
-            [
-                'label' => '<i class="fa fa-lock"></i> ' . Yii::t('app', 'Role'),
-                'url' => ['/role'],
-            ],
-        ],
+        'label' => '',
+        'url' => ['/site/logout'],
+        'linkOptions' => [
+            'data-method' => 'post',
+            'class' => 'fa fa-sign-out',
+            'title'=>Yii::t('app', 'Logout') . '(' . Yii::$app->user->identity->username . ')',
+
+        ]
     ],
 ];
 echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-left'],
+    'options' => ['class' => 'navbar-nav navbar-right','style' => 'margin-right:0px;'],
     'items' => $menuItemsMain,
     'encodeLabels' => false,
 ]);

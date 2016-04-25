@@ -1,27 +1,19 @@
 <?php
 
-namespace ipc\modules\auth\controllers;
+namespace system\modules\auth\controllers;
 
 use Yii;
-use ipc\modules\auth\models\Item;
-use ipc\modules\auth\models\search\PermissionSearch;
+use system\modules\auth\models\Menu;
+
 use system\libs\base\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PermissionController implements the CRUD actions for Permission model.
+ * MenuController implements the CRUD actions for Menu model.
  */
-class ItemController extends BaseController
+class MenuController extends BaseController
 {
-
-    public $authManager;
-
-    public function init(){
-        parent::init();
-
-        $this->authManager = Yii::$app->authManager;
-    }
     /**
      * @inheritdoc
      */
@@ -38,16 +30,14 @@ class ItemController extends BaseController
     }
 
     /**
-     * Lists all Permission models.
+     * Lists all Menu models.
      * @return mixed
      */
     public function actionIndex()
     {
 
-        return $this->render('index');
+        return $this->render('index', [
+            'model' => new Menu(),
+        ]);
     }
-
-
-
-
 }

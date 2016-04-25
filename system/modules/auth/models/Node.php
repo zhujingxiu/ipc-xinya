@@ -15,6 +15,10 @@ use system\modules\auth\Module;
  * @property string $name
  * @property string $icon
  * @property integer $icon_type
+ * @property string $mode
+ * @property string $path
+ * @property string $rule
+ * @property string $rule_param
  * @property integer $active
  * @property integer $selected
  * @property integer $disabled
@@ -31,6 +35,9 @@ use system\modules\auth\Module;
 class Node extends \kartik\tree\models\Tree
 {
 
+    const MODE_MENU = 'menu';
+    const MODE_ROLE = 'role';
+    const MODE_PERMISSION = 'permission';
 
     /**
      * @inheritdoc
@@ -52,7 +59,9 @@ class Node extends \kartik\tree\models\Tree
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = ['path', 'safe'];
+        $rules[] = [['mode','path','rule','rule_param'], 'safe'];
+        $rules[] = [['rule'], 'string', 'max' => 64];
+        $rules[] = [['mode'], 'string'];
         return $rules;
     }
 
@@ -70,7 +79,10 @@ class Node extends \kartik\tree\models\Tree
             'name' => Module::t('auth', 'Name'),
             'icon' => Module::t('auth', 'Icon'),
             'icon_type' => Module::t('auth', 'Icon Type'),
+            'mode' => Module::t('auth', 'Mode'),
             'path' => Module::t('auth', 'Path'),
+            'rule' => Module::t('auth', 'Rule'),
+            'rule_param' => Module::t('auth', 'Rule Param'),
             'active' => Module::t('auth', 'Active'),
             'selected' => Module::t('auth', 'Selected'),
             'disabled' => Module::t('auth', 'Disabled'),
@@ -84,5 +96,23 @@ class Node extends \kartik\tree\models\Tree
             'removable' => Module::t('auth', 'Removable'),
             'removable_all' => Module::t('auth', 'Removable All'),
         ];
+    }
+
+
+    public function beforeSave($insert){
+
+        if(parent::beforeSave($insert) ){
+            $this->rule_param =  $this->rule_param === null ? null :serialize($this->rule_param);
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function getFirstNode(){
+        $result = parent::find()->where(['mode' => $this->mode])->orderBy('node_id,lvl')->asArray()->one();
+
+        return empty($result['node_id']) ? 0 :  $result['node_id'];
     }
 }

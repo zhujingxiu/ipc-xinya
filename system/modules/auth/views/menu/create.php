@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model ipc\modules\auth\models\Role */
+/* @var $model system\modules\auth\models\Menu */
 
-$this->title = 'Create Role';
-$this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
+$this->title = Yii::t('auth', 'Create Menu');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('auth', 'Menus'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="role-create">
+<div class="menu-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

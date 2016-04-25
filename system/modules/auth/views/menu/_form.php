@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model system\modules\auth\models\Role */
+/* @var $model system\modules\auth\models\Menu */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="role-form">
+<div class="menu-form">
 
     <?php $form = ActiveForm::begin(); ?>
 

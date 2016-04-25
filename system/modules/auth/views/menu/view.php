@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model system\modules\auth\models\Role */
+/* @var $model system\modules\auth\models\Menu */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('auth', 'Roles'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('auth', 'Menus'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="role-view">
+<div class="menu-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

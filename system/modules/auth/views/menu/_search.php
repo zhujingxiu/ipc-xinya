@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model system\modules\auth\models\PermissionSearch */
+/* @var $model system\modules\auth\models\MenuSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="permission-search">
+<div class="menu-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
