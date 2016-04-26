@@ -57,6 +57,8 @@ return [
     'still used' => '还在使用',
 
     'Username' => '账户',
+    'Realname' => '真实姓名',
+    'Profile' => '个人资料',
     'Password' => '密码',
     'Repassword' => '确认密码',
     'Remember Me' => '自动登录',

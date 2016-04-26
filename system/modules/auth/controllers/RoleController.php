@@ -4,7 +4,7 @@ namespace system\modules\auth\controllers;
 
 use Yii;
 use system\modules\auth\models\Role;
-use system\modules\auth\models\RoleSearch;
+
 use system\libs\base\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

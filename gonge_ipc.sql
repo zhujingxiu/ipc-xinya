@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-04-22 11:56:29
+-- Generation Time: 2016-04-26 11:56:27
 -- 服务器版本： 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -104,7 +104,10 @@ CREATE TABLE `ipc_auth_node` (
   `name` varchar(60) NOT NULL,
   `icon` varchar(255) DEFAULT NULL,
   `icon_type` tinyint(1) NOT NULL DEFAULT '1',
+  `mode` enum('menu','role','permission') NOT NULL DEFAULT 'menu',
   `path` varchar(128) DEFAULT NULL,
+  `rule` varchar(64) DEFAULT NULL,
+  `rule_param` text,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `selected` tinyint(1) NOT NULL DEFAULT '0',
   `disabled` tinyint(1) NOT NULL DEFAULT '0',
@@ -123,15 +126,30 @@ CREATE TABLE `ipc_auth_node` (
 -- 转存表中的数据 `ipc_auth_node`
 --
 
-INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`, `icon`, `icon_type`, `path`, `active`, `selected`, `disabled`, `readonly`, `visible`, `collapsed`, `movable_u`, `movable_d`, `movable_l`, `movable_r`, `removable`, `removable_all`) VALUES
-(1, 1, 1, 16, 0, '信贷管理', 'fa fa-database', 1, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(2, 1, 2, 3, 1, '客户申请', 'fa fa-envelope', 1, '/project/apply', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(3, 1, 4, 5, 1, '认定受理', 'fa fa-tags', 1, '/project/accept', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(4, 1, 6, 7, 1, '调查评估', 'fa fa-binoculars', 1, '/project/check', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(5, 1, 8, 9, 1, '审批', ' fa fa-gavel', 1, '/project/approve', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(6, 1, 10, 11, 1, '签订合同', 'fa fa-book', 1, '/project/sign', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(7, 1, 12, 13, 1, '发放贷款', 'fa fa-exchange', 1, '/project/borrowing', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(8, 1, 14, 15, 1, '贷后管理', 'fa fa-recycle', 1, '/project/manage', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0);
+INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`, `icon`, `icon_type`, `mode`, `path`, `rule`, `rule_param`, `active`, `selected`, `disabled`, `readonly`, `visible`, `collapsed`, `movable_u`, `movable_d`, `movable_l`, `movable_r`, `removable`, `removable_all`) VALUES
+(1, 1, 1, 2, 0, '客户管理', 'fa fa-users', 1, 'menu', 'customer', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(2, 2, 1, 16, 0, '信贷业务', 'fa fa-cubes', 1, 'menu', '', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(3, 2, 2, 3, 1, '客户申请', 'fa fa-envelope', 1, 'menu', 'project/apply', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(4, 2, 4, 5, 1, '调查评估', 'fa fa-binoculars', 1, 'menu', 'project/assess', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(5, 2, 6, 7, 1, '审查核实', 'fa fa-check-square', 1, 'menu', 'project/check', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(6, 2, 8, 9, 1, '项目审批', 'fa fa-gavel', 1, 'menu', 'project/approve', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(7, 2, 10, 11, 1, '签订合同', 'fa fa-book', 1, 'menu', 'project/sign', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(8, 2, 12, 13, 1, '发放贷款', 'fa fa-tags', 1, 'menu', 'project/borrowing', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(9, 2, 14, 15, 1, '贷后管理', 'fa fa-tree', 1, 'menu', 'project/manage', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(10, 10, 1, 16, 0, '用户与菜单', 'fa fa-sitemap', 1, 'menu', '', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(11, 10, 2, 3, 1, '员工列表', 'fa fa-user', 1, 'menu', 'user', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(12, 10, 4, 5, 1, '部门管理', 'fa fa-bank', 1, 'menu', 'auth/role', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(13, 10, 6, 7, 1, '菜单配置', 'fa fa-list-ol', 1, 'menu', 'auth/menu', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(14, 10, 8, 9, 1, '权限节点', 'fa fa-key', 1, 'menu', 'auth/permission', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(15, 10, 10, 15, 1, '其他配置', 'fa fa-cogs', 1, 'menu', '', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(16, 10, 11, 12, 2, '数据备份', 'fa fa-database', 1, 'menu', 'tool/backup', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(17, 10, 13, 14, 2, '数据恢复', 'fa fa-recycle', 1, 'menu', 'tool/recycle', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(18, 18, 1, 2, 0, '开发部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(19, 19, 1, 2, 0, '技术运营', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(20, 20, 1, 2, 0, '信贷部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(21, 21, 1, 2, 0, '风控部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(22, 22, 1, 2, 0, '财务部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(23, 23, 1, 2, 0, '信贷评审委员会', '', 1, 'role', NULL, '', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -628,45 +646,13 @@ CREATE TABLE `ipc_project_history` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ipc_project_repayment`
---
-
-CREATE TABLE `ipc_project_repayment` (
-  `repayment_id` int(11) NOT NULL,
-  `title` varchar(32) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ipc_project_tender`
---
-
-CREATE TABLE `ipc_project_tender` (
-  `tender_id` int(11) NOT NULL,
-  `title` varchar(32) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `ipc_project_tender`
---
-
-INSERT INTO `ipc_project_tender` (`tender_id`, `title`, `code`, `status`) VALUES
-(1, '担保标', 'guarantee', 1);
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `ipc_user`
 --
 
 CREATE TABLE `ipc_user` (
   `user_id` int(11) NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `realname` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -681,10 +667,10 @@ CREATE TABLE `ipc_user` (
 -- 转存表中的数据 `ipc_user`
 --
 
-INSERT INTO `ipc_user` (`user_id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'TOL_4sICqCHD4n1UOYE0ZAaAgkCnlEWD', '$2y$13$DHvK27g4EpqJ5eoOk.hHkeCPKb2mcwCrsjm6lLQ/8lUdCk5Beq9ei', '', 'admin@demo.com', 'admin', 1, 1460626630, 1460789919),
-(2, 'zhujingxiu', 'ePx45s5O34IH8b6JLP4tXCd8yTE-_5Xj', '$2y$13$cSy0Q/SBoCqLB7bAEVv26eyWUjEX0g5IwdRG11xj0y8W0cmygOsQC', 'tBuqUrt-7s5AW7cHtE59zsdvhiAgBwKD_1460704462', 'a@b.c', 'user', 1, 1460704461, 1460732172),
-(3, 'demo', 'u9YYoa_465SfLOyrwpjHkklNAG5gKnTM', '$2y$13$d6rmH9jBlEYH28qX1kuGHeeR.JDD5a4OXzqU3HVA68IA1L8zQ7Dny', 'nm_bCQH2XeCT6iFfHNQYBxfw8VTBZSrX_1460724094', 'demo@demo.c', 'guest', 1, 1460724092, 1460794910);
+INSERT INTO `ipc_user` (`user_id`, `username`, `realname`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'admin', '管理员', 'TOL_4sICqCHD4n1UOYE0ZAaAgkCnlEWD', '$2y$13$DHvK27g4EpqJ5eoOk.hHkeCPKb2mcwCrsjm6lLQ/8lUdCk5Beq9ei', '', 'admin@demo.com', '18', 1, 1460626630, 1460789919),
+(2, 'zhujingxiu', '朱景修', 'ePx45s5O34IH8b6JLP4tXCd8yTE-_5Xj', '$2y$13$cSy0Q/SBoCqLB7bAEVv26eyWUjEX0g5IwdRG11xj0y8W0cmygOsQC', 'tBuqUrt-7s5AW7cHtE59zsdvhiAgBwKD_1460704462', 'a@b.c', '19', 1, 1460704461, 1460732172),
+(3, 'demo', '测试ssssss', 'u9YYoa_465SfLOyrwpjHkklNAG5gKnTM', '$2y$13$d6rmH9jBlEYH28qX1kuGHeeR.JDD5a4OXzqU3HVA68IA1L8zQ7Dny', 'nm_bCQH2XeCT6iFfHNQYBxfw8VTBZSrX_1460724094', 'demo@demo.c', '18,19,20', 1, 1460724092, 1461663114);
 
 --
 -- Indexes for dumped tables
@@ -844,18 +830,6 @@ ALTER TABLE `ipc_project_history`
   ADD PRIMARY KEY (`history_id`);
 
 --
--- Indexes for table `ipc_project_repayment`
---
-ALTER TABLE `ipc_project_repayment`
-  ADD PRIMARY KEY (`repayment_id`);
-
---
--- Indexes for table `ipc_project_tender`
---
-ALTER TABLE `ipc_project_tender`
-  ADD PRIMARY KEY (`tender_id`);
-
---
 -- Indexes for table `ipc_user`
 --
 ALTER TABLE `ipc_user`
@@ -872,7 +846,7 @@ ALTER TABLE `ipc_user`
 -- 使用表AUTO_INCREMENT `ipc_auth_node`
 --
 ALTER TABLE `ipc_auth_node`
-  MODIFY `node_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `node_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- 使用表AUTO_INCREMENT `ipc_config`
 --
@@ -943,16 +917,6 @@ ALTER TABLE `ipc_project_guarantor`
 --
 ALTER TABLE `ipc_project_history`
   MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `ipc_project_repayment`
---
-ALTER TABLE `ipc_project_repayment`
-  MODIFY `repayment_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- 使用表AUTO_INCREMENT `ipc_project_tender`
---
-ALTER TABLE `ipc_project_tender`
-  MODIFY `tender_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- 使用表AUTO_INCREMENT `ipc_user`
 --

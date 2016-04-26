@@ -4,6 +4,9 @@ use Yii;
 use system\models\User;
 use system\models\UserSearch;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 /**
@@ -55,9 +58,46 @@ class UserController extends \system\libs\base\BaseController
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $model->setScenario('admin-update');
+        $post = Yii::$app->request->post();
+        // process ajax delete
+        if (Yii::$app->request->isAjax && isset($post['kvdelete'])) {
+            $id = $post['id'];
+            if ($this->findModel($id)->delete()) {
+                echo Json::encode([
+                    'success' => true,
+                    'messages' => [
+                        'kv-detail-info' => 'The User # ' . $id . ' was successfully deleted. <a href="' .
+                            Url::to(['/user']) . '" class="btn btn-sm btn-info">' .
+                            '<i class="glyphicon glyphicon-hand-right"></i>  Click here</a> to proceed.'
+                    ]
+                ]);
+            } else {
+                echo Json::encode([
+                    'success' => false,
+                    'messages' => [
+                        'kv-detail-error' => 'Cannot delete the User # ' . $id . '.'
+                    ]
+                ]);
+            }
+            return;
+        }
+        // return messages on update of record
+
+
+        if ($model->load($post) && $model->save()) {
+            Yii::$app->session->setFlash('kv-detail-success', 'Saved record successfully');
+            // Multiple alerts can be set like below
+            //Yii::$app->session->setFlash('kv-detail-warning', 'A last warning for completing all data.');
+            //Yii::$app->session->setFlash('kv-detail-info', '<b>Note:</b> You can proceed by clicking <a href="#">this link</a>.');
+            return $this->redirect(['view', 'id'=>$model->user_id]);
+        }
+        $model->role = explode(",",$model->role);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
+
     }
     /**
      * Creates a new User model.

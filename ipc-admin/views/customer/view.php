@@ -143,13 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>Yii::t('customer','Company'),
                 'rowOptions'=>['class'=>'success']
             ],
-/*            [
-                'columns' => [
-                    [
-                        //'attribute'=>'role',
-                    ]
-                ]
-            ]*/
+
         ],
     ]) ?>
 

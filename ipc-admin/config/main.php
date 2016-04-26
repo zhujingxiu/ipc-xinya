@@ -80,9 +80,7 @@ return [
             'charset' => 'utf8',
             'tablePrefix' => 'ipc_',
         ],
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager'
-        ],
+
         'user' => [
             'identityClass' => 'system\models\User',
             'enableAutoLogin' => true,

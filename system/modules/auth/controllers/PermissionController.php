@@ -5,7 +5,7 @@ namespace system\modules\auth\controllers;
 use common\widgets\Menu;
 use Yii;
 use system\modules\auth\models\Permission;
-use system\modules\auth\models\PermissionSearch;
+
 use system\libs\base\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

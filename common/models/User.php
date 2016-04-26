@@ -26,7 +26,7 @@ class User extends BaseActiveRecord implements IdentityInterface
     const STATUS_DELETED = -1;
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
-    const ROLE_USER = 10;
+
 
     /**
      * @inheritdoc
@@ -62,10 +62,11 @@ class User extends BaseActiveRecord implements IdentityInterface
         return [
             'user_id' => Yii::t('app', 'ID'),
             'username' => Yii::t('app', 'Username'),
+            'realname' => Yii::t('app', 'Realname'),
             'password' => Yii::t('app', 'Password'),
             'repassword' => Yii::t('app', 'Repassword'),
             'email' => Yii::t('app', 'Email'),
-            'roles' => Yii::t('app', 'Role'),
+            'role' => Yii::t('app', 'Role'),
             'status' => Yii::t('app', 'Status'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

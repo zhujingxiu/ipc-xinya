@@ -39,11 +39,20 @@ class Menu extends \system\modules\auth\models\Node
     /**
      * @inheritdoc
      */
+    public $nodes;
     public function init()
     {
 
         parent::init();
         $this->mode = parent::MODE_MENU;
+        $this->getNodes();
+    }
+
+    public function getNodes()
+    {
+        if($this->nodes ===null){
+            $this->nodes = Menu::find()->andWhere(['mode'=>$this->mode])->addOrderBy('lvl','parent_id, lft')->asArray()->all();
+        }
     }
 
 }
