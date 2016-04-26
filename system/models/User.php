@@ -72,7 +72,8 @@ class User extends \common\models\User
         if ($this->_roleLabel === null) {
             $roles = self::getArrayRole();
             $label = [];
-            foreach($this->role as $item){
+            $_roles = is_string($this->role)? explode(",",$this->role):$this->role;
+            foreach($_roles as $item){
                 $label[] = $roles[$item];
             }
             $this->_roleLabel = implode(" ",$label);

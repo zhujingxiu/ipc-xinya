@@ -8,7 +8,7 @@ use system\modules\auth\Module;
 /* @var $this yii\web\View */
 
 
-$this->title = Module::t('auth', 'Nodes');
+$this->title = Module::t('auth', 'Menu');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="node-index">
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'nodeAddlViews' => [
             kartik\tree\Module::VIEW_PART_2 => '@system/modules/auth/views/node/_treePart2'
         ],
-        'headingOptions' => ['label' => 'Nodes'],
+        'headingOptions' => ['label' => 'Menu'],
         'fontAwesome' => true,     // optional
         'isAdmin' => false,         // optional (toggle to enable admin mode)
         'displayValue' => $model->getFirstNode(),        // initial display value

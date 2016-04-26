@@ -93,7 +93,7 @@ class UserController extends \system\libs\base\BaseController
             //Yii::$app->session->setFlash('kv-detail-info', '<b>Note:</b> You can proceed by clicking <a href="#">this link</a>.');
             return $this->redirect(['view', 'id'=>$model->user_id]);
         }
-        $model->role = explode(",",$model->role);
+
         return $this->render('view', [
             'model' => $model,
         ]);
@@ -157,6 +157,7 @@ class UserController extends \system\libs\base\BaseController
     protected function findModel($id)
     {
         if (($model = User::findOne($id)) !== null) {
+            $model->role = explode(",",$model->role);
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
