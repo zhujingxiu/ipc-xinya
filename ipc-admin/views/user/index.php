@@ -45,7 +45,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'role',
                 'value' => function ($model) {
-
                             return $model->roleLabel;
                         },
                 'filter' => Html::activeDropDownList(

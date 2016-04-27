@@ -17,6 +17,7 @@ return array(
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
     'pendalf89\\tinymce\\' => array($vendorDir . '/pendalf89/yii2-tinymce'),
     'pendalf89\\filemanager\\' => array($vendorDir . '/pendalf89/yii2-filemanager'),
+    'machour\\yii2\\notifications\\' => array($vendorDir . '/machour/yii2-notifications'),
     'kartik\\widgets\\' => array($vendorDir . '/kartik-v/yii2-widgets'),
     'kartik\\typeahead\\' => array($vendorDir . '/kartik-v/yii2-widget-typeahead'),
     'kartik\\tree\\' => array($vendorDir . '/kartik-v/yii2-tree-manager'),

@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         // use the Product model you have in the previous step
         'query' => $model->find()->where(['mode'=>$model->mode])->addOrderBy('parent_id, lft'),
         'nodeAddlViews' => [
-            kartik\tree\Module::VIEW_PART_2 => '@system/modules/auth/views/node/_treePart2'
+            kartik\tree\Module::VIEW_PART_2 => '@system/modules/auth/views/menu/_treePart2'
         ],
         'headingOptions' => ['label' => 'Menu'],
         'fontAwesome' => true,     // optional
@@ -65,6 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'cacheSettings' => [
             'enableCache' => true   // defaults to true
         ],
+        'nodeView' => '@system/modules/auth/views/node/_form',
         'treeOptions' => [
             'style' => 'height:600px'
         ]

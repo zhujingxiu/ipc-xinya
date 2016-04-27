@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6b65b37abfce400fbeffd83755a6283b",
-    "content-hash": "1abe03c38220462870f66fc06e5c6e1d",
+    "hash": "1146f250bd82ad464244526e388ba9c4",
+    "content-hash": "d736fd7add6470489bd2a76ea4cea7c6",
     "packages": [
         {
             "name": "2amigos/yii2-file-upload-widget",
@@ -1080,15 +1080,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-detail-view.git",
-                "reference": "8815787fb7953f8e12bcde52d2b11930381d464b"
+                "reference": "3c60008431786329affef144f360ba57d02fc9bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-detail-view/zipball/8815787fb7953f8e12bcde52d2b11930381d464b",
-                "reference": "8815787fb7953f8e12bcde52d2b11930381d464b",
+                "url": "https://api.github.com/repos/kartik-v/yii2-detail-view/zipball/3c60008431786329affef144f360ba57d02fc9bc",
+                "reference": "3c60008431786329affef144f360ba57d02fc9bc",
                 "shasum": ""
             },
             "require": {
+                "kartik-v/yii2-dialog": "~1.0",
                 "kartik-v/yii2-helpers": "~1.3.5",
                 "kartik-v/yii2-krajee-base": "~1.7"
             },
@@ -1125,7 +1126,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-04-07 11:58:57"
+            "time": "2016-04-23 12:41:39"
         },
         {
             "name": "kartik-v/yii2-dialog",
@@ -1292,12 +1293,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "fc709eda7a2bfb154f895a33ac05321475a8a153"
+                "reference": "f6d157a8af70d34872e415a19724dc67378cf151"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/fc709eda7a2bfb154f895a33ac05321475a8a153",
-                "reference": "fc709eda7a2bfb154f895a33ac05321475a8a153",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/f6d157a8af70d34872e415a19724dc67378cf151",
+                "reference": "f6d157a8af70d34872e415a19724dc67378cf151",
                 "shasum": ""
             },
             "require": {
@@ -1333,7 +1334,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-04-19 16:58:07"
+            "time": "2016-04-26 03:03:01"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -1387,12 +1388,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "a46d88d937f914b71bee85d181687b8f2098e6fa"
+                "reference": "1e53b1124cd92f75e03bf934b01c413ac445ad98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/a46d88d937f914b71bee85d181687b8f2098e6fa",
-                "reference": "a46d88d937f914b71bee85d181687b8f2098e6fa",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/1e53b1124cd92f75e03bf934b01c413ac445ad98",
+                "reference": "1e53b1124cd92f75e03bf934b01c413ac445ad98",
                 "shasum": ""
             },
             "require": {
@@ -1430,7 +1431,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-04-21 17:23:21"
+            "time": "2016-04-23 10:32:49"
         },
         {
             "name": "kartik-v/yii2-popover-x",
@@ -1486,12 +1487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-tree-manager.git",
-                "reference": "e430278044d072badc0d144c530a151403cfcf16"
+                "reference": "77bca9105ef77a138c4b00c6f263c1e1a67c860a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-tree-manager/zipball/e430278044d072badc0d144c530a151403cfcf16",
-                "reference": "e430278044d072badc0d144c530a151403cfcf16",
+                "url": "https://api.github.com/repos/kartik-v/yii2-tree-manager/zipball/77bca9105ef77a138c4b00c6f263c1e1a67c860a",
+                "reference": "77bca9105ef77a138c4b00c6f263c1e1a67c860a",
                 "shasum": ""
             },
             "require": {
@@ -1534,7 +1535,7 @@
                 "tree",
                 "treeview"
             ],
-            "time": "2016-03-21 16:56:22"
+            "time": "2016-04-23 05:21:51"
         },
         {
             "name": "kartik-v/yii2-widget-activeform",
@@ -2502,6 +2503,51 @@
             "time": "2015-12-05 10:37:16"
         },
         {
+            "name": "machour/yii2-notifications",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/machour/yii2-notifications.git",
+                "reference": "7a3b3970ed4a4dd111a890483e01a68d010882a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/machour/yii2-notifications/zipball/7a3b3970ed4a4dd111a890483e01a68d010882a7",
+                "reference": "7a3b3970ed4a4dd111a890483e01a68d010882a7",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "machour\\yii2\\notifications\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Mehdi Achour",
+                    "email": "machour@gmail.com"
+                }
+            ],
+            "description": "Notifications for your Yii2 app",
+            "keywords": [
+                "growl",
+                "notification",
+                "notify",
+                "noty",
+                "yii"
+            ],
+            "time": "2016-01-18 15:06:46"
+        },
+        {
             "name": "pendalf89/yii2-filemanager",
             "version": "dev-master",
             "source": {
@@ -2744,12 +2790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "10db2b4a2c361fc0e5824640f48781d24e304358"
+                "reference": "38a273269f57dd08ad0189b9e0d5f8b68009231b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/10db2b4a2c361fc0e5824640f48781d24e304358",
-                "reference": "10db2b4a2c361fc0e5824640f48781d24e304358",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/38a273269f57dd08ad0189b9e0d5f8b68009231b",
+                "reference": "38a273269f57dd08ad0189b9e0d5f8b68009231b",
                 "shasum": ""
             },
             "require": {
@@ -2830,7 +2876,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-04-21 20:58:36"
+            "time": "2016-04-26 22:00:43"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -3340,10 +3386,12 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "kartik-v/yii2-grid": 20,
         "kartik-v/yii2-tree-manager": 20,
-        "kartik-v/yii2-widgets": 20
+        "kartik-v/yii2-widgets": 20,
+        "machour/yii2-notifications": 20
     },
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">=5.4.0"

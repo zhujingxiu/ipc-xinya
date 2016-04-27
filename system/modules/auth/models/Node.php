@@ -19,6 +19,7 @@ use system\modules\auth\Module;
  * @property string $path
  * @property string $rule
  * @property string $rule_param
+ * @property string $sets
  * @property integer $active
  * @property integer $selected
  * @property integer $disabled
@@ -46,11 +47,13 @@ class Node extends \kartik\tree\models\Tree
     {
         return '{{%auth_node}}';
     }
+
+
     public function isDisabled()
     {
-        if (Yii::$app->user->identity->username !== 'admin') {
-            return true;
-        }
+//        if (Yii::$app->user->identity->username !== 'admin') {
+//            return true;
+//        }
         return parent::isDisabled();
     }
     /**
@@ -59,9 +62,12 @@ class Node extends \kartik\tree\models\Tree
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = [['mode','path','rule','rule_param'], 'safe'];
+        $rules[] = [['mode','path','rule','rule_param','sets','remark','is_root'], 'safe'];
         $rules[] = [['rule'], 'string', 'max' => 64];
         $rules[] = [['mode'], 'string'];
+        $rules[] = [['sets'], 'string'];
+        $rules[] = [['remark'], 'string'];
+        $rules[] = [['is_root'], 'integer'];
         return $rules;
     }
 
@@ -83,6 +89,8 @@ class Node extends \kartik\tree\models\Tree
             'path' => Module::t('auth', 'Path'),
             'rule' => Module::t('auth', 'Rule'),
             'rule_param' => Module::t('auth', 'Rule Param'),
+            'sets' => Module::t('auth', 'Sets'),
+            'remark' => Module::t('auth', 'Remark'),
             'active' => Module::t('auth', 'Active'),
             'selected' => Module::t('auth', 'Selected'),
             'disabled' => Module::t('auth', 'Disabled'),
@@ -103,6 +111,11 @@ class Node extends \kartik\tree\models\Tree
 
         if(parent::beforeSave($insert) ){
             $this->rule_param =  $this->rule_param === null ? null :serialize($this->rule_param);
+            if($this->is_root){
+                $this->removable = 0;
+            }else{
+                $this->removable = 1;
+            }
             return true;
         }
 

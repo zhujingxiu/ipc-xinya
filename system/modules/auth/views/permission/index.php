@@ -67,6 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'cacheSettings' => [
             'enableCache' => true   // defaults to true
         ],
+        'nodeView' => '@system/modules/auth/views/node/_form',
         'treeOptions' => [
             'style' => 'height:680px'
         ]

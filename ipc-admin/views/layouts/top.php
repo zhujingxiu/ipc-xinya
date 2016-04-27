@@ -10,16 +10,7 @@ use yii\bootstrap\NavBar;
     ],
 ]);*/
 $menuItems = [
-    [
-        'label' => '',
-        'url' => ['/config'],
-        'linkOptions' => [
-            'class' => 'fa fa-gears',
-            'title' => Yii::t('app','Settings')
-        ],
-        'visible' => Yii::$app->user->can('setting'),
-        'active' => Yii::$app->request->pathInfo === 'config',
-    ],
+
     [
         'label' => '',
         'url' => ['/'],
@@ -28,6 +19,16 @@ $menuItems = [
             'title' => Yii::t('app','Home')
         ],
         'active' => Yii::$app->request->url === Yii::$app->homeUrl
+    ],
+    [
+        'label' => '',
+        'url' => ['/config'],
+        'linkOptions' => [
+            'class' => 'fa fa-gears',
+            'title' => Yii::t('app','Settings')
+        ],
+        'visible' => Yii::$app->user->identity->isAllowed('config'),
+        'active' => Yii::$app->request->pathInfo === 'config',
     ],
     [
         'label' => '',
@@ -52,7 +53,7 @@ $menuItemsMain = [
         'linkOptions' => [
             'data-method' => 'post',
             'class' => 'fa fa-sign-out',
-            'title'=>Yii::t('app', 'Logout') . '(' . Yii::$app->user->identity->username . ')',
+            'title'=>Yii::t('app', 'Logout') . '(' . Yii::$app->user->identity->realname . ')',
 
         ]
     ],

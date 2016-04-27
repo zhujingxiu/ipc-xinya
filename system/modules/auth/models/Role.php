@@ -19,6 +19,7 @@ use Yii;
  * @property string $path
  * @property string $rule
  * @property string $rule_param
+ * @property string $sets
  * @property integer $active
  * @property integer $selected
  * @property integer $disabled

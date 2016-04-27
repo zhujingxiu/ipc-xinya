@@ -138,11 +138,15 @@ $menuNodes = [
 
 ];
 */
+$nodes = Yii::$app->user->identity->renderTree();
+//echo '<pre>';
+//print_r($nodes);
+//echo '</pre>';
 echo Menu::widget(
     [
         'options' => [
             'class' => 'sidebar-menu'
         ],
-        'items' => Yii::$app->user->identity->renderTree()
+        'items' => $nodes
     ]
 );

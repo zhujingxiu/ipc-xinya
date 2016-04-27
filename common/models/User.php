@@ -26,8 +26,6 @@ class User extends BaseActiveRecord implements IdentityInterface
     const STATUS_DELETED = -1;
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
-
-
     /**
      * @inheritdoc
      */
@@ -144,6 +142,9 @@ class User extends BaseActiveRecord implements IdentityInterface
         return $this->getPrimaryKey();
     }
 
+    public function getRole(){
+        return explode(",",$this->role());
+    }
     /**
      * @inheritdoc
      */
@@ -204,4 +205,5 @@ class User extends BaseActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
 }

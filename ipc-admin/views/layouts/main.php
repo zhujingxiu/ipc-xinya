@@ -88,7 +88,7 @@ AppAsset::register($this);
                 </div>
                 <div class="pull-left info">
                     <p>
-                        <?= Yii::t('app', 'Hello, {name}', ['name' => Yii::$app->user->identity->username]) ?>
+                        <?= Yii::t('app', 'Hello, {name}', ['name' => Yii::$app->user->identity->realname]) ?>
                     </p>
                     <a>
                         <i class="fa fa-circle text-success"></i> <?= Yii::t('app', 'Online') ?>

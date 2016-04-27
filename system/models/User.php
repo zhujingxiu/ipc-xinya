@@ -1,6 +1,7 @@
 <?php
 namespace system\models;
 
+use system\modules\auth\models\Permission;
 use system\modules\auth\models\Role;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -29,13 +30,15 @@ class User extends \common\models\User
     private $_statusLabel;
     private $_roleLabel;
 
-    private $menu_nodes = null;
+
+    private $menus = null;
 
     public function init(){
         parent::init();
 
-        $this->menu_nodes = (new Menu())->nodes;
+        $this->menus = (new Menu())->nodes;
     }
+
     /**
      * @inheritdoc
      */
@@ -68,13 +71,13 @@ class User extends \common\models\User
 
     public function getRoleLabel()
     {
-
         if ($this->_roleLabel === null) {
             $roles = self::getArrayRole();
             $label = [];
-            $_roles = is_string($this->role)? explode(",",$this->role):$this->role;
-            foreach($_roles as $item){
-                $label[] = $roles[$item];
+            $tmp = is_string($this->role) ? explode(",",$this->role) : $this->role;
+            foreach($tmp as $item){
+                if(isset($roles[$item]))
+                    $label[] = $roles[$item];
             }
             $this->_roleLabel = implode(" ",$label);
         }
@@ -160,7 +163,9 @@ class User extends \common\models\User
     public function renderTree()
     {
         $items = [];
-        foreach ($this->menu_nodes as $node) {
+        $curr = Permission::find()->andWhere(['mode'=>'permission','path'=>trim(Yii::$app->request->pathInfo)])->asArray()->one();
+
+        foreach ($this->menus as $node) {
 
             if (!$node['active']) {
                 continue;
@@ -172,6 +177,7 @@ class User extends \common\models\User
             $nodeName = $node['name'];
             $nodeIcon = $node['icon'];
             $nodePath = $node['path'];
+            $nodeSets = $node['sets'];
 
             $isChild = ($nodeRight == $nodeLeft + 1);
 
@@ -179,14 +185,19 @@ class User extends \common\models\User
                 'label' => $nodeName,
                 'url' => ['/'.trim($nodePath,'/')],
                 'icon' => $nodeIcon,
-
             ];
+            $_sets = $nodeSets ? explode(",",trim($nodeSets)) : [];
+
+            $_sets[] = $nodePath;
+
+            $tmp['active'] = in_array( $curr['node_id'],$_sets);
+
             if (!$isChild) {
                 $tmp['options'] = [
                     'class' => 'treeview '
                 ];
             }else{
-                $tmp['active'] = Yii::$app->request->pathInfo === trim($nodePath,'/');
+                $tmp['visible'] = $this->isAllowed( $nodePath);
             }
             if($nodeDepth){
 
@@ -196,8 +207,8 @@ class User extends \common\models\User
                     $_p[] = '['.$parents[$i].']';
                     $_p[] = '["items"]';
                 }
-                $p_str = "\$items".implode('',$_p).'['.$nodeKey.']'." = \$tmp ;";
-                @eval($p_str);
+
+                @eval("\$items".implode('',$_p).'['.$nodeKey.']'." = \$tmp ;");
 
             }else{
                 $items[$nodeKey] = $tmp;
@@ -208,9 +219,10 @@ class User extends \common\models\User
         return  $items;
     }
 
-    function getParents($node){
+    function getParents($node)
+    {
         $parent = [];
-        $nodes = ArrayHelper::index($this->menu_nodes,'node_id');
+        $nodes = ArrayHelper::index($this->menus,'node_id');
 
         foreach($nodes as $item){
             if($item['parent_id'] == $node['parent_id'] && $item['lft'] < $node['lft'] && $item['rgt'] > $node['rgt']){
@@ -219,5 +231,46 @@ class User extends \common\models\User
         }
         ksort($parent);
         return $parent;
+    }
+
+    function isAllowed($path)
+    {
+        $permissions=[];
+        $userId = Yii::$app->user->getId();
+
+        if (empty($userId)) {
+            return false;
+        }
+
+        $user = User::find()->andWhere(['user_id' => (string) $userId])->asArray()->one();
+        if(!empty($user['is_root'])){
+            return true;
+        }
+        if(empty($user['role'])){
+            return false;
+        }
+        $user_role = explode(",",$user['role']);
+
+        foreach ($user_role as $role_id) {
+            if($role_id){
+                $_role = Role::find()->andWhere(['node_id'=>$role_id])->asArray()->one();
+                if(!empty($_role['is_root'])){
+                    return true;
+                }
+                if(!empty($_role['sets'])){
+                    $tmp = explode(",",$_role['sets']);
+                    if(is_array($tmp) && count($tmp)){
+                        foreach($tmp as $i){
+                            $permissions[] = $i;
+                        }
+                    }
+                }
+            }
+        }
+
+        $curr = Permission::find()->andWhere(['mode'=>'permission','path'=>trim($path)])->asArray()->one();
+
+        return empty($curr['node_id']) ? false : in_array($curr['node_id'],$permissions) ;
+
     }
 }
