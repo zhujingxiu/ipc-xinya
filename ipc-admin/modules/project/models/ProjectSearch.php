@@ -19,8 +19,8 @@ class ProjectSearch extends Project
     {
         return [
             [['project_id', 'project_sn', 'due', 'tender', 'repayment', 'addtime'], 'integer'],
-            [['borrower', 'phone', 'company', 'prebidding'], 'safe'],
-            [['amount', 'income', 'fee'], 'number'],
+            [['borrower', 'phone', 'company', 'address'], 'safe'],
+            [['amount'], 'number'],
         ];
     }
 
@@ -65,10 +65,10 @@ class ProjectSearch extends Project
             'amount' => $this->amount,
             'due' => $this->due,
             'tender' => $this->tender,
-            'income' => $this->income,
-            'fee' => $this->fee,
+            'borrower' => $this->borrower,
+            'company' => $this->company,
             'repayment' => $this->repayment,
-            'prebidding' => $this->prebidding,
+            'address' => $this->address,
             'addtime' => $this->addtime,
         ]);
 

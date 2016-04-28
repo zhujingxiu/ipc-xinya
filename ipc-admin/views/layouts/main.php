@@ -36,13 +36,13 @@ AppAsset::register($this);
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only"><?= Yii::t('app', 'Toggle navigation') ?></span>
-
             </a>
             <form class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                     <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
                 </div>
             </form>
+
             <div class="navbar-custom-menu">
                 <?= $this->render('//layouts/top.php') ?>
             </div>
@@ -88,7 +88,7 @@ AppAsset::register($this);
                 </div>
                 <div class="pull-left info">
                     <p>
-                        <?= Yii::t('app', 'Hello, {name}', ['name' => Yii::$app->user->identity->username]) ?>
+                        <?= Yii::t('app', 'Hello, {name}', ['name' => Yii::$app->user->identity->realname]) ?>
                     </p>
                     <a>
                         <i class="fa fa-circle text-success"></i> <?= Yii::t('app', 'Online') ?>

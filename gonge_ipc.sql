@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.5.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-04-26 17:03:46
--- 服务器版本： 5.6.17
--- PHP Version: 5.5.12
+-- Generation Time: 2016-04-28 11:57:45
+-- 服务器版本： 10.1.9-MariaDB
+-- PHP Version: 5.6.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `gonge_ipc`
@@ -23,86 +23,11 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ipc_auth_assignment`
---
-
-CREATE TABLE IF NOT EXISTS `ipc_auth_assignment` (
-  `item_name` varchar(64) NOT NULL,
-  `user_id` varchar(64) NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `ipc_auth_assignment`
---
-
-INSERT INTO `ipc_auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
-('admin', '1', 1460789919),
-('user', '2', 1460732172);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ipc_auth_item`
---
-
-CREATE TABLE IF NOT EXISTS `ipc_auth_item` (
-  `name` varchar(64) NOT NULL,
-  `type` int(11) NOT NULL,
-  `description` text,
-  `rule_name` varchar(64) DEFAULT NULL,
-  `data` text,
-  `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`),
-  KEY `rule_name` (`rule_name`),
-  KEY `idx-auth_item-type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `ipc_auth_item`
---
-
-INSERT INTO `ipc_auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
-('admin', 1, '管理员', NULL, 's:0:"";', 1460626630, 1461041554),
-('customer', 2, '客户列表', NULL, 's:0:"";', 1460969444, 1461041519),
-('guest', 1, '访客', NULL, 's:0:"";', 1460626630, 1460971235),
-('service', 2, '业务模块', NULL, 's:0:"";', 1460890319, 1460972531),
-('setting', 2, '系统设置', NULL, '', 1460887939, 1460887939),
-('user', 1, '员工', NULL, 's:0:"";', 1460626630, 1460972573);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ipc_auth_item_child`
---
-
-CREATE TABLE IF NOT EXISTS `ipc_auth_item_child` (
-  `parent` varchar(64) NOT NULL,
-  `child` varchar(64) NOT NULL,
-  PRIMARY KEY (`parent`,`child`),
-  KEY `child` (`child`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- 转存表中的数据 `ipc_auth_item_child`
---
-
-INSERT INTO `ipc_auth_item_child` (`parent`, `child`) VALUES
-('admin', 'customer'),
-('admin', 'service'),
-('user', 'service'),
-('admin', 'setting');
-
--- --------------------------------------------------------
-
---
 -- 表的结构 `ipc_auth_node`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_auth_node` (
-  `node_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_auth_node` (
+  `node_id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `lft` int(11) NOT NULL DEFAULT '0',
   `rgt` int(11) NOT NULL DEFAULT '0',
@@ -111,9 +36,12 @@ CREATE TABLE IF NOT EXISTS `ipc_auth_node` (
   `icon` varchar(255) DEFAULT NULL,
   `icon_type` tinyint(1) NOT NULL DEFAULT '1',
   `mode` enum('menu','role','permission') NOT NULL DEFAULT 'menu',
-  `path` varchar(128) DEFAULT NULL,
-  `rule` varchar(64) DEFAULT NULL,
-  `rule_param` text,
+  `is_root` tinyint(4) NOT NULL DEFAULT '0',
+  `path` varchar(128) DEFAULT NULL COMMENT '主路径或标识符',
+  `rule` varchar(64) DEFAULT NULL COMMENT '规则',
+  `rule_param` text COMMENT '规则参数',
+  `sets` text COMMENT '子集',
+  `remark` text,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `selected` tinyint(1) NOT NULL DEFAULT '0',
   `disabled` tinyint(1) NOT NULL DEFAULT '0',
@@ -125,63 +53,60 @@ CREATE TABLE IF NOT EXISTS `ipc_auth_node` (
   `movable_l` tinyint(1) NOT NULL DEFAULT '1',
   `movable_r` tinyint(1) NOT NULL DEFAULT '1',
   `removable` tinyint(1) NOT NULL DEFAULT '1',
-  `removable_all` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`node_id`),
-  KEY `ipc_node_NK1` (`parent_id`),
-  KEY `ipc_node_NK2` (`lft`),
-  KEY `ipc_node_NK3` (`rgt`),
-  KEY `ipc_node_NK4` (`lvl`),
-  KEY `ipc_node_NK5` (`active`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
+  `removable_all` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ipc_auth_node`
 --
 
-INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`, `icon`, `icon_type`, `mode`, `path`, `rule`, `rule_param`, `active`, `selected`, `disabled`, `readonly`, `visible`, `collapsed`, `movable_u`, `movable_d`, `movable_l`, `movable_r`, `removable`, `removable_all`) VALUES
-(1, 1, 1, 2, 0, '客户管理', 'fa fa-users', 1, 'menu', 'customer', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(2, 2, 1, 16, 0, '信贷业务', 'fa fa-cubes', 1, 'menu', '', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(3, 2, 2, 3, 1, '客户申请', 'fa fa-envelope', 1, 'menu', 'project/apply', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(4, 2, 4, 5, 1, '调查评估', 'fa fa-binoculars', 1, 'menu', 'project/assess', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(5, 2, 6, 7, 1, '审查核实', 'fa fa-check-square', 1, 'menu', 'project/check', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(6, 2, 8, 9, 1, '项目审批', 'fa fa-gavel', 1, 'menu', 'project/approve', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(7, 2, 10, 11, 1, '签订合同', 'fa fa-book', 1, 'menu', 'project/sign', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(8, 2, 12, 13, 1, '发放贷款', 'fa fa-tags', 1, 'menu', 'project/borrowing', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(9, 2, 14, 15, 1, '贷后管理', 'fa fa-tree', 1, 'menu', 'project/manage', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(10, 10, 1, 16, 0, '用户与菜单', 'fa fa-sitemap', 1, 'menu', '', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(11, 10, 2, 3, 1, '员工列表', 'fa fa-user', 1, 'menu', 'user', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(12, 10, 4, 5, 1, '部门管理', 'fa fa-bank', 1, 'menu', 'auth/role', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(13, 10, 6, 7, 1, '菜单配置', 'fa fa-list-ol', 1, 'menu', 'auth/menu', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(14, 10, 8, 9, 1, '权限节点', 'fa fa-key', 1, 'menu', 'auth/permission', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(15, 10, 10, 15, 1, '其他配置', 'fa fa-cogs', 1, 'menu', '', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(16, 10, 11, 12, 2, '数据备份', 'fa fa-database', 1, 'menu', 'tool/backup', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(17, 10, 13, 14, 2, '数据恢复', 'fa fa-recycle', 1, 'menu', 'tool/recycle', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(18, 18, 1, 2, 0, '开发部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(19, 19, 1, 2, 0, '技术运营', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(20, 20, 1, 2, 0, '信贷部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(21, 21, 1, 2, 0, '风控部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(22, 22, 1, 2, 0, '财务部', '', 1, 'role', NULL, '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(23, 23, 1, 2, 0, '信贷评审委员会', '', 1, 'role', NULL, '', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(24, 24, 1, 8, 0, '员工管理', '', 1, 'permission', 'user', '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(25, 24, 2, 3, 1, '员工列表', '', 1, 'permission', 'user/index', '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(26, 24, 4, 5, 1, '添加员工', '', 1, 'permission', 'user/create', '', NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(27, 24, 6, 7, 1, '编辑员工[修改-删除]', '', 1, 'permission', 'user/view', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(28, 28, 1, 2, 0, '部门管理', '', 1, 'permission', 'auth/role', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(29, 29, 1, 2, 0, '菜单管理', '', 1, 'permission', 'auth/menu', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(30, 30, 1, 2, 0, '权限节点', '', 1, 'permission', 'auth/permission', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(31, 31, 1, 8, 0, '客户管理', '', 1, 'permission', 'customer', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(32, 31, 2, 3, 1, '客户列表', '', 1, 'permission', 'customer/index', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(33, 31, 4, 5, 1, '添加客户', '', 1, 'permission', 'customer/create', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(34, 31, 6, 7, 1, '编辑客户[修改-删除]', '', 1, 'permission', 'customer/view', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(35, 35, 1, 18, 0, '信贷业务', '', 1, 'permission', 'project', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(36, 35, 2, 11, 1, '客户申请', '', 1, 'permission', 'apply', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(37, 35, 3, 4, 2, '申请列表', '', 1, 'permission', 'project/apply/index', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(38, 35, 5, 6, 2, '新增申请', '', 1, 'permission', 'project/apply/create', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(39, 35, 7, 8, 2, '修改申请', '', 1, 'permission', 'project/apply/update', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(40, 35, 9, 10, 2, '认定申请', '', 1, 'permission', 'project/apply/confirm', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(41, 35, 12, 17, 1, '调查评估', '', 1, 'permission', 'assess', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(42, 35, 13, 14, 2, '列表', '', 1, 'permission', 'project/assess/index', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(43, 35, 15, 16, 2, '提交资料', '', 1, 'permission', 'project/assess/upload', '', 's:7:"s:0:"";";', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0);
+INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`, `icon`, `icon_type`, `mode`, `is_root`, `path`, `rule`, `rule_param`, `sets`, `remark`, `active`, `selected`, `disabled`, `readonly`, `visible`, `collapsed`, `movable_u`, `movable_d`, `movable_l`, `movable_r`, `removable`, `removable_all`) VALUES
+(1, 1, 1, 2, 0, '客户管理', 'fa fa-users', 1, 'menu', 0, 'customer', '', 's:0:"";', '31,32,33,34', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(2, 2, 1, 16, 0, '信贷业务', 'fa fa-cubes', 1, 'menu', 0, '', '', 's:0:"";', '35,36,37,38,39,40,41,42,43', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(3, 2, 2, 3, 1, '客户申请', 'fa fa-envelope', 1, 'menu', 0, 'project/apply', '', 's:0:"";', '36,37,38,39,40', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(4, 2, 4, 5, 1, '调查评估', 'fa fa-binoculars', 1, 'menu', 0, 'project/assess', '', 's:0:"";', '41,42,43', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(5, 2, 6, 7, 1, '审查核实', 'fa fa-check-square', 1, 'menu', 0, 'project/check', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(6, 2, 8, 9, 1, '项目审批', 'fa fa-gavel', 1, 'menu', 0, 'project/approve', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(7, 2, 10, 11, 1, '签订合同', 'fa fa-book', 1, 'menu', 0, 'project/sign', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(8, 2, 12, 13, 1, '发放贷款', 'fa fa-tags', 1, 'menu', 0, 'project/borrowing', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(9, 2, 14, 15, 1, '贷后管理', 'fa fa-tree', 1, 'menu', 0, 'project/manage', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(10, 10, 1, 10, 0, '用户与菜单', 'fa fa-sitemap', 1, 'menu', 0, '', '', 's:0:"";', '24,25,26,27,28,29,30', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(11, 10, 2, 3, 1, '员工列表', 'fa fa-user', 1, 'menu', 0, 'user', '', 's:0:"";', '24,25,26,27', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(12, 10, 4, 5, 1, '部门管理', 'fa fa-bank', 1, 'menu', 0, 'auth/role', '', 's:0:"";', '28', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(13, 10, 6, 7, 1, '菜单配置', 'fa fa-list-ol', 1, 'menu', 0, 'auth/menu', '', 's:0:"";', '29', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(14, 10, 8, 9, 1, '权限节点', 'fa fa-key', 1, 'menu', 0, 'auth/permission', '', 's:0:"";', '30', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(15, 15, 1, 6, 0, '工具', 'fa fa-cogs', 1, 'menu', 0, '', '', 's:0:"";', '', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(16, 15, 2, 3, 1, '数据备份', 'fa fa-database', 1, 'menu', 0, 'tool/backup', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(17, 15, 4, 5, 1, '数据恢复', 'fa fa-recycle', 1, 'menu', 0, 'tool/recycle', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(18, 18, 1, 2, 0, '技术运营部', '', 1, 'role', 1, NULL, '', 's:0:"";', '', '技术运营部，为方便测试整个系统，开放全部权限，应配置为根用户组，无需分配其他权限', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0),
+(19, 19, 1, 2, 0, '技术运营', '', 1, 'role', 0, NULL, '', NULL, NULL, NULL, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(20, 20, 1, 2, 0, '信贷部', '', 1, 'role', 0, NULL, '', 's:0:"";', '31,32,33,34,36,37,38,39,40', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(21, 21, 1, 2, 0, '风控部', '', 1, 'role', 0, NULL, '', 's:0:"";', '41,42,43', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(22, 22, 1, 2, 0, '财务部', '', 1, 'role', 0, NULL, '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(23, 23, 1, 2, 0, '信贷评审委员会', '', 1, 'role', 0, NULL, '', 's:0:"";', '31,32,33,34,35,36,37,38,39,40,41,42,43', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(24, 24, 1, 8, 0, '员工管理', '', 1, 'permission', 0, 'user', '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(25, 24, 2, 3, 1, '员工列表', '', 1, 'permission', 0, 'user/index', '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(26, 24, 4, 5, 1, '添加员工', '', 1, 'permission', 0, 'user/create', '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(27, 24, 6, 7, 1, '编辑员工[修改-删除]', '', 1, 'permission', 0, 'user/view', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(28, 28, 1, 2, 0, '部门管理', '', 1, 'permission', 0, 'auth/role', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(29, 29, 1, 2, 0, '菜单管理', '', 1, 'permission', 0, 'auth/menu', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(30, 30, 1, 2, 0, '权限节点', '', 1, 'permission', 0, 'auth/permission', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(31, 31, 1, 8, 0, '客户管理', '', 1, 'permission', 0, 'customer', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(32, 31, 2, 3, 1, '客户列表', '', 1, 'permission', 0, 'customer/index', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(33, 31, 4, 5, 1, '添加客户', '', 1, 'permission', 0, 'customer/create', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(34, 31, 6, 7, 1, '编辑客户[修改-删除]', '', 1, 'permission', 0, 'customer/view', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(35, 35, 1, 18, 0, '信贷业务', '', 1, 'permission', 0, 'project', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(36, 35, 2, 11, 1, '客户申请', '', 1, 'permission', 0, 'project/apply', '', 's:0:"";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(37, 35, 3, 4, 2, '申请列表', '', 1, 'permission', 0, 'project/apply/index', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(38, 35, 5, 6, 2, '新增申请', '', 1, 'permission', 0, 'project/apply/create', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(39, 35, 7, 8, 2, '修改申请', '', 1, 'permission', 0, 'project/apply/update', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(40, 35, 9, 10, 2, '认定申请', '', 1, 'permission', 0, 'project/apply/confirm', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(41, 35, 12, 17, 1, '调查评估', '', 1, 'permission', 0, 'assess', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(42, 35, 13, 14, 2, '列表', '', 1, 'permission', 0, 'project/assess/index', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(43, 35, 15, 16, 2, '提交资料', '', 1, 'permission', 0, 'project/assess/upload', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(44, 44, 1, 4, 0, '信贷参数配置', '', 1, 'permission', 0, 'project-config', '', 's:0:"";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(45, 44, 2, 3, 1, '控制台', '', 1, 'permission', 0, 'site/index', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(46, 46, 1, 2, 0, '控制台', 'fa fa-dashboard', 1, 'menu', 0, '', '', 's:7:"s:0:"";";', '44,45', '', 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -189,12 +114,11 @@ INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`
 -- 表的结构 `ipc_auth_rule`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_auth_rule` (
+CREATE TABLE `ipc_auth_rule` (
   `name` varchar(64) NOT NULL,
   `data` text,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  `updated_at` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -203,20 +127,16 @@ CREATE TABLE IF NOT EXISTS `ipc_auth_rule` (
 -- 表的结构 `ipc_config`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_config` (
-  `config_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_config` (
+  `config_id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `code` varchar(32) NOT NULL,
   `type` varchar(32) NOT NULL,
   `store_range` varchar(255) DEFAULT NULL,
   `store_dir` varchar(255) DEFAULT NULL,
   `value` text,
-  `sort_order` int(11) NOT NULL DEFAULT '50',
-  PRIMARY KEY (`config_id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `code` (`code`),
-  KEY `sort_order` (`sort_order`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3116 ;
+  `sort_order` int(11) NOT NULL DEFAULT '50'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ipc_config`
@@ -243,8 +163,8 @@ INSERT INTO `ipc_config` (`config_id`, `parent_id`, `code`, `type`, `store_range
 -- 表的结构 `ipc_config_fee`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_config_fee` (
-  `fee_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_config_fee` (
+  `fee_id` int(11) NOT NULL,
   `code` varchar(50) NOT NULL COMMENT '标识名',
   `title` varchar(50) NOT NULL COMMENT '费用',
   `status` int(11) NOT NULL COMMENT '状态',
@@ -275,16 +195,8 @@ CREATE TABLE IF NOT EXISTS `ipc_config_fee` (
   `all_borrow_scales` decimal(11,2) NOT NULL COMMENT '普通会员借款比例方式',
   `all_borrow_scales_month` int(11) NOT NULL COMMENT '普通会员借款比例方式的月数',
   `all_borrow_scales_scale` decimal(11,2) NOT NULL COMMENT '普通会员借款方式月数的比例',
-  `all_borrow_scales_max` decimal(11,2) NOT NULL COMMENT '普通会员最高的利率',
-  PRIMARY KEY (`fee_id`),
-  KEY `nid` (`code`),
-  KEY `status` (`status`),
-  KEY `borrow_styles` (`borrow_styles`),
-  KEY `user_type` (`user_type`),
-  KEY `borrow_types` (`borrow_types`),
-  KEY `nid_2` (`code`,`status`),
-  KEY `user_type_2` (`user_type`,`borrow_types`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='费用说明' AUTO_INCREMENT=22 ;
+  `all_borrow_scales_max` decimal(11,2) NOT NULL COMMENT '普通会员最高的利率'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='费用说明';
 
 --
 -- 转存表中的数据 `ipc_config_fee`
@@ -306,16 +218,13 @@ INSERT INTO `ipc_config_fee` (`fee_id`, `code`, `title`, `status`, `user_type`, 
 -- 表的结构 `ipc_config_handle`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_config_handle` (
-  `handle_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_config_handle` (
+  `handle_id` int(11) NOT NULL,
   `code` varchar(50) NOT NULL COMMENT '标识名',
   `title` varchar(50) NOT NULL COMMENT '费用',
   `status` int(11) NOT NULL COMMENT '状态',
-  `remark` varchar(250) NOT NULL,
-  PRIMARY KEY (`handle_id`),
-  KEY `nid` (`code`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='处理动作' AUTO_INCREMENT=6 ;
+  `remark` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='处理动作';
 
 --
 -- 转存表中的数据 `ipc_config_handle`
@@ -331,11 +240,107 @@ INSERT INTO `ipc_config_handle` (`handle_id`, `code`, `title`, `status`, `remark
 -- --------------------------------------------------------
 
 --
--- 表的结构 `ipc_config_loan`
+-- 表的结构 `ipc_config_prove`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_config_loan` (
-  `loan_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+CREATE TABLE `ipc_config_prove` (
+  `prove_id` int(11) NOT NULL,
+  `title` varchar(30) NOT NULL COMMENT '名称',
+  `code` varchar(100) NOT NULL COMMENT '标识名',
+  `order` int(11) NOT NULL COMMENT '排序',
+  `credit` int(11) NOT NULL COMMENT '最大积分',
+  `remark` varchar(200) NOT NULL COMMENT '简介',
+  `validity` int(11) NOT NULL COMMENT '有效期',
+  `addtime` int(11) NOT NULL DEFAULT '0',
+  `addip` varchar(30) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='证明分类';
+
+--
+-- 转存表中的数据 `ipc_config_prove`
+--
+
+INSERT INTO `ipc_config_prove` (`prove_id`, `title`, `code`, `order`, `credit`, `remark`, `validity`, `addtime`, `addip`, `user_id`) VALUES
+(1, '身份证明', 'work', 10, 5, '您的工作状况是我们评估您信用状况的主要依据。请您上传真实可靠的公司信息。\n认证说明:&lt;br/&gt;\n请同时提交下面两项资料：&lt;br/&gt;\na) 通过年检且注册满1年的营业执照。查看示例&lt;br/&gt;\nb) 经营场地租赁合同＋90天内的租金发票或水电单据。', 0, 1339564936, '127.0.0.1', 0),
+(2, '收入认证', 'income', 10, 5, '您的收入证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173034, '125.77.162.60', 0),
+(3, '住址证明', 'gongzi', 10, 10, '您的住址证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173056, '125.77.162.60', 0),
+(4, '信用报告', 'xinyong', 10, 10, '您的信用报告是我们评估您信用状况的主要依据。请您上传真实可靠的信用报告信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173076, '125.77.162.60', 0),
+(6, '社保卡', 'shebao', 10, 1, '您的社保信息是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173127, '125.77.162.60', 0),
+(11, '资产证明', 'otherzc', 10, 1, '您的资产证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173241, '125.77.162.60', 0),
+(14, '户口本', 'hukou', 10, 5, '您的户口证明是我们评估您信用状况的主要依据。请您上传真实可靠的户口本信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173336, '125.77.162.60', 0),
+(17, '结婚证', 'marry', 10, 5, '您的结婚证明是我们评估您信用状况的主要依据。请您上传真实可靠的结婚证信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173405, '125.77.162.60', 0),
+(21, '营业执照', 'zhizhao', 1, 10, '您的营业执照证明是我们评估您信用状况的主要依据。请您上传真实可靠的营业执照信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173484, '125.77.162.60', 0),
+(25, '学历认证', 'edu', 10, 1, '您的学历认证是我们评估您信用状况的主要依据。请您上传真实可靠的学历信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1353050719, '125.77.172.10', 0),
+(41, '数据评估', 'evaluate', 10, 50, '数据评估', 0, 1406515122, '59.57.220.47', 0),
+(42, '实地经营照片', 'jingying', 10, 5, '您的实地经营认证是我们评估您信用状况的主要依据。请您上传真实可靠的实地经营照片。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409041481, '110.80.62.196', 0),
+(43, '资质证书', 'zhengshu', 10, 2, '您的资质认证是我们评估您信用状况的主要依据。请您上传真实可靠的资质证书。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409042548, '110.80.62.196', 0),
+(44, '个税缴税凭证或交金记录', 'geshui', 10, 5, '您的个税缴税凭证或交金记录是我们评估您信用状况的主要依据。请您上传真实可靠的个税缴税凭证或交金记录。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409042609, '110.80.62.196', 0),
+(45, '线下资产抵押', 'diya', 10, 10, '您的线下资产认证是我们评估您信用状况的主要依据。请您上传真实可靠的线下资产信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409042900, '110.80.62.196', 0),
+(46, '知名品牌授权经营相关证明', 'shouquan', 10, 5, '知名品牌授权经营的相关证明&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409043037, '110.80.62.196', 0),
+(47, '自有品牌注册证明', 'ziyou', 10, 5, '您的自有品牌证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409043082, '110.80.62.196', 0),
+(48, '淘宝近三月交易明细', 'taobao', 10, 5, '您的淘宝/支付宝近三月的交易明细是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409104888, '220.160.188.208', 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ipc_config_repayment`
+--
+
+CREATE TABLE `ipc_config_repayment` (
+  `repayment_id` int(11) NOT NULL,
+  `code` varchar(50) NOT NULL COMMENT '标示名',
+  `status` int(11) NOT NULL COMMENT '是否启用',
+  `title` varchar(50) NOT NULL COMMENT '名称，可改',
+  `contents` longtext NOT NULL COMMENT '算法公式',
+  `remark` longtext NOT NULL COMMENT '备注'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='还款方式';
+
+--
+-- 转存表中的数据 `ipc_config_repayment`
+--
+
+INSERT INTO `ipc_config_repayment` (`repayment_id`, `code`, `status`, `title`, `contents`, `remark`) VALUES
+(1, 'month', 1, '等额本息', '月还款本息=贷款本金×月利率×（1 月利率）还款月数/[（1 月利率）还款月数-1]', ''),
+(2, 'endmonth', 1, '按月付息，到期利随本清', '按月付息到期还本息', ''),
+(3, 'interest', 1, '返还收益', '月还利息，不需要还本金', '');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ipc_config_status`
+--
+
+CREATE TABLE `ipc_config_status` (
+  `status_id` int(11) NOT NULL,
+  `title` varchar(32) NOT NULL,
+  `code` varchar(32) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `remark` varchar(256) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务流程状态';
+
+--
+-- 转存表中的数据 `ipc_config_status`
+--
+
+INSERT INTO `ipc_config_status` (`status_id`, `title`, `code`, `status`, `remark`) VALUES
+(1, '排队中', 'queuing', 1, ''),
+(2, '已认定', 'confirmed', 1, ''),
+(3, '调查中', 'checking', 1, ''),
+(4, '已审批', 'approve', 1, ''),
+(5, '已签订', 'signed', 1, ''),
+(6, '已完结', 'finished', 1, ''),
+(7, '缺件', 'lacking', 1, ''),
+(8, '已拒绝', 'refused', 1, ''),
+(9, '已终止', 'terminated', 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ipc_config_tender`
+--
+
+CREATE TABLE `ipc_config_tender` (
+  `tender_id` int(11) NOT NULL COMMENT 'id',
   `code` varchar(50) NOT NULL COMMENT '类型标识名',
   `status` int(11) NOT NULL COMMENT '状态',
   `title` varchar(50) NOT NULL COMMENT '名称',
@@ -381,133 +386,25 @@ CREATE TABLE IF NOT EXISTS `ipc_config_loan` (
   `gold_late_scale` decimal(15,6) NOT NULL,
   `silver_late_scale` decimal(15,6) NOT NULL,
   `diamond_repay_type` varchar(50) NOT NULL,
-  `fixed_repay_day` int(11) NOT NULL COMMENT '固定还款日',
-  PRIMARY KEY (`loan_id`),
-  KEY `nid` (`code`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='标的种类' AUTO_INCREMENT=14 ;
+  `fixed_repay_day` int(11) NOT NULL COMMENT '固定还款日'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标的种类';
 
 --
--- 转存表中的数据 `ipc_config_loan`
+-- 转存表中的数据 `ipc_config_tender`
 --
 
-INSERT INTO `ipc_config_loan` (`loan_id`, `code`, `status`, `title`, `remark`, `account_multiple`, `password_status`, `amount_type`, `amount_first`, `amount_end`, `frost_scale_vip`, `admin_status`, `apr_first`, `apr_end`, `check_first`, `check_end`, `tender_account_min`, `tender_account_max`, `period_first`, `period_end`, `validate_first`, `validate_end`, `award_status`, `award_scale_first`, `award_scale_end`, `award_account_first`, `award_account_end`, `award_false_status`, `verify_auto_status`, `verify_auto_remark`, `styles`, `frost_scale`, `late_days`, `vip_late_scale`, `all_late_scale`, `part_status`, `system_borrow_full_status`, `system_borrow_repay_status`, `system_web_repay_status`, `diamond_late_scale`, `gold_repay_type`, `silver_repay_type`, `all_repay_type`, `gold_late_scale`, `silver_late_scale`, `diamond_repay_type`, `fixed_repay_day`) VALUES
-(1, 'credit', 1, '工艺通', '●从事工艺类个体工商户，公司&lt;br/&gt;						●个人征信，银行流水&lt;br/&gt;\n●申请更高额度需要资产抵押&lt;br/&gt;', 50, 0, 'credit', 30000, 3000000, '0.000000', 0, '8.000000', '20.000000', 1, 5, '100,150,200,300,500,1000,1500,200000', '0,50,150,200,300,500,1000,2000,3000,5000,10000,1000000', 1, 12, 1, 15, 1, '1.000000', '12.000000', '0.000000', '5.000000', 0, 0, '', 'month,endmonth', '0.000000', 15, '0.000000', '100.000000', 1, 0, 0, 0, '100.000000', 'account', 'account', 'account', '100.000000', '100.000000', 'account', 0),
+INSERT INTO `ipc_config_tender` (`tender_id`, `code`, `status`, `title`, `remark`, `account_multiple`, `password_status`, `amount_type`, `amount_first`, `amount_end`, `frost_scale_vip`, `admin_status`, `apr_first`, `apr_end`, `check_first`, `check_end`, `tender_account_min`, `tender_account_max`, `period_first`, `period_end`, `validate_first`, `validate_end`, `award_status`, `award_scale_first`, `award_scale_end`, `award_account_first`, `award_account_end`, `award_false_status`, `verify_auto_status`, `verify_auto_remark`, `styles`, `frost_scale`, `late_days`, `vip_late_scale`, `all_late_scale`, `part_status`, `system_borrow_full_status`, `system_borrow_repay_status`, `system_web_repay_status`, `diamond_late_scale`, `gold_repay_type`, `silver_repay_type`, `all_repay_type`, `gold_late_scale`, `silver_late_scale`, `diamond_repay_type`, `fixed_repay_day`) VALUES
+(1, 'credit', 0, '工艺通', '●从事工艺类个体工商户，公司&lt;br/&gt;						●个人征信，银行流水&lt;br/&gt;\n●申请更高额度需要资产抵押&lt;br/&gt;', 50, 0, 'credit', 30000, 3000000, '0.000000', 0, '8.000000', '20.000000', 1, 5, '100,150,200,300,500,1000,1500,200000', '0,50,150,200,300,500,1000,2000,3000,5000,10000,1000000', 1, 12, 1, 15, 1, '1.000000', '12.000000', '0.000000', '5.000000', 0, 0, '', 'month,endmonth', '0.000000', 15, '0.000000', '100.000000', 1, 0, 0, 0, '100.000000', 'account', 'account', 'account', '100.000000', '100.000000', 'account', 0),
 (2, 'worth', 0, '电商通', '●通过认证的网店卖家&lt;br/&gt;			●商城经营超过六个月淘宝两钻以上&lt;br/&gt;					●申请更高额度需要资产抵押', 50, 1, 'worth', 3000, 300000, '0.000000', 0, '12.000000', '20.000000', 1, 3, '50,100,150,200,300,500,1000', '0,50,150,200,300,500,1000,2000,3000,5000', 1, 6, 1, 15, 0, '0.010000', '2.000000', '1.000000', '10.000000', 0, 0, '', 'month,endmonth', '0.000000', 15, '0.000000', '50.000000', 1, 0, 0, 0, '50.000000', 'account', 'account', 'account', '50.000000', '50.000000', 'account', 0),
 (3, 'day', 0, '天标', '快借标，通过网站的资信审查获得信用额度。', 0, 0, 'credit', 10, 200000, '0.000000', 0, '12.000000', '20.000000', 1, 3, '0,50,100,150,200,300,500,1000', '0,50,150,200,300,500,1000,2000,3000,5000', 1, 15, 1, 9, 0, '0.010000', '2.000000', '1.000000', '10.000000', 0, 0, '', '', '0.000000', 15, '0.000000', '50.000000', 1, 0, 0, 0, '0.000000', 'none', 'none', 'account', '0.000000', '0.000000', 'none', 0),
-(4, 'vouch', 0, '担保标', '网站做为第三方担保，通过网站的资信审查获得担保额度。', 100, 0, 'vouch', 1000, 200000, '0.000000', 0, '8.000000', '24.000000', 1, 3, '50,100,150,200,300,500,1000', '0,50,150,200,300,500,1000,2000,3000,5000', 1, 12, 1, 9, 0, '0.010000', '2.000000', '1.000000', '10.000000', 0, 0, '', 'month,season,end,endmonths', '0.000000', 15, '90.000000', '90.000000', 1, 0, 0, 0, '0.000000', '', '', '', '0.000000', '0.000000', '', 0),
+(4, 'vouch', 1, '担保标', '网站做为第三方担保，通过网站的资信审查获得担保额度。', 100, 0, 'vouch', 1000, 200000, '0.000000', 0, '8.000000', '24.000000', 1, 3, '50,100,150,200,300,500,1000', '0,50,150,200,300,500,1000,2000,3000,5000', 1, 12, 1, 9, 0, '0.010000', '2.000000', '1.000000', '10.000000', 0, 0, '', 'month,season,end,endmonths', '0.000000', 15, '90.000000', '90.000000', 1, 0, 0, 0, '0.000000', '', '', '', '0.000000', '0.000000', '', 0),
 (5, 'pawn', 0, '抵押标', '通过网站的资信审查获得抵押额度。', 0, 0, 'pawn', 100, 500000, '0.000000', 0, '8.000000', '24.000000', 1, 3, '50,100,150,200,300,500,1000', '0,50,150,200,300,500,1000,2000,3000,5000', 1, 24, 1, 9, 0, '0.010000', '2.000000', '1.000000', '10.000000', 0, 0, '', 'month,endmonth', '0.000000', 1, '0.000000', '100.000000', 1, 0, 0, 0, '0.000000', 'none', 'none', 'none', '0.000000', '0.000000', 'none', 0),
 (6, 'zhuoyin', 1, '卓银贷', '●从事工艺类个体工商户，公司&lt;br/&gt;						●个人征信，银行流水&lt;br/&gt;\n●申请更高额度需要资产抵押&lt;br/&gt;', 0, 0, '', 3000, 3000000, '0.000000', 0, '12.000000', '28.000000', 1, 3, '100,150,200,300,500,1000', '0,50,150,200,300,500,1000,2000,3000,5000', 1, 12, 1, 15, 0, '0.010000', '2.000000', '1.000000', '10.000000', 0, 0, '', 'month,endmonth', '0.000000', 15, '0.000000', '100.000000', 1, 0, 0, 0, '100.000000', 'account', 'account', 'account', '100.000000', '100.000000', 'account', 0),
 (7, 'roam', 0, '通通赚', '通过网站的资信审查获得流转额度。', 50, 0, 'vest', 3000, 3000000, '0.000000', 0, '10.000000', '20.000000', 1, 9, '100,150,200,300,500,1000', '0,500,1000,2000,3000,5000,10000,50000', 1, 12, 0, 15, 0, '0.500000', '2.000000', '5.000000', '50.000000', 0, 0, '', '', '0.000000', 15, '0.000000', '100.000000', 0, 0, 0, 0, '100.000000', 'account', 'account', 'account', '100.000000', '100.000000', 'account', 0),
 (9, 'experience', 0, '体验标', '无需额度', 0, 1, '', 200, 200000, '0.000000', 1, '8.000000', '24.000000', 0, 0, '50,150,200,300,500,1000,1500', '0,50,150,200,300,500,1000,2000,3000,6000', 1, 24, 1, 15, 1, '1.000000', '12.000000', '0.000000', '5.000000', 1, 0, '', '', '0.000000', 10, '0.000000', '90.000000', 0, 0, 0, 0, '0.000000', 'none', 'none', 'none', '0.000000', '0.000000', 'none', 0),
 (10, 'newbiao', 1, '通通赚', '通通赚', 50, 0, 'vest', 3000, 1000000, '0.000000', 0, '12.000000', '22.000000', 1, 9, '100,150,200,300,500,1000', '0,500,1000,2000,3000,5000,10000,50000', 1, 12, 1, 15, 0, '0.000000', '0.000000', '0.000000', '0.000000', 0, 0, '', 'endmonth', '0.000000', 10, '0.000000', '80.000000', 0, 0, 0, 0, '95.000000', 'account', 'account', 'account', '90.000000', '85.000000', 'account', 0),
 (11, 'huinong', 1, '惠农货', '是面向三农的贷款，即农村、农业、农户的贷款，在核定的额度和期限内向农户发放的信用、保证类贷款', 100, 0, '', 10000, 3000000, '0.000000', 0, '12.000000', '20.000000', 1, 5, '100,150,200,300,500,1000,1500,200000', '0,50,150,200,300,500,1000,2000,3000,5000,10000,1000000', 1, 12, 1, 15, 0, '1.000000', '12.000000', '0.000000', '0.000000', 0, 0, '', 'endmonth', '0.000000', 15, '0.000000', '100.000000', 1, 0, 0, 0, '100.000000', 'account', 'account', 'account', '100.000000', '100.000000', 'account', 0),
-(12, 'qingchuang', 1, '青创贷', '青创贷是指具有一定生产经营能力或已经从事生产经营的青年，因创业或再创业提出资金需求申请，经我司认可有效担保后而发放的一种专项贷款', 100, 0, '', 10000, 3000000, '0.000000', 0, '12.000000', '20.000000', 1, 5, '100,150,200,300,500,1000,1500,200000', '0,50,150,200,300,500,1000,2000,3000,5000,10000,1000000', 1, 12, 1, 15, 0, '1.000000', '12.000000', '0.000000', '0.000000', 0, 0, '', 'endmonth', '0.000000', 15, '0.000000', '100.000000', 1, 0, 0, 0, '100.000000', 'account', 'account', 'account', '100.000000', '100.000000', 'account', 0),
-(13, 'experience', 1, '体验标', '无需额度', 0, 1, '', 200, 200000, '8.000000', 1, '5.000000', '24.000000', 0, 0, '50,150,200,300,500,1000,1500', '0,50,150,200,300,500,1000,2000,3000,6000', 1, 30, 1, 15, 1, '1.000000', '12.000000', '0.000000', '5.000000', 1, 0, '体验标无问题，可通过审核', 'interest', '10.000000', 10, '80.000000', '90.000000', 0, 0, 0, 0, '0.000000', '', '', '', '0.000000', '0.000000', '', 0);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ipc_config_prove`
---
-
-CREATE TABLE IF NOT EXISTS `ipc_config_prove` (
-  `prove_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(30) NOT NULL COMMENT '名称',
-  `code` varchar(100) NOT NULL COMMENT '标识名',
-  `order` int(11) NOT NULL COMMENT '排序',
-  `credit` int(11) NOT NULL COMMENT '最大积分',
-  `remark` varchar(200) NOT NULL COMMENT '简介',
-  `validity` int(11) NOT NULL COMMENT '有效期',
-  `addtime` int(11) NOT NULL DEFAULT '0',
-  `addip` varchar(30) DEFAULT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`prove_id`),
-  KEY `nid` (`code`),
-  KEY `order` (`order`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='证明分类' AUTO_INCREMENT=49 ;
-
---
--- 转存表中的数据 `ipc_config_prove`
---
-
-INSERT INTO `ipc_config_prove` (`prove_id`, `title`, `code`, `order`, `credit`, `remark`, `validity`, `addtime`, `addip`, `user_id`) VALUES
-(1, '身份证明', 'work', 10, 5, '您的工作状况是我们评估您信用状况的主要依据。请您上传真实可靠的公司信息。\n认证说明:&lt;br/&gt;\n请同时提交下面两项资料：&lt;br/&gt;\na) 通过年检且注册满1年的营业执照。查看示例&lt;br/&gt;\nb) 经营场地租赁合同＋90天内的租金发票或水电单据。', 0, 1339564936, '127.0.0.1', 0),
-(2, '收入认证', 'income', 10, 5, '您的收入证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173034, '125.77.162.60', 0),
-(3, '住址证明', 'gongzi', 10, 10, '您的住址证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173056, '125.77.162.60', 0),
-(4, '信用报告', 'xinyong', 10, 10, '您的信用报告是我们评估您信用状况的主要依据。请您上传真实可靠的信用报告信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173076, '125.77.162.60', 0),
-(6, '社保卡', 'shebao', 10, 1, '您的社保信息是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173127, '125.77.162.60', 0),
-(11, '资产证明', 'otherzc', 10, 1, '您的资产证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173241, '125.77.162.60', 0),
-(14, '户口本', 'hukou', 10, 5, '您的户口证明是我们评估您信用状况的主要依据。请您上传真实可靠的户口本信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173336, '125.77.162.60', 0),
-(17, '结婚证', 'marry', 10, 5, '您的结婚证明是我们评估您信用状况的主要依据。请您上传真实可靠的结婚证信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173405, '125.77.162.60', 0),
-(21, '营业执照', 'zhizhao', 1, 10, '您的营业执照证明是我们评估您信用状况的主要依据。请您上传真实可靠的营业执照信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1345173484, '125.77.162.60', 0),
-(25, '学历认证', 'edu', 10, 1, '您的学历认证是我们评估您信用状况的主要依据。请您上传真实可靠的学历信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1353050719, '125.77.172.10', 0),
-(41, '数据评估', 'evaluate', 10, 50, '数据评估', 0, 1406515122, '59.57.220.47', 0),
-(42, '实地经营照片', 'jingying', 10, 5, '您的实地经营认证是我们评估您信用状况的主要依据。请您上传真实可靠的实地经营照片。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409041481, '110.80.62.196', 0),
-(43, '资质证书', 'zhengshu', 10, 2, '您的资质认证是我们评估您信用状况的主要依据。请您上传真实可靠的资质证书。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409042548, '110.80.62.196', 0),
-(44, '个税缴税凭证或交金记录', 'geshui', 10, 5, '您的个税缴税凭证或交金记录是我们评估您信用状况的主要依据。请您上传真实可靠的个税缴税凭证或交金记录。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409042609, '110.80.62.196', 0),
-(45, '线下资产抵押', 'diya', 10, 10, '您的线下资产认证是我们评估您信用状况的主要依据。请您上传真实可靠的线下资产信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409042900, '110.80.62.196', 0),
-(46, '知名品牌授权经营相关证明', 'shouquan', 10, 5, '知名品牌授权经营的相关证明&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409043037, '110.80.62.196', 0),
-(47, '自有品牌注册证明', 'ziyou', 10, 5, '您的自有品牌证明是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409043082, '110.80.62.196', 0),
-(48, '淘宝近三月交易明细', 'taobao', 10, 5, '您的淘宝/支付宝近三月的交易明细是我们评估您信用状况的主要依据。请您上传真实可靠的相关信息。&lt;br /&gt;\n建议文件大小在2M以内。', 0, 1409104888, '220.160.188.208', 0);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ipc_config_repayment`
---
-
-CREATE TABLE IF NOT EXISTS `ipc_config_repayment` (
-  `repayment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(50) NOT NULL COMMENT '标示名',
-  `status` int(11) NOT NULL COMMENT '是否启用',
-  `title` varchar(50) NOT NULL COMMENT '名称，可改',
-  `contents` longtext NOT NULL COMMENT '算法公式',
-  `remark` longtext NOT NULL COMMENT '备注',
-  PRIMARY KEY (`repayment_id`),
-  KEY `nid` (`code`),
-  KEY `status` (`status`),
-  KEY `nid_2` (`code`,`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='还款方式' AUTO_INCREMENT=6 ;
-
---
--- 转存表中的数据 `ipc_config_repayment`
---
-
-INSERT INTO `ipc_config_repayment` (`repayment_id`, `code`, `status`, `title`, `contents`, `remark`) VALUES
-(1, 'month', 1, '等额本息', '月还款本息=贷款本金×月利率×（1 月利率）还款月数/[（1 月利率）还款月数-1]', ''),
-(4, 'endmonth', 1, '按月付息', '按月付息到期还本息', ''),
-(5, 'interest', 1, '返还收益', '月还利息，不需要还本金', '');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ipc_config_status`
---
-
-CREATE TABLE IF NOT EXISTS `ipc_config_status` (
-  `status_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) NOT NULL,
-  `code` varchar(32) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
-  `remark` varchar(256) DEFAULT NULL,
-  PRIMARY KEY (`status_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='业务流程状态' AUTO_INCREMENT=10 ;
-
---
--- 转存表中的数据 `ipc_config_status`
---
-
-INSERT INTO `ipc_config_status` (`status_id`, `title`, `code`, `status`, `remark`) VALUES
-(1, '排队中', 'queuing', 1, ''),
-(2, '已认定', 'confirmed', 1, ''),
-(3, '调查中', 'checking', 1, ''),
-(4, '已审批', 'approve', 1, ''),
-(5, '已签订', 'signed', 1, ''),
-(6, '已完结', 'finished', 1, ''),
-(7, '缺件', 'lacking', 1, ''),
-(8, '已拒绝', 'refused', 1, ''),
-(9, '已终止', 'terminated', 1, '');
+(12, 'qingchuang', 1, '青创贷', '青创贷是指具有一定生产经营能力或已经从事生产经营的青年，因创业或再创业提出资金需求申请，经我司认可有效担保后而发放的一种专项贷款', 100, 0, '', 10000, 3000000, '0.000000', 0, '12.000000', '20.000000', 1, 5, '100,150,200,300,500,1000,1500,200000', '0,50,150,200,300,500,1000,2000,3000,5000,10000,1000000', 1, 12, 1, 15, 0, '1.000000', '12.000000', '0.000000', '0.000000', 0, 0, '', 'endmonth', '0.000000', 15, '0.000000', '100.000000', 1, 0, 0, 0, '100.000000', 'account', 'account', 'account', '100.000000', '100.000000', 'account', 0);
 
 -- --------------------------------------------------------
 
@@ -515,8 +412,8 @@ INSERT INTO `ipc_config_status` (`status_id`, `title`, `code`, `status`, `remark
 -- 表的结构 `ipc_customer`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_customer` (
-  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_customer` (
+  `customer_id` int(11) NOT NULL,
   `realname` varchar(64) NOT NULL,
   `phone` varchar(32) NOT NULL,
   `email` varchar(128) DEFAULT NULL,
@@ -526,9 +423,8 @@ CREATE TABLE IF NOT EXISTS `ipc_customer` (
   `vip` tinyint(4) NOT NULL DEFAULT '0',
   `idnumber` varchar(32) DEFAULT NULL,
   `addtime` int(11) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `ipc_customer`
@@ -546,8 +442,8 @@ INSERT INTO `ipc_customer` (`customer_id`, `realname`, `phone`, `email`, `gender
 -- 表的结构 `ipc_customer_company`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_customer_company` (
-  `company_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_customer_company` (
+  `company_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
   `coperate` varchar(64) NOT NULL,
   `phone` varchar(32) NOT NULL,
@@ -556,9 +452,8 @@ CREATE TABLE IF NOT EXISTS `ipc_customer_company` (
   `bussiness` varchar(256) NOT NULL,
   `description` text NOT NULL,
   `addtime` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`company_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户公司单位' AUTO_INCREMENT=1 ;
+  `user_id` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客户公司单位';
 
 -- --------------------------------------------------------
 
@@ -566,7 +461,7 @@ CREATE TABLE IF NOT EXISTS `ipc_customer_company` (
 -- 表的结构 `ipc_customer_history`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_customer_history` (
+CREATE TABLE `ipc_customer_history` (
   `history_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `action` varchar(128) NOT NULL,
@@ -581,8 +476,8 @@ CREATE TABLE IF NOT EXISTS `ipc_customer_history` (
 -- 表的结构 `ipc_filemanager_mediafile`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_filemanager_mediafile` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_filemanager_mediafile` (
+  `id` int(11) NOT NULL,
   `filename` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `url` text COLLATE utf8_unicode_ci NOT NULL,
@@ -591,9 +486,8 @@ CREATE TABLE IF NOT EXISTS `ipc_filemanager_mediafile` (
   `description` text COLLATE utf8_unicode_ci,
   `thumbs` text COLLATE utf8_unicode_ci,
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+  `updated_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `ipc_filemanager_mediafile`
@@ -608,12 +502,11 @@ INSERT INTO `ipc_filemanager_mediafile` (`id`, `filename`, `type`, `url`, `alt`,
 -- 表的结构 `ipc_filemanager_owners`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_filemanager_owners` (
+CREATE TABLE `ipc_filemanager_owners` (
   `mediafile_id` int(11) NOT NULL,
   `owner_id` int(11) NOT NULL,
   `owner` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `owner_attribute` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`mediafile_id`,`owner_id`,`owner`,`owner_attribute`)
+  `owner_attribute` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -622,10 +515,9 @@ CREATE TABLE IF NOT EXISTS `ipc_filemanager_owners` (
 -- 表的结构 `ipc_migration`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_migration` (
+CREATE TABLE `ipc_migration` (
   `version` varchar(180) COLLATE utf8_unicode_ci NOT NULL,
-  `apply_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
+  `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -636,7 +528,33 @@ INSERT INTO `ipc_migration` (`version`, `apply_time`) VALUES
 ('m000000_000000_base', 1460824979),
 ('m141129_130551_create_filemanager_mediafile_table', 1460985485),
 ('m141203_173402_create_filemanager_owners_table', 1460985485),
-('m141203_175538_add_filemanager_owners_ref_mediafile_fk', 1460985485);
+('m141203_175538_add_filemanager_owners_ref_mediafile_fk', 1460985485),
+('m151008_162401_create_notification_table', 1461749817);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ipc_notification`
+--
+
+CREATE TABLE `ipc_notification` (
+  `id` int(11) NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `key_id` int(11) DEFAULT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `seen` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- 转存表中的数据 `ipc_notification`
+--
+
+INSERT INTO `ipc_notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `created_at`) VALUES
+(1, 'no_disk_space', NULL, 'error', 1, 1, '2016-04-28 09:12:12'),
+(2, 'meeting_reminder', 2, 'default', 1, 1, '2016-04-28 10:17:25'),
+(3, 'new_message', 3, 'success', 1, 1, '2016-04-28 10:18:35');
 
 -- --------------------------------------------------------
 
@@ -644,25 +562,39 @@ INSERT INTO `ipc_migration` (`version`, `apply_time`) VALUES
 -- 表的结构 `ipc_project`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_project` (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_sn` int(11) NOT NULL,
+CREATE TABLE `ipc_project` (
+  `project_id` int(11) NOT NULL,
+  `project_sn` varchar(32) NOT NULL,
   `borrower` varchar(64) NOT NULL,
+  `corporator` varchar(64) NOT NULL,
   `phone` varchar(32) NOT NULL,
   `company` varchar(128) NOT NULL,
+  `address` varchar(128) DEFAULT NULL,
+  `product` varchar(128) DEFAULT NULL,
+  `bussiness` varchar(128) DEFAULT NULL,
+  `text` text,
   `amount` decimal(15,4) NOT NULL,
-  `due` int(11) NOT NULL,
-  `tender` int(11) NOT NULL,
-  `income` decimal(5,2) NOT NULL,
-  `fee` decimal(5,2) NOT NULL,
-  `repayment` int(11) NOT NULL,
-  `prebidding` date NOT NULL,
+  `due` smallint(6) NOT NULL,
+  `tender` smallint(6) NOT NULL,
+  `repayment` smallint(6) NOT NULL,
+  `agent_a` int(11) NOT NULL DEFAULT '0',
+  `agent_b` int(11) NOT NULL DEFAULT '0',
+  `intent` text COMMENT '资金用途',
+  `source` text COMMENT '还贷来源及计划',
+  `ensure` text COMMENT '保证措施',
   `addtime` int(11) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
+  `level` tinyint(4) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
-  `edittime` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `edittime` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目';
+
+--
+-- 转存表中的数据 `ipc_project`
+--
+
+INSERT INTO `ipc_project` (`project_id`, `project_sn`, `borrower`, `corporator`, `phone`, `company`, `address`, `product`, `bussiness`, `text`, `amount`, `due`, `tender`, `repayment`, `agent_a`, `agent_b`, `intent`, `source`, `ensure`, `addtime`, `status`, `level`, `user_id`, `edittime`) VALUES
+(1, '0055', '朱景修', '朱景修', '', '莆田市黄石珠宝有限公司', '莆田市荔城区黄石镇', '金镶玉', '珠宝玉器批发零售', 'ssss', '100.0000', 12, 4, 2, 2, 3, '转贷农商行的200万担保贷款', '全部经营收入及家庭收入', '由神秘人提供担保', 1461828817, 1, 0, 1, 1461830964);
 
 -- --------------------------------------------------------
 
@@ -670,17 +602,16 @@ CREATE TABLE IF NOT EXISTS `ipc_project` (
 -- 表的结构 `ipc_project_attach`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_project_attach` (
-  `attach_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_project_attach` (
+  `attach_id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   `mode` enum('apply','process','investigation') NOT NULL,
   `title` varchar(128) NOT NULL,
   `content` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `addtime` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL,
-  PRIMARY KEY (`attach_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目附件';
 
 -- --------------------------------------------------------
 
@@ -688,12 +619,11 @@ CREATE TABLE IF NOT EXISTS `ipc_project_attach` (
 -- 表的结构 `ipc_project_guarantor`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_project_guarantor` (
-  `project_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_project_guarantor` (
+  `project_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL,
-  PRIMARY KEY (`project_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目担保人';
 
 -- --------------------------------------------------------
 
@@ -701,15 +631,14 @@ CREATE TABLE IF NOT EXISTS `ipc_project_guarantor` (
 -- 表的结构 `ipc_project_history`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_project_history` (
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_project_history` (
+  `history_id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `note` text NOT NULL,
-  `addtime` int(11) NOT NULL,
-  PRIMARY KEY (`history_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `addtime` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目状态变更';
 
 -- --------------------------------------------------------
 
@@ -717,8 +646,8 @@ CREATE TABLE IF NOT EXISTS `ipc_project_history` (
 -- 表的结构 `ipc_user`
 --
 
-CREATE TABLE IF NOT EXISTS `ipc_user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ipc_user` (
+  `user_id` int(11) NOT NULL,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `realname` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -728,12 +657,8 @@ CREATE TABLE IF NOT EXISTS `ipc_user` (
   `role` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` smallint(6) NOT NULL DEFAULT '10',
   `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`),
-  KEY `status` (`status`),
-  KEY `created_at` (`created_at`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+  `updated_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- 转存表中的数据 `ipc_user`
@@ -741,31 +666,252 @@ CREATE TABLE IF NOT EXISTS `ipc_user` (
 
 INSERT INTO `ipc_user` (`user_id`, `username`, `realname`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'admin', '管理员', 'TOL_4sICqCHD4n1UOYE0ZAaAgkCnlEWD', '$2y$13$DHvK27g4EpqJ5eoOk.hHkeCPKb2mcwCrsjm6lLQ/8lUdCk5Beq9ei', '', 'admin@demo.com', '18', 1, 1460626630, 1460789919),
-(2, 'zhujingxiu', '朱景修', 'ePx45s5O34IH8b6JLP4tXCd8yTE-_5Xj', '$2y$13$cSy0Q/SBoCqLB7bAEVv26eyWUjEX0g5IwdRG11xj0y8W0cmygOsQC', 'tBuqUrt-7s5AW7cHtE59zsdvhiAgBwKD_1460704462', 'a@b.c', '19', 1, 1460704461, 1460732172),
-(3, 'demo', '测试ssssss', 'u9YYoa_465SfLOyrwpjHkklNAG5gKnTM', '$2y$13$d6rmH9jBlEYH28qX1kuGHeeR.JDD5a4OXzqU3HVA68IA1L8zQ7Dny', 'nm_bCQH2XeCT6iFfHNQYBxfw8VTBZSrX_1460724094', 'demo@demo.c', '18,19,20', 1, 1460724092, 1461663114);
+(2, 'zhujingxiu', '朱景修', 'ePx45s5O34IH8b6JLP4tXCd8yTE-_5Xj', '$2y$13$cSy0Q/SBoCqLB7bAEVv26eyWUjEX0g5IwdRG11xj0y8W0cmygOsQC', 'tBuqUrt-7s5AW7cHtE59zsdvhiAgBwKD_1460704462', 'a@b.c', '20', 1, 1460704461, 1461744037),
+(3, 'demo', '测试ssssss', 'u9YYoa_465SfLOyrwpjHkklNAG5gKnTM', '$2y$13$d6rmH9jBlEYH28qX1kuGHeeR.JDD5a4OXzqU3HVA68IA1L8zQ7Dny', 'nm_bCQH2XeCT6iFfHNQYBxfw8VTBZSrX_1460724094', 'demo@demo.c', '21', 1, 1460724092, 1461744053);
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `ipc_auth_node`
+--
+ALTER TABLE `ipc_auth_node`
+  ADD PRIMARY KEY (`node_id`),
+  ADD KEY `ipc_node_NK1` (`parent_id`),
+  ADD KEY `ipc_node_NK2` (`lft`),
+  ADD KEY `ipc_node_NK3` (`rgt`),
+  ADD KEY `ipc_node_NK4` (`lvl`),
+  ADD KEY `ipc_node_NK5` (`active`);
+
+--
+-- Indexes for table `ipc_auth_rule`
+--
+ALTER TABLE `ipc_auth_rule`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `ipc_config`
+--
+ALTER TABLE `ipc_config`
+  ADD PRIMARY KEY (`config_id`),
+  ADD KEY `parent_id` (`parent_id`),
+  ADD KEY `code` (`code`),
+  ADD KEY `sort_order` (`sort_order`);
+
+--
+-- Indexes for table `ipc_config_fee`
+--
+ALTER TABLE `ipc_config_fee`
+  ADD PRIMARY KEY (`fee_id`),
+  ADD KEY `nid` (`code`),
+  ADD KEY `status` (`status`),
+  ADD KEY `borrow_styles` (`borrow_styles`),
+  ADD KEY `user_type` (`user_type`),
+  ADD KEY `borrow_types` (`borrow_types`),
+  ADD KEY `nid_2` (`code`,`status`),
+  ADD KEY `user_type_2` (`user_type`,`borrow_types`);
+
+--
+-- Indexes for table `ipc_config_handle`
+--
+ALTER TABLE `ipc_config_handle`
+  ADD PRIMARY KEY (`handle_id`),
+  ADD KEY `nid` (`code`),
+  ADD KEY `status` (`status`);
+
+--
+-- Indexes for table `ipc_config_prove`
+--
+ALTER TABLE `ipc_config_prove`
+  ADD PRIMARY KEY (`prove_id`),
+  ADD KEY `nid` (`code`),
+  ADD KEY `order` (`order`);
+
+--
+-- Indexes for table `ipc_config_repayment`
+--
+ALTER TABLE `ipc_config_repayment`
+  ADD PRIMARY KEY (`repayment_id`),
+  ADD KEY `nid` (`code`),
+  ADD KEY `status` (`status`),
+  ADD KEY `nid_2` (`code`,`status`);
+
+--
+-- Indexes for table `ipc_config_status`
+--
+ALTER TABLE `ipc_config_status`
+  ADD PRIMARY KEY (`status_id`);
+
+--
+-- Indexes for table `ipc_config_tender`
+--
+ALTER TABLE `ipc_config_tender`
+  ADD PRIMARY KEY (`tender_id`),
+  ADD KEY `nid` (`code`),
+  ADD KEY `status` (`status`);
+
+--
+-- Indexes for table `ipc_customer`
+--
+ALTER TABLE `ipc_customer`
+  ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `ipc_customer_company`
+--
+ALTER TABLE `ipc_customer_company`
+  ADD PRIMARY KEY (`company_id`);
+
+--
+-- Indexes for table `ipc_filemanager_mediafile`
+--
+ALTER TABLE `ipc_filemanager_mediafile`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ipc_filemanager_owners`
+--
+ALTER TABLE `ipc_filemanager_owners`
+  ADD PRIMARY KEY (`mediafile_id`,`owner_id`,`owner`,`owner_attribute`);
+
+--
+-- Indexes for table `ipc_migration`
+--
+ALTER TABLE `ipc_migration`
+  ADD PRIMARY KEY (`version`);
+
+--
+-- Indexes for table `ipc_notification`
+--
+ALTER TABLE `ipc_notification`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ipc_project`
+--
+ALTER TABLE `ipc_project`
+  ADD PRIMARY KEY (`project_id`);
+
+--
+-- Indexes for table `ipc_project_attach`
+--
+ALTER TABLE `ipc_project_attach`
+  ADD PRIMARY KEY (`attach_id`);
+
+--
+-- Indexes for table `ipc_project_guarantor`
+--
+ALTER TABLE `ipc_project_guarantor`
+  ADD PRIMARY KEY (`project_id`);
+
+--
+-- Indexes for table `ipc_project_history`
+--
+ALTER TABLE `ipc_project_history`
+  ADD PRIMARY KEY (`history_id`);
+
+--
+-- Indexes for table `ipc_user`
+--
+ALTER TABLE `ipc_user`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD KEY `status` (`status`),
+  ADD KEY `created_at` (`created_at`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `ipc_auth_node`
+--
+ALTER TABLE `ipc_auth_node`
+  MODIFY `node_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+--
+-- 使用表AUTO_INCREMENT `ipc_config`
+--
+ALTER TABLE `ipc_config`
+  MODIFY `config_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3116;
+--
+-- 使用表AUTO_INCREMENT `ipc_config_fee`
+--
+ALTER TABLE `ipc_config_fee`
+  MODIFY `fee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
+-- 使用表AUTO_INCREMENT `ipc_config_handle`
+--
+ALTER TABLE `ipc_config_handle`
+  MODIFY `handle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- 使用表AUTO_INCREMENT `ipc_config_prove`
+--
+ALTER TABLE `ipc_config_prove`
+  MODIFY `prove_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+--
+-- 使用表AUTO_INCREMENT `ipc_config_repayment`
+--
+ALTER TABLE `ipc_config_repayment`
+  MODIFY `repayment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- 使用表AUTO_INCREMENT `ipc_config_status`
+--
+ALTER TABLE `ipc_config_status`
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- 使用表AUTO_INCREMENT `ipc_config_tender`
+--
+ALTER TABLE `ipc_config_tender`
+  MODIFY `tender_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=14;
+--
+-- 使用表AUTO_INCREMENT `ipc_customer`
+--
+ALTER TABLE `ipc_customer`
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- 使用表AUTO_INCREMENT `ipc_customer_company`
+--
+ALTER TABLE `ipc_customer_company`
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `ipc_filemanager_mediafile`
+--
+ALTER TABLE `ipc_filemanager_mediafile`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- 使用表AUTO_INCREMENT `ipc_notification`
+--
+ALTER TABLE `ipc_notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- 使用表AUTO_INCREMENT `ipc_project`
+--
+ALTER TABLE `ipc_project`
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- 使用表AUTO_INCREMENT `ipc_project_attach`
+--
+ALTER TABLE `ipc_project_attach`
+  MODIFY `attach_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `ipc_project_guarantor`
+--
+ALTER TABLE `ipc_project_guarantor`
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `ipc_project_history`
+--
+ALTER TABLE `ipc_project_history`
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `ipc_user`
+--
+ALTER TABLE `ipc_user`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- 限制导出的表
 --
-
---
--- 限制表 `ipc_auth_assignment`
---
-ALTER TABLE `ipc_auth_assignment`
-  ADD CONSTRAINT `ipc_auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `ipc_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- 限制表 `ipc_auth_item`
---
-ALTER TABLE `ipc_auth_item`
-  ADD CONSTRAINT `ipc_auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `ipc_auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- 限制表 `ipc_auth_item_child`
---
-ALTER TABLE `ipc_auth_item_child`
-  ADD CONSTRAINT `ipc_auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `ipc_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `ipc_auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `ipc_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 限制表 `ipc_filemanager_owners`

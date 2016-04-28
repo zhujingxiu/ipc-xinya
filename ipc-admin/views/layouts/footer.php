@@ -5,17 +5,34 @@
     <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
     reserved.
 </footer>
+<?php
+use ipc\models\Notification;
+use \machour\yii2\notifications\widgets\NotificationsWidget;
+Notification::success(Notification::KEY_NEW_MESSAGE,Yii::$app->user->id,3);
+
+NotificationsWidget::widget([
+    'theme' => NotificationsWidget::THEME_TOASTR,
+    'clientOptions' => [
+        'location' => 'zh-CN',
+    ],
+    'counters' => [
+        '.notifications-header-count',
+        '.notifications-icon-count'
+    ],
+    'listSelector' => '#notifications',
+]);
+?>
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-        <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#control-sidebar-comment-tab" data-toggle="tab"><i class="fa fa-comments"></i></a></li>
         <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
         <!-- Home tab content -->
-        <div class="tab-pane" id="control-sidebar-home-tab">
+        <div class="tab-pane" id="control-sidebar-comment-tab">
             <h3 class="control-sidebar-heading">Recent Activity</h3>
             <ul class='control-sidebar-menu'>
                 <li>

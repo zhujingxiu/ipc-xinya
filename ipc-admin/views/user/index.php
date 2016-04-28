@@ -37,15 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id',
             'username',
             'realname',
-            // 'auth_key',
-            // 'password_hash',
-            // 'password_reset_token',
             'email:email',
 
             [
                 'attribute' => 'role',
                 'value' => function ($model) {
-
                             return $model->roleLabel;
                         },
                 'filter' => Html::activeDropDownList(

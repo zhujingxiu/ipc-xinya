@@ -19,7 +19,7 @@ class Tender extends \system\libs\base\BaseActiveRecord
      */
     public static function tableName()
     {
-        return '{{%project_tender}}';
+        return '{{%config_tender}}';
     }
 
     /**

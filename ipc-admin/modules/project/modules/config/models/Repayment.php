@@ -19,7 +19,7 @@ class Repayment extends \system\libs\base\BaseActiveRecord
      */
     public static function tableName()
     {
-        return '{{%project_repayment}}';
+        return '{{%config_repayment}}';
     }
 
     /**

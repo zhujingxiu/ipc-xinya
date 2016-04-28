@@ -1,25 +1,23 @@
 <?php
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
-
-/*NavBar::begin([
-    'brandLabel' => 'My Company',
-    'brandUrl' => Yii::$app->homeUrl,
-    'options' => [
-        'class' => 'navbar-inverse navbar-fixed-top',
-    ],
-]);*/
+?>
+    <ul class="navbar-nav navbar-left nav">
+        <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell-o"></i>
+                <span class="label label-warning notifications-icon-count">0</span>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="header">您有<span class="notifications-header-count">0</span>个消息</li>
+                <li>
+                    <div id="notifications"></div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+<?php
 $menuItems = [
-    [
-        'label' => '',
-        'url' => ['/config'],
-        'linkOptions' => [
-            'class' => 'fa fa-gears',
-            'title' => Yii::t('app','Settings')
-        ],
-        'visible' => Yii::$app->user->can('setting'),
-        'active' => Yii::$app->request->pathInfo === 'config',
-    ],
     [
         'label' => '',
         'url' => ['/'],
@@ -27,16 +25,19 @@ $menuItems = [
             'class' => 'fa fa-dashboard',
             'title' => Yii::t('app','Home')
         ],
-        'active' => Yii::$app->request->url === Yii::$app->homeUrl
+        'active' => in_array(Yii::$app->request->url ,[Yii::$app->homeUrl,'site/index'])
     ],
     [
         'label' => '',
-        'url' => '#',
+        'url' => ['/config'],
         'linkOptions' => [
-            'data-toggle' => 'control-sidebar',
-            'class' => 'fa fa-bell'
-        ]
+            'class' => 'fa fa-gears',
+            'title' => Yii::t('app','Settings')
+        ],
+        'visible' => Yii::$app->user->identity->isAllowed('config'),
+        'active' => Yii::$app->request->pathInfo === 'config',
     ],
+
 
 
 ];
@@ -52,7 +53,7 @@ $menuItemsMain = [
         'linkOptions' => [
             'data-method' => 'post',
             'class' => 'fa fa-sign-out',
-            'title'=>Yii::t('app', 'Logout') . '(' . Yii::$app->user->identity->username . ')',
+            'title'=>Yii::t('app', 'Logout') . '(' . Yii::$app->user->identity->realname . ')',
 
         ]
     ],

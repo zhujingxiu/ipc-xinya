@@ -130,6 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value'=>$model->roleLabel,
                         'type'=>DetailView::INPUT_CHECKBOX_LIST,
                         'items' => \system\models\User::getArrayRole(),
+                        'inputContainer' => ['class'=>'col-sm-6'],
                         'options' => [
                             'class' => 'checkbox'
                         ]

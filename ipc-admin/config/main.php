@@ -61,7 +61,17 @@ return [
                 'iconAttribute' => 'icon',
                 'iconTypeAttribute' => 'icon_type'
             ]
-        ]
+        ],
+        'notifications' => [
+            'class' => 'machour\yii2\notifications\NotificationsModule',
+            // Point this to your own Notification class
+            // See the "Declaring your notifications" section below
+            'notificationClass' => 'ipc\models\Notification',
+            // This callable should return your logged in user Id
+            'userId' => function() {
+                return \Yii::$app->user->id;
+            }
+        ],
     ],
     'controllerMap' =>[
         'site' => [

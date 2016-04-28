@@ -55,6 +55,8 @@ class SiteController extends \system\libs\base\BaseController
 
     public function actionIndex()
     {
+
+
         return $this->render('index');
     }
 

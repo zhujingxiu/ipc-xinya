@@ -2,7 +2,11 @@
 
 namespace ipc\modules\project\models;
 
+use ipc\modules\project\modules\config\models\Repayment;
+use ipc\modules\project\modules\config\models\Tender;
 use Yii;
+use ipc\modules\project\Module;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%project}}".
@@ -10,22 +14,35 @@ use Yii;
  * @property integer $project_id
  * @property integer $project_sn
  * @property string $borrower
+ * @property string $corporator
  * @property string $phone
  * @property string $company
+ * @property string $address
+ * @property string $product
+ * @property string $bussiness
+ * @property string $text
  * @property string $amount
  * @property integer $due
  * @property integer $tender
- * @property string $income
- * @property string $fee
+ * @property string $intent
+ * @property string $source
  * @property integer $repayment
- * @property string $prebidding
+ * @property string $ensure
  * @property integer $addtime
+ * @property integer $agent_a
+ * @property integer $agent_b
+ * @property integer $status
+ * @property integer $level
+ * @property integer $edittime
  */
 class Project extends \system\libs\base\BaseActiveRecord
 {
 
     const STATUS_QUEUING = 1;
     const STATUS_ACCEPT = 2;
+
+    private $_tenderLabel;
+    private $_repaymentLabel;
     /**
      * @inheritdoc
      */
@@ -33,20 +50,51 @@ class Project extends \system\libs\base\BaseActiveRecord
     {
         return '{{%project}}';
     }
+    public static function getArrayTender()
+    {
+        return ArrayHelper::map(Tender::find()->where(['status'=>1])->addOrderBy('tender_id')->asArray()->all(), 'tender_id', 'title');
+    }
 
+    public static function getArrayRepayment()
+    {
+        return ArrayHelper::map(Repayment::find()->where(['status'=>1])->addOrderBy('repayment_id')->asArray()->all(), 'repayment_id', 'title');
+    }
+
+    public function getTenderLabel()
+    {
+        if ($this->_tenderLabel === null) {
+            $tenders = self::getArrayTender();
+
+            $this->_tenderLabel = $tenders[$this->tender];
+        }
+        return $this->_tenderLabel;
+    }
+    public function getRepaymentLabel()
+    {
+        if ($this->_repaymentLabel === null) {
+            $repayments = self::getArrayRepayment();
+
+            $this->_repaymentLabel = $repayments[$this->repayment];
+        }
+        return $this->_repaymentLabel;
+    }
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['project_sn', 'borrower', 'phone', 'company', 'amount', 'due', 'tender', 'income', 'fee', 'repayment', 'prebidding', 'status'], 'required'],
-            [['project_sn', 'due', 'tender', 'repayment', 'addtime','status','user_id','edittime'], 'integer'],
-            [['amount', 'income', 'fee'], 'number'],
-            [['prebidding'], 'safe'],
-            [['borrower'], 'string', 'max' => 64],
-            [['phone'], 'string', 'max' => 32],
-            [['company'], 'string', 'max' => 128],
+            [['project_sn', 'borrower', 'corporator', 'company','address','product','bussiness', 'amount', 'due', 'tender', 'repayment','agent_a'], 'required'],
+            [[ 'due', 'tender', 'repayment', 'addtime','status','level','user_id','edittime','agent_a','agent_b'], 'integer'],
+            [['amount'], 'number'],
+            [['intent','source','ensure','text'], 'safe'],
+            [['borrower','corporator'], 'string', 'max' => 64],
+            [['project_sn','phone'], 'string', 'max' => 32],
+            [['company','address','product','bussiness'], 'string', 'max' => 128],
+            // Unique
+            [['project_sn'], 'unique'],
+
+            ['agent_b', 'compare', 'compareAttribute' => 'agent_aa'],
         ];
     }
 
@@ -56,22 +104,43 @@ class Project extends \system\libs\base\BaseActiveRecord
     public function attributeLabels()
     {
         return [
-            'project_id' => Yii::t('app', 'Project ID'),
-            'project_sn' => Yii::t('app', 'Project Sn'),
-            'borrower' => Yii::t('app', 'Borrower'),
-            'phone' => Yii::t('app', 'Phone'),
-            'company' => Yii::t('app', 'Company'),
-            'amount' => Yii::t('app', 'Amount'),
-            'due' => Yii::t('app', 'Due'),
-            'tender' => Yii::t('app', 'Tender'),
-            'income' => Yii::t('app', 'Income'),
-            'fee' => Yii::t('app', 'Fee'),
-            'repayment' => Yii::t('app', 'Repayment'),
-            'prebidding' => Yii::t('app', 'Prebidding'),
-            'addtime' => Yii::t('app', 'Addtime'),
-            'status' => Yii::t('app', 'Status'),
-            'edittime' => Yii::t('app', 'Edittime'),
-            'user_id' => Yii::t('app', 'Operator'),
+            'project_id' => Module::t('project', 'Project ID'),
+            'project_sn' => Module::t('project', 'Project SN'),
+            'borrower' => Module::t('project', 'Borrower'),
+            'corporator' => Module::t('project', 'Corporator'),
+            'phone' => Module::t('project', 'Phone'),
+            'company' => Module::t('project', 'Company'),
+            'address' => Module::t('project', 'Address'),
+            'product' => Module::t('project', 'Product'),
+            'bussiness' => Module::t('project', 'Bussiness'),
+            'text' => Module::t('project', 'Text'),
+            'amount' => Module::t('project', 'Amount'),
+            'due' => Module::t('project', 'Due'),
+            'tender' => Module::t('project', 'Tender'),
+            'intent' => Module::t('project', 'Intent'),
+            'source' => Module::t('project', 'Source'),
+            'repayment' => Module::t('project', 'Repayment'),
+            'ensure' => Module::t('project', 'Ensure'),
+            'addtime' => Module::t('project', 'Addtime'),
+            'status' => Module::t('project', 'Status'),
+            'level' => Module::t('project', 'Level'),
+            'edittime' => Module::t('project', 'Edittime'),
+            'agent_a' => Module::t('project', 'Agent A'),
+            'agent_b' => Module::t('project', 'Agent B'),
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord ) {
+                $this->addtime = $this->edittime = time();
+            }else{
+                $this->edittime = time();
+            }
+            $this->user_id = Yii::$app->user->id;
+            return true;
+        }
+        return false;
     }
 }

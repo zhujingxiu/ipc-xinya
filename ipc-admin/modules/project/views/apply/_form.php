@@ -1,8 +1,12 @@
 <?php
 
-use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-
+use kartik\detail\DetailView;
+use ipc\modules\project\Module;
+use system\models\User;
+use ipc\modules\project\modules\config\models\Tender;
+use ipc\modules\project\modules\config\models\Repayment;
 /* @var $this yii\web\View */
 /* @var $model ipc\modules\project\models\Project */
 /* @var $form yii\widgets\ActiveForm */
@@ -10,36 +14,204 @@ use yii\widgets\ActiveForm;
 
 <div class="project-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php echo
+    DetailView::widget([
+        'model' => $model,
+        'condensed'=>true,
+        'hover'=>true,
+        'mode'=>DetailView::MODE_EDIT,
+        'labelColOptions' => ['style' => 'width: 10%;'],
+        'panel'=>[
+            'heading'=>  $model->project_sn .' - ' .($model->borrower ? $model->borrower .' - ' .intval($model->amount).'万元' : '' ).' ['.Yii::$app->formatter->asDatetime($model->addtime) .']' ,
+            'type'=>DetailView::TYPE_PRIMARY,
+        ],
+        'vAlign'=>'top',
+        'attributes' => [
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'project_sn',
+                        'value' => $model->project_sn,
+                        'labelColOptions' =>[
+                            'style'=>'width:80%;text-align:right;'
+                        ],
+                        'valueColOptions'=>['style'=>'font-weight:bold;color:blue;width:20%;']
+                    ],
 
-    <?= $form->field($model, 'project_sn')->textInput() ?>
+                ]
+            ],
+            [
+                'group'=>true,
+                'label'=>Module::t('project','Company Info'),
+                'rowOptions'=>['class'=>'info']
+            ],
 
-    <?= $form->field($model, 'borrower')->textInput(['maxlength' => true]) ?>
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'borrower',
+                        'value' => $model->borrower,
+                        'valueColOptions'=>['style'=>'width:30%']
+                    ],
+                    [
+                        'attribute' => 'company',
+                        'value' => $model->company,
+                        'valueColOptions'=>['style'=>'width:50%']
+                    ],
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+                ]
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'corporator',
+                        'value' => $model->corporator,
+                        'valueColOptions'=>['style'=>'width:30%']
+                    ],
+                    [
+                        'attribute' => 'address',
+                        'value' => $model->address,
+                        'valueColOptions'=>['style'=>'width:50%']
+                    ],
 
-    <?= $form->field($model, 'company')->textInput(['maxlength' => true]) ?>
+                ]
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'product',
+                        'value' => $model->product,
+                        'valueColOptions'=>['style'=>'width:30%']
+                    ],
+                    [
+                        'attribute' => 'bussiness',
+                        'value' => $model->bussiness,
+                        'valueColOptions'=>['style'=>'width:50%']
+                    ],
 
-    <?= $form->field($model, 'amount')->textInput(['maxlength' => true]) ?>
+                ]
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'text',
+                        'value' => $model->text,
+                        'type'=>DetailView::INPUT_TEXTAREA,
+                        'valueColOptions'=>['style'=>'width:90%'],
 
-    <?= $form->field($model, 'due')->textInput() ?>
+                        'options'=>['rows'=>6]
+                    ],
 
-    <?= $form->field($model, 'tender')->textInput() ?>
+                ]
+            ],
+            [
+                'group'=>true,
+                'label'=>Module::t('project','Loan Info'),
+                'rowOptions'=>['class'=>'success']
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'amount',
+                        'value' => $model->amount,
+                        'format'=>['decimal', 2],
+                        'valueColOptions'=>['style'=>'width:20%']
+                    ],
+                    [
+                        'attribute' => 'due',
+                        'value' => $model->due,
+                        'valueColOptions'=>['style'=>'width:20%']
+                    ],
+                    [
+                        'attribute' => 'tender',
+                        'value' => $model->tender,
+                        'valueColOptions'=>['style'=>'width:30%'],
+                        'type'=>DetailView::INPUT_SELECT2,
+                        'widgetOptions'=>[
+                            'data'=>ArrayHelper::map(Tender::find()->asArray()->all(), 'tender_id', 'title'),
+                            'options' => ['placeholder' => 'Select ...'],
+                            'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
+                        ],
+                    ],
+                ]
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'agent_a',
+                        'label' => Module::t('project', 'Agent A'),
+                        'value' => $model->agent_a,
+                        'valueColOptions'=>['style'=>'width:20%'],
+                        'type'=>DetailView::INPUT_SELECT2,
+                        'widgetOptions'=>[
+                            'data'=>ArrayHelper::map(User::find()->where([])->asArray()->all(), 'user_id', 'realname'),
+                            'options' => ['placeholder' => 'Select ...'],
+                            'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
+                        ],
+                    ],
+                    [
+                        'attribute' => 'agent_b',
+                        'label' => Module::t('project', 'Agent B'),
+                        'value' => $model->agent_b,
+                        'valueColOptions'=>['style'=>'width:20%'],
+                        'type'=>DetailView::INPUT_SELECT2,
+                        'widgetOptions'=>[
+                            'data'=>ArrayHelper::map(User::find()->where([])->asArray()->all(), 'user_id', 'realname'),
+                            'options' => ['placeholder' => 'Select ...'],
+                            'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
+                        ],
+                    ],
+                    [
+                        'attribute' => 'repayment',
+                        'value' => $model->repayment,
+                        'valueColOptions'=>['style'=>'width:30%'],
+                        'type'=>DetailView::INPUT_SELECT2,
+                        'widgetOptions'=>[
+                            'data'=>ArrayHelper::map(Repayment::find()->asArray()->all(), 'repayment_id', 'title'),
+                            'options' => ['placeholder' => 'Select ...'],
+                            'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
+                        ],
+                    ],
+                ]
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'intent',
+                        'value' => $model->intent,
+                        'type'=>DetailView::INPUT_TEXTAREA,
+                        'valueColOptions'=>['style'=>'width:90%']
+                    ],
 
-    <?= $form->field($model, 'income')->textInput(['maxlength' => true]) ?>
+                ]
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'source',
+                        'value' => $model->source,
+                        'type'=>DetailView::INPUT_TEXTAREA,
+                        'valueColOptions'=>['style'=>'width:90%']
+                    ],
 
-    <?= $form->field($model, 'fee')->textInput(['maxlength' => true]) ?>
+                ]
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute' => 'ensure',
+                        'value' => $model->ensure,
+                        'type'=>DetailView::INPUT_TEXTAREA,
+                        'valueColOptions'=>['style'=>'width:90%']
+                    ],
 
-    <?= $form->field($model, 'repayment')->textInput() ?>
+                ]
+            ],
+        ]
+    ]);
+    ?>
 
-    <?= $form->field($model, 'prebidding')->textInput() ?>
 
-    <?= $form->field($model, 'addtime')->textInput() ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
 
 </div>
