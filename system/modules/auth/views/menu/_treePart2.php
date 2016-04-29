@@ -1,4 +1,6 @@
-
+<?php
+use pendalf89\filemanager\widgets\TinyMCE;
+?>
 
 <div class="box">
     <div class="box-header with-border">
@@ -54,6 +56,17 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <?php echo $form->field($node, 'remark')->textarea(['rows'=>'2']); ?>
+        <?php echo $form->field($node, 'remark')->widget(TinyMCE::className(), [
+            'clientOptions' => [
+                'menubar' => false,
+                'language' => 'zh_CN',
+                'height' => 100,
+                'image_dimensions' => false,
+                'plugins' => [
+                    'advlist autolink lists charmap preview anchor searchreplace visualblocks contextmenu table',
+                ],
+                'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
+            ],
+        ]);?>
     </div>
 </div>

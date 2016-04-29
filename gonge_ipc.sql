@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-04-28 11:57:45
+-- Generation Time: 2016-04-29 11:55:18
 -- 服务器版本： 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -77,7 +77,7 @@ INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`
 (14, 10, 8, 9, 1, '权限节点', 'fa fa-key', 1, 'menu', 0, 'auth/permission', '', 's:0:"";', '30', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (15, 15, 1, 6, 0, '工具', 'fa fa-cogs', 1, 'menu', 0, '', '', 's:0:"";', '', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (16, 15, 2, 3, 1, '数据备份', 'fa fa-database', 1, 'menu', 0, 'tool/backup', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(17, 15, 4, 5, 1, '数据恢复', 'fa fa-recycle', 1, 'menu', 0, 'tool/recycle', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(17, 15, 4, 5, 1, '数据恢复', 'fa fa-recycle', 1, 'menu', 0, 'tool/recycle', NULL, NULL, NULL, NULL, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (18, 18, 1, 2, 0, '技术运营部', '', 1, 'role', 1, NULL, '', 's:0:"";', '', '技术运营部，为方便测试整个系统，开放全部权限，应配置为根用户组，无需分配其他权限', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0),
 (19, 19, 1, 2, 0, '技术运营', '', 1, 'role', 0, NULL, '', NULL, NULL, NULL, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (20, 20, 1, 2, 0, '信贷部', '', 1, 'role', 0, NULL, '', 's:0:"";', '31,32,33,34,36,37,38,39,40', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
@@ -236,6 +236,30 @@ INSERT INTO `ipc_config_handle` (`handle_id`, `code`, `title`, `status`, `remark
 (3, 'borrow_repay_advance', '提前还款 ', 1, ''),
 (4, 'borrow_repay_late', '逾期还款（垫付前）', 1, ''),
 (5, 'borrow_repay_late_remind', '逾期还款（垫付后）', 1, '');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ipc_config_investigate`
+--
+
+CREATE TABLE `ipc_config_investigate` (
+  `investigate_id` int(11) NOT NULL,
+  `title` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `code` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `remark` text COLLATE utf8_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- 转存表中的数据 `ipc_config_investigate`
+--
+
+INSERT INTO `ipc_config_investigate` (`investigate_id`, `title`, `code`, `status`, `remark`) VALUES
+(1, '合规调查', 'compliance', 1, NULL),
+(2, '一般调查', 'common', 1, NULL),
+(3, '标准调查', 'standard', 1, NULL),
+(4, '深入调查', 'deepin', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -554,7 +578,9 @@ CREATE TABLE `ipc_notification` (
 INSERT INTO `ipc_notification` (`id`, `key`, `key_id`, `type`, `user_id`, `seen`, `created_at`) VALUES
 (1, 'no_disk_space', NULL, 'error', 1, 1, '2016-04-28 09:12:12'),
 (2, 'meeting_reminder', 2, 'default', 1, 1, '2016-04-28 10:17:25'),
-(3, 'new_message', 3, 'success', 1, 1, '2016-04-28 10:18:35');
+(3, 'new_message', 3, 'success', 1, 1, '2016-04-28 10:18:35'),
+(4, 'new_message', 3, 'success', 2, 0, '2016-04-29 13:34:16'),
+(5, 'new_message', 3, 'success', 2, 1, '2016-04-29 13:34:16');
 
 -- --------------------------------------------------------
 
@@ -721,6 +747,12 @@ ALTER TABLE `ipc_config_handle`
   ADD KEY `status` (`status`);
 
 --
+-- Indexes for table `ipc_config_investigate`
+--
+ALTER TABLE `ipc_config_investigate`
+  ADD PRIMARY KEY (`investigate_id`);
+
+--
 -- Indexes for table `ipc_config_prove`
 --
 ALTER TABLE `ipc_config_prove`
@@ -845,6 +877,11 @@ ALTER TABLE `ipc_config_fee`
 ALTER TABLE `ipc_config_handle`
   MODIFY `handle_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
+-- 使用表AUTO_INCREMENT `ipc_config_investigate`
+--
+ALTER TABLE `ipc_config_investigate`
+  MODIFY `investigate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- 使用表AUTO_INCREMENT `ipc_config_prove`
 --
 ALTER TABLE `ipc_config_prove`
@@ -853,7 +890,7 @@ ALTER TABLE `ipc_config_prove`
 -- 使用表AUTO_INCREMENT `ipc_config_repayment`
 --
 ALTER TABLE `ipc_config_repayment`
-  MODIFY `repayment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `repayment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- 使用表AUTO_INCREMENT `ipc_config_status`
 --
@@ -863,7 +900,7 @@ ALTER TABLE `ipc_config_status`
 -- 使用表AUTO_INCREMENT `ipc_config_tender`
 --
 ALTER TABLE `ipc_config_tender`
-  MODIFY `tender_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=14;
+  MODIFY `tender_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=13;
 --
 -- 使用表AUTO_INCREMENT `ipc_customer`
 --
@@ -883,7 +920,7 @@ ALTER TABLE `ipc_filemanager_mediafile`
 -- 使用表AUTO_INCREMENT `ipc_notification`
 --
 ALTER TABLE `ipc_notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- 使用表AUTO_INCREMENT `ipc_project`
 --

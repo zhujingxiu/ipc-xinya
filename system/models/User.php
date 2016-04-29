@@ -7,7 +7,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use system\modules\auth\models\Menu;
 use yii\helpers\Html;
-
+use yii\helpers\StringHelper;
 /**
  * User model
  *
@@ -74,7 +74,7 @@ class User extends \common\models\User
         if ($this->_roleLabel === null) {
             $roles = self::getArrayRole();
             $label = [];
-            $tmp = is_string($this->role) ? explode(",",$this->role) : $this->role;
+            $tmp = is_string($this->role) ? StringHelper::explode(",",$this->role) : $this->role;
             foreach($tmp as $item){
                 if(isset($roles[$item]))
                     $label[] = $roles[$item];
@@ -233,6 +233,38 @@ class User extends \common\models\User
         return $parent;
     }
 
+    public function isRoot(){
+
+        $user = User::find()->andWhere(['user_id' => (string) Yii::$app->user->getId()])->asArray()->one();
+        if(empty($user['role'])){
+            return false;
+        }
+        if(!empty($user['is_root'])){
+            return true;
+        }
+        return false;
+    }
+
+    public function userRoles(){
+/*        $user = User::find()->andWhere(['user_id' => (string) Yii::$app->user->getId()])->asArray()->one();
+        if(empty($user['role'])){
+            return [];
+        }
+        $user_role = explode(",",$user['role']);*/
+        $return = [];
+        if ($this->role) {
+            $return = array_filter(StringHelper::explode($this->role, ',', true, true), function ($roleId) {
+                return is_numeric($roleId) && Role::find()->where(['mode'=>'role','node_id'=>$roleId])->exists();
+            });
+        }
+
+        return $return;
+    }
+
+    public function permissions(){
+
+    }
+
     function isAllowed($path)
     {
         $permissions=[];
@@ -242,16 +274,11 @@ class User extends \common\models\User
             return false;
         }
 
-        $user = User::find()->andWhere(['user_id' => (string) $userId])->asArray()->one();
-        if(!empty($user['is_root'])){
+        if($this->isRoot()){
             return true;
         }
-        if(empty($user['role'])){
-            return false;
-        }
-        $user_role = explode(",",$user['role']);
 
-        foreach ($user_role as $role_id) {
+        foreach ($this->userRoles() as $role_id) {
             if($role_id){
                 $_role = Role::find()->andWhere(['node_id'=>$role_id])->asArray()->one();
                 if(!empty($_role['is_root'])){

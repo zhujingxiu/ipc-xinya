@@ -26,16 +26,19 @@ use ipc\modules\project\modules\config\models\Repayment;
             'type'=>DetailView::TYPE_PRIMARY,
         ],
         'vAlign'=>'top',
+
         'attributes' => [
             [
                 'columns' => [
                     [
                         'attribute' => 'project_sn',
+                        'displayOnly' => $mode == 'update',
                         'value' => $model->project_sn,
                         'labelColOptions' =>[
                             'style'=>'width:80%;text-align:right;'
                         ],
-                        'valueColOptions'=>['style'=>'font-weight:bold;color:blue;width:20%;']
+                        'valueColOptions'=>['style'=>'font-weight:bold;color:blue;width:20%;'],
+
                     ],
 
                 ]
@@ -99,7 +102,7 @@ use ipc\modules\project\modules\config\models\Repayment;
                         'type'=>DetailView::INPUT_TEXTAREA,
                         'valueColOptions'=>['style'=>'width:90%'],
 
-                        'options'=>['rows'=>6]
+                        'options'=>['rows'=>5]
                     ],
 
                 ]
@@ -107,7 +110,7 @@ use ipc\modules\project\modules\config\models\Repayment;
             [
                 'group'=>true,
                 'label'=>Module::t('project','Loan Info'),
-                'rowOptions'=>['class'=>'success']
+                'rowOptions'=>['class'=>'info']
             ],
             [
                 'columns' => [
@@ -210,7 +213,36 @@ use ipc\modules\project\modules\config\models\Repayment;
         ]
     ]);
     ?>
+    <?php if($mode == 'update'): ?>
 
+    <?php echo
+        DetailView::widget([
+            'model' => $model,
+            'condensed'=>true,
+            'hover'=>true,
+            'mode'=>DetailView::MODE_EDIT,
+            'labelColOptions' => ['style' => 'width: 10%;'],
+            'panel'=>[
+                'heading'=> '认定受理 '.  $model->project_sn .' - ' .($model->borrower ? $model->borrower .' - ' .intval($model->amount).'万元' : '' ) ,
+                'type'=>DetailView::TYPE_SUCCESS,
+            ],
+            'vAlign'=>'top',
+            'attributes' => [
+                [
+                    'columns' => [
+                        [
+                            'attribute' => 'text',
+                            'value' => $model->text,
+                            'type'=>DetailView::INPUT_TEXTAREA,
+                            'valueColOptions'=>['style'=>'width:90%;']
+                        ],
+
+                    ]
+                ],
+                ]
+            ]);
+        ?>
+    <?php endif ?>
 
 
 

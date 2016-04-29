@@ -5,6 +5,7 @@ use kartik\dialog\Dialog;
 use yii\web\JsExpression;
 use ipc\modules\project\Module;
 use fedemotta\datatables\DataTables;
+use ipc\modules\project\models\Apply;
 /* @var $this yii\web\View */
 /* @var $searchModel ipc\modules\project\models\ProjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -19,12 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('<i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <div class="col-md-4">
     <div class="box">
         <div class="box-header">
 
         </div>
         <div class="box-body">
-            <?= DataTables::widget([
+            <?= \yii\grid\GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
@@ -33,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //'project_id',
                     'project_sn',
                     'borrower',
-                    'phone',
+                    //'phone',
                     'company',
                     'amount',
                     'due',
@@ -46,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Html::activeDropDownList(
                             $searchModel,
                             'tender',
-                            $arrayTender,
+                            Apply::getArrayTender(),
                             ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
                         )
                     ],
@@ -59,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'filter' => Html::activeDropDownList(
                             $searchModel,
                             'repayment',
-                            $arrayRepayment,
+                            Apply::getArrayRepayment(),
                             ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
                         )
                     ],
@@ -67,102 +69,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'addtime',
                         'format' => ['date', 'Y-M-d H:i:s'],
                     ],
-                    [
-                        'class' => 'system\components\ActionColumn',
-                        'template' => '{confirm:confirm} {update:update} {del:delete} ',
-                        'buttons' => [
-                            'confirm' => function ($url, $model, $key) {
-                                $options = [
-                                    'title' => Module::t('apply', 'Confirm'),
-                                    'class' => 'btn btn-success apply-confirm'
-                                ];
-                                return Html::a('<i class="fa fa-check-circle-o"></i>', 'javascript:;', $options);
-                            },
-                            'update' => function ($url, $model, $key) {
-                                $options = [
-                                    'title' => Yii::t('yii', 'Update'),
-                                    'aria-label' => Yii::t('yii', 'Update'),
-                                    'data-pjax' => '0',
-                                    'class' => 'btn btn-primary'
-                                ];
-                                return Html::a('<i class="fa fa-pencil"></i>', $url, $options);
-                            },
-                            'delete' => function ($url, $model, $key) {
-                                $options = [
-                                    'title' => Yii::t('yii', 'Delete'),
-                                    'aria-label' => Yii::t('yii', 'Delete'),
-                                    'data-pjax' => '0',
-                                    'class' => 'btn btn-warning'
-                                ];
-                                return Html::a('<i class="fa fa-trash"></i>', $url, $options);
-                            },
-                        ]
-                    ],
+
                 ],
-                /*
-                'clientOptions' => [
-                    "lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
-                    "info"=>false,
-                    "responsive"=>true,
-                    "dom"=> 'lfTrtip',
-                    "tableTools"=>[
-                        "aButtons"=> [
-                            [
-                                "sExtends"=> "xls",
-                                "oSelectorOpts"=> ["page"=> 'current']
-                            ],[
-                                "sExtends"=> "pdf",
-                                "sButtonText"=> Yii::t('app',"Save to PDF")
-                            ],
-                        ]
-                    ]
-                ],*/
+
             ]); ?>
         </div>
     </div>
-<?php
-echo Dialog::widget([
-    'libName' => 'krajeeDialogCust', // a custom lib name
-    'options' => [  // customized BootstrapDialog options
+    </div>
+    <div class="col-md-8">
+        <div class="box">
+            <div class="box-header">
 
-        'type' => Dialog::TYPE_SUCCESS, // bootstrap contextual color
-
-        'buttons' => [
-            [
-                'id' => 'btn-confirm',
-                'label' => Module::t('apply','Confirm'),
-                'action' => new JsExpression("function(dialog) {
-                    dialog.setTitle('Title 1');
-                    dialog.setMessage('This is a custom message for button number 1');
-                }")
-            ],
-            [
-                'label' => Yii::t('kvdialog', 'Cancel'),
-                'icon' => Dialog::ICON_CANCEL,
-                'action' => new JsExpression("function(dialog) {
-                    dialog.close();
-                }")
-            ],
-
-
-        ]
-    ]
-]);
-
-
-$js = <<< JS
-$(".apply-confirm").on("click", function() {
-    krajeeDialogCust.dialog(
-        '',
-        function(result) {
-            // do something
-            console.log(result);
-            dialog.setTitle('hahah');
-        }
-    );
-});
-JS;
-
-$this->registerJs($js);
-?>
+            </div>
+            <div class="box-body"></div>
+            </div>
+        </div>
 </div>

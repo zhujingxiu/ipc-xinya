@@ -12,11 +12,13 @@ class ApplyController extends ProjectController{
         $searchModel = new ApplySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $history = $this->renderPartial('history',[
+            'model' =>new Apply()
+        ]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'arrayTender' => Apply::getArrayTender(),
-            'arrayRepayment' => Apply::getArrayRepayment(),
+            'historyForm' => $history,
         ]);
     }
 
@@ -29,6 +31,7 @@ class ApplyController extends ProjectController{
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'mode' => 'create'
             ]);
         }
     }
@@ -36,12 +39,12 @@ class ApplyController extends ProjectController{
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->project_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'mode' => 'update'
             ]);
         }
     }
