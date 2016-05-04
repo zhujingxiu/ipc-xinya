@@ -28,7 +28,8 @@
         "kartik-v/yii2-export": "*",
         "kartik-v/yii2-widgets": "@dev",
         "kartik-v/yii2-editable": "*",
-        "machour/yii2-notifications": "@dev"
+        "machour/yii2-notifications": "@dev",
+        "kartik-v/yii2-mpdf": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

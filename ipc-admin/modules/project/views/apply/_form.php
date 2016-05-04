@@ -159,7 +159,7 @@ use ipc\modules\project\modules\config\models\Repayment;
                         'valueColOptions'=>['style'=>'width:20%'],
                         'type'=>DetailView::INPUT_SELECT2,
                         'widgetOptions'=>[
-                            'data'=>ArrayHelper::map(User::find()->where([])->asArray()->all(), 'user_id', 'realname'),
+                            'data'=>ArrayHelper::map(User::find()->where(['status'=>1])->asArray()->all(), 'user_id', 'realname'),
                             'options' => ['placeholder' => 'Select ...'],
                             'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
                         ],
@@ -170,7 +170,7 @@ use ipc\modules\project\modules\config\models\Repayment;
                         'valueColOptions'=>['style'=>'width:30%'],
                         'type'=>DetailView::INPUT_SELECT2,
                         'widgetOptions'=>[
-                            'data'=>ArrayHelper::map(Repayment::find()->asArray()->all(), 'repayment_id', 'title'),
+                            'data'=>ArrayHelper::map(Repayment::find()->where(['status'=>1])->asArray()->all(), 'repayment_id', 'title'),
                             'options' => ['placeholder' => 'Select ...'],
                             'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
                         ],
@@ -227,20 +227,39 @@ use ipc\modules\project\modules\config\models\Repayment;
                 'type'=>DetailView::TYPE_SUCCESS,
             ],
             'vAlign'=>'top',
+            'options' => [
+                'id' => 'accept-form'
+            ],
             'attributes' => [
                 [
                     'columns' => [
                         [
                             'attribute' => 'text',
+                            'label' => Module::t('apply','Accept Text'),
                             'value' => $model->text,
-                            'type'=>DetailView::INPUT_TEXTAREA,
-                            'valueColOptions'=>['style'=>'width:90%;']
+                            'valueColOptions'=>['style'=>'width:90%;'],
+                            'options' => [
+                                'id' => 'tmce-'.uniqid()
+                            ],
+                            'type'=>DetailView::INPUT_WIDGET,
+                            'widgetOptions' => [
+                                'class' => '\pendalf89\tinymce\Tinymce',
+                                'clientOptions' => [
+                                    'menubar' => false,
+                                    'language' => 'zh_CN',
+                                    'height' => 500,
+                                    'plugins' => [
+                                        'advlist autolink lists charmap preview anchor searchreplace visualblocks contextmenu table',
+                                    ],
+                                    'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
+                                ]
+                            ]
                         ],
 
                     ]
                 ],
-                ]
-            ]);
+            ]
+        ]);
         ?>
     <?php endif ?>
 

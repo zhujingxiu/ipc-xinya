@@ -18,7 +18,7 @@ class Status extends \system\libs\base\BaseActiveRecord
      */
     public static function tableName()
     {
-        return '{{%project_status}}';
+        return '{{%config_status}}';
     }
 
     /**
@@ -43,5 +43,9 @@ class Status extends \system\libs\base\BaseActiveRecord
             'title' => Yii::t('app', 'Title'),
             'code' => Yii::t('app', 'Code'),
         ];
+    }
+
+    public function getStatus($code){
+        return Status::find()->where(['code'=>strtolower($code)])->asArray()->one();
     }
 }

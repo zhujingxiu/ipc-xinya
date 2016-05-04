@@ -18,15 +18,18 @@ use yii\bootstrap\NavBar;
     </ul>
 <?php
 $menuItems = [
+
     [
         'label' => '',
         'url' => ['/'],
+
         'linkOptions' => [
             'class' => 'fa fa-dashboard',
             'title' => Yii::t('app','Home')
         ],
-        'active' => in_array(Yii::$app->request->url ,[Yii::$app->homeUrl,'site/index'])
+        'active' => Yii::$app->request->url === Yii::$app->homeUrl
     ],
+
     [
         'label' => '',
         'url' => ['/config'],

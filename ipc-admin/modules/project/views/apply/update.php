@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = Module::t('project', 'Update');
 
     <?= $this->render('_form', [
         'model' => $model,
-        'mode' => $mode,
+        'mode' => 'update',
     ]) ?>
 
 </div>

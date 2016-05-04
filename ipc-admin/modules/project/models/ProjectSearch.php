@@ -18,7 +18,7 @@ class ProjectSearch extends Project
     public function rules()
     {
         return [
-            [['project_id', 'project_sn', 'due', 'tender', 'repayment', 'addtime'], 'integer'],
+            [['project_id', 'project_sn', 'due', 'tender', 'repayment'], 'integer'],
             [['borrower', 'phone', 'company', 'address'], 'safe'],
             [['amount'], 'number'],
         ];
@@ -69,7 +69,7 @@ class ProjectSearch extends Project
             'company' => $this->company,
             'repayment' => $this->repayment,
             'address' => $this->address,
-            'addtime' => $this->addtime,
+            'addtime' => $this->addtime//is_numeric($this->addtime) ? $this->addtime : strtotime($this->addtime),
         ]);
 
         $query->andFilterWhere(['like', 'borrower', $this->borrower])

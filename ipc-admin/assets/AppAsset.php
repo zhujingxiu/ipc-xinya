@@ -9,14 +9,14 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-    public $sourcePath = '@webroot';
+    public $sourcePath = '@webroot/adminlte';
     public $baseUrl = '@web';
     public $css = [
-        'adminlte/dist/css/font-awesome.min.css',
-        'adminlte/dist/css/AdminLTE.min.css',
+        'dist/css/font-awesome.min.css',
+        'dist/css/AdminLTE.min.css',
     ];
     public $js = [
-        'adminlte/dist/js/app.min.js',
+        'dist/js/app.min.js',
 
     ];
     public $depends = [
@@ -43,7 +43,7 @@ class AppAsset extends AssetBundle
                 throw new Exception('Invalid skin specified');
             }
 
-            $this->css[] = sprintf('adminlte/dist/css/skins/%s.min.css', $this->skin);
+            $this->css[] = sprintf('dist/css/skins/%s.min.css', $this->skin);
         }
 
         parent::init();

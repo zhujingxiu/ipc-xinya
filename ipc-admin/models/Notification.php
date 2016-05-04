@@ -86,6 +86,7 @@ class Notification extends BaseNotification
 
             case self::KEY_NO_DISK_SPACE:
                 return '/';
+
         };
     }
 

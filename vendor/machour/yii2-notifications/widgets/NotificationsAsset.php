@@ -47,6 +47,7 @@ class NotificationsAsset extends AssetBundle
      */
     public $depends = [
         'yii\web\JqueryAsset',
+
     ];
 
     /**

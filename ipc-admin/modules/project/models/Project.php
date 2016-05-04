@@ -94,7 +94,6 @@ class Project extends \system\libs\base\BaseActiveRecord
             // Unique
             [['project_sn'], 'unique'],
 
-            ['agent_b', 'compare', 'compareAttribute' => 'agent_aa'],
         ];
     }
 

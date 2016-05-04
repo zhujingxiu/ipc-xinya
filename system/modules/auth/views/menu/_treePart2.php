@@ -1,3 +1,4 @@
+
 <?php
 use pendalf89\filemanager\widgets\TinyMCE;
 ?>
@@ -56,6 +57,7 @@ use pendalf89\filemanager\widgets\TinyMCE;
 </div>
 <div class="row">
     <div class="col-md-12">
+
         <?php echo $form->field($node, 'remark')->widget(TinyMCE::className(), [
             'clientOptions' => [
                 'menubar' => false,
@@ -68,5 +70,6 @@ use pendalf89\filemanager\widgets\TinyMCE;
                 'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
             ],
         ]);?>
+
     </div>
 </div>

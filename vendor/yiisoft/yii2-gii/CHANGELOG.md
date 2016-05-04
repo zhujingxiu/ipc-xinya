@@ -1,13 +1,6 @@
 Yii Framework 2 gii extension Change Log
 ========================================
 
-2.0.6 under development
------------------------
-
-- Bug #149: Relation names no longer override existing methods and properties (Faryshta)
-- Bug #152: Fixed generating model without any rules (and800)
-
-
 2.0.5 March 18, 2016
 --------------------
 

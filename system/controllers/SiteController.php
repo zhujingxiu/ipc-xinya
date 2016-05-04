@@ -52,7 +52,17 @@ class SiteController extends \system\libs\base\BaseController
             ],
         ];
     }
-
+    public function actionError()
+    {
+        if($error=Yii::$app->errorHandler->exception)
+        {
+            var_dump($error);
+            if(Yii::$app->request->isAjax)
+                echo $error['message'];
+            else
+                $this->render('error', $error);
+        }
+    }
     public function actionIndex()
     {
 

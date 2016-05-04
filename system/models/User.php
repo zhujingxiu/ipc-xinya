@@ -74,6 +74,7 @@ class User extends \common\models\User
         if ($this->_roleLabel === null) {
             $roles = self::getArrayRole();
             $label = [];
+
             $tmp = is_string($this->role) ? StringHelper::explode(",",$this->role) : $this->role;
             foreach($tmp as $item){
                 if(isset($roles[$item]))
@@ -233,6 +234,7 @@ class User extends \common\models\User
         return $parent;
     }
 
+
     public function isRoot(){
 
         $user = User::find()->andWhere(['user_id' => (string) Yii::$app->user->getId()])->asArray()->one();
@@ -261,10 +263,6 @@ class User extends \common\models\User
         return $return;
     }
 
-    public function permissions(){
-
-    }
-
     function isAllowed($path)
     {
         $permissions=[];
@@ -274,11 +272,13 @@ class User extends \common\models\User
             return false;
         }
 
+
         if($this->isRoot()){
             return true;
         }
 
         foreach ($this->userRoles() as $role_id) {
+
             if($role_id){
                 $_role = Role::find()->andWhere(['node_id'=>$role_id])->asArray()->one();
                 if(!empty($_role['is_root'])){
