@@ -5,7 +5,7 @@ use pendalf89\filemanager\widgets\TinyMCE;
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">权限范围</h3>
+        <h3 class="box-title"><?php echo \system\modules\auth\Module::t('auth','Range')?></h3>
         <div class="box-tools pull-right">
             <?php echo \yii\helpers\Html::a('编辑节点','/auth/permission',['class'=>'btn btn-link']) ?>
         </div>

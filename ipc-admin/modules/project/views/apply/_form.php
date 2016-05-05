@@ -12,7 +12,7 @@ use ipc\modules\project\modules\config\models\Repayment;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="project-form">
+<div class="project-form row">
 
     <?php echo
     DetailView::widget([
@@ -228,7 +228,7 @@ use ipc\modules\project\modules\config\models\Repayment;
             ],
             'vAlign'=>'top',
             'options' => [
-                'id' => 'accept-form'
+                'id' => 'accept-form-'.uniqid()
             ],
             'attributes' => [
                 [
