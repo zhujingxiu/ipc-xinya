@@ -5,6 +5,7 @@ use ipc\modules\project\models\ApplyHistory;
 use Yii;
 use ipc\modules\project\models\Apply;
 use ipc\modules\project\models\ApplySearch;
+use yii\web\Response;
 
 class ApplyController extends ProjectController{
 
@@ -49,5 +50,16 @@ class ApplyController extends ProjectController{
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionAccept(){
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $p = Yii::$app->request->post();
+        if(empty($p['project_id'])){
+
+        }
+
+        $model = $this->findModel(Yii::$app->request->post());
     }
 }

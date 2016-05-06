@@ -16,7 +16,7 @@ use Yii;
  * @property integer $addtime
  * @property integer $status
  */
-class ProjectAttach extends \system\libs\base\BaseActiveRecord
+class Attach extends \system\libs\base\BaseActiveRecord
 {
     /**
      * @inheritdoc

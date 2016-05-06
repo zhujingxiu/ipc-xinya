@@ -8,10 +8,11 @@
 <?php
 use ipc\models\Notification;
 use \machour\yii2\notifications\widgets\NotificationsWidget;
-Notification::success(Notification::KEY_NEW_MESSAGE,Yii::$app->user->id,3);
+//Notification::success(Notification::KEY_NEW_MESSAGE,Yii::$app->user->id,3);
 
 NotificationsWidget::widget([
     'theme' => NotificationsWidget::THEME_TOASTR,
+    'pollInterval' => 45000,
     'clientOptions' => [
         'location' => 'zh-CN',
     ],

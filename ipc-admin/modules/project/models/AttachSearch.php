@@ -10,7 +10,7 @@ use ipc\modules\project\models\ProjectAttach;
 /**
  * ProjectAttachSearch represents the model behind the search form about `ipc\modules\project\models\ProjectAttach`.
  */
-class ProjectAttachSearch extends ProjectAttach
+class AttachSearch extends ProjectAttach
 {
     /**
      * @inheritdoc

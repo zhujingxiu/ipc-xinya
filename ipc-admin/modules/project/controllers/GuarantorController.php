@@ -3,8 +3,8 @@
 namespace ipc\modules\project\controllers;
 
 use Yii;
-use ipc\modules\project\models\ProjectGuarantor;
-use ipc\modules\project\models\ProjectGuarantorSearch;
+use ipc\modules\project\models\Guarantor;
+use ipc\modules\project\models\GuarantorSearch;
 use system\libs\base\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class GuarantorController extends BaseController
      */
     public function actionIndex()
     {
-        $searchModel = new ProjectGuarantorSearch();
+        $searchModel = new GuarantorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -63,7 +63,7 @@ class GuarantorController extends BaseController
      */
     public function actionCreate()
     {
-        $model = new ProjectGuarantor();
+        $model = new Guarantor();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->project_id]);
@@ -115,7 +115,7 @@ class GuarantorController extends BaseController
      */
     protected function findModel($id)
     {
-        if (($model = ProjectGuarantor::findOne($id)) !== null) {
+        if (($model = Guarantor::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

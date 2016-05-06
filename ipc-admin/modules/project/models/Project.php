@@ -50,6 +50,16 @@ class Project extends \system\libs\base\BaseActiveRecord
     {
         return '{{%project}}';
     }
+    public static function getArrayLevel(){
+        return [
+            1 => '<i class="fa fa-star"></i>',
+            2 => '<i class="fa fa-star"></i><i class="fa fa-star"></i>',
+            3 => '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>',
+            4 => '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>',
+            5 => '<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>',
+        ];
+    }
+
     public static function getArrayTender()
     {
         return ArrayHelper::map(Tender::find()->where(['status'=>1])->addOrderBy('tender_id')->asArray()->all(), 'tender_id', 'title');

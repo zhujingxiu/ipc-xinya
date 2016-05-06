@@ -32,15 +32,22 @@ class Apply extends Project
     public $lft = 0;
     public $rgt = 0;
     public $icon = '';
-    public $icon_type = 1;
-    public $visible = 1;
-    public $collapsed = 1;
-    public $readonly = 0;
-    public $disabled = 0;
+
     public $movable_u = 0;
     public $movable_d = 0;
     public $movable_r = 0;
     public $movable_l = 0;
+
+    public $readonly = 0;
+    public $disabled = 0;
+    public $collapsed = 0;
+    public $removable_all = 0;
+
+    public $removable = 1;
+    public $active = 1;
+    public $icon_type = 1;
+    public $visible = 1;
+    public $selected = 1;
 
     public $encodeNodeNames = true;
 
@@ -50,21 +57,21 @@ class Apply extends Project
     {
         return parent::tableName();
     }
-    public function init(){
+
+    public function init()
+    {
         parent::init();
         $this->status = self::STATUS_QUEUING;
     }
 
-
-    public function getNode_id(){
+    public function getNode_id()
+    {
         return $this->project_id;
     }
 
-    public function getName(){
-
-        return
-
-        implode(" ",[
+    public function getName()
+    {
+        return implode(" ",[
             $this->project_sn,
             $this->borrower,
             number_format($this->amount,2).msgModule::t('apply','Amount Unit'),

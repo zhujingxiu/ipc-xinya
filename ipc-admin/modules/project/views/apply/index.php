@@ -38,148 +38,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'class'=>'text-success'
         ],
         'treeOptions' => [
-            'style' => 'height:760px'
+            'style' => 'height:620px'
+        ],
+
+        'toolbar' => [
+            TreeView::BTN_CREATE => false,
+            TreeView::BTN_REMOVE => false,
+            TreeView::BTN_MOVE_UP => false,
+            TreeView::BTN_MOVE_DOWN => false,
+            TreeView::BTN_MOVE_LEFT => false,
+            TreeView::BTN_MOVE_RIGHT => false,
         ]
     ]);?>
-        <?php /* GridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'pjax'=>true,
-            'showPageSummary' => true,
-            'responsive'=>true,
-            'hover'=>true,
-            'panel'=>[
-                'type'=>'primary',
-                'heading'=>'<i class="fa fa-sort-numeric-asc"></i> 排队中',
-            ],
-            'toolbar' => [
-                [
-                    'content'=>
-                        Html::a('<i class="fa fa-plus"></i>', ['create'], ['class' => 'btn btn-success'])
-                ],
-                //'{export}',
-                '{toggleData}'
-            ],
-            'rowOptions' => [
-                'class' => 'list-rows'
-            ],
-            'columns' => [
-                ['class' => 'kartik\grid\SerialColumn'],
-//                [
-//                    'attribute' => 'addtime',
-//                    'label' => '',// Module::t('apply','Addtime'),
-//                    'format' => ['date', 'Y-MM-dd HH:i:s'],
-//                    'options' => [
-//                        'style' => 'width:180px',
-//                    ]
-//
-//                ],
-                [
-                    'attribute' => 'project_sn',
-                    'label' => '',
-                    'options' => [
-                        'style' => 'width:120px'
-                    ]
-                    ,'class' => '\kartik\grid\FormulaColumn',
-                ],
-                [
-                    'attribute' =>'borrower',
-                    'label' => '',
-                    'options' => [
-                        'style' => 'width:150px'
-                    ]
-                ],
-                [
-                    'attribute' => 'tender',
-                    'label' => '',
-                    'value' => function ($model) {
-                        return $model->tenderLabel;
-                    },
-                    'filterType'=>GridView::FILTER_SELECT2,
-                    'filter' => Apply::getArrayTender(),
-                    'options' => [
-                        'style' => 'width:180px',
-
-                    ],
-                    'pageSummary'=>'Summary',
-                    'pageSummaryOptions'=>['class'=>'text-right text-warning'],
-                ],
-
-//                [
-//                    'attribute' => 'repayment',
-//                    'value' => function ($model) {
-//                        return $model->repaymentLabel;
-//                    },
-//                    'filter' => Html::activeDropDownList(
-//                        $searchModel,
-//                        'repayment',
-//                        Apply::getArrayRepayment(),
-//                        ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
-//                    ),
-//                    'options' => [
-//                        'style' => 'width:200px'
-//                    ]
-//                ],
-                [
-                    'attribute' => 'amount',
-                    'label' => '',//Module::t('apply','Column Amount'),
-                    'value' => function ($model) {
-                        return number_format($model->amount,2).Module::t('apply','Amount Unit');
-                    },
-                    'options' => [
-                        'style' => 'width:150px'
-                    ],
-                    'pageSummary'=>true
-                ],
-                [
-                    'attribute' => 'due',
-                    'label' => '',//Module::t('apply','Column Due'),
-                    'value' => function ($model) {
-                        return $model->due.Module::t('apply','Due Unit');
-                    },
-                    'options' => [
-                        'style' => 'width:150px'
-                    ]
-                    ,'pageSummary'=>true
-                ],
-
-                [
-
-                    'class' => 'system\components\ActionColumn',
-                    'template' => ' {update:update} {delete:delete} ',
-                    'buttons' => [
-
-                        'update' => function ($url, $model, $key) {
-                            $options = [
-                                'title' => Yii::t('yii', 'View'),
-                                'aria-label' => Yii::t('yii', 'View'),
-                                'data-pjax' => '0',
-                                'class' => 'btn btn-primary'
-                            ];
-                            return Html::a('<i class="fa fa-eye"></i>', $url, $options);
-                        },
-                        'delete' => function ($url, $model, $key) {
-                            $options = [
-                                'title' => Yii::t('yii', 'Delete'),
-                                'aria-label' => Yii::t('yii', 'Delete'),
-                                'data-pjax' => '0',
-                                'class' => 'btn btn-warning',
-                                'confirm' => '?'
-                            ];
-                            return Html::a('<i class="fa fa-trash"></i>', $url, $options);
-                        },
-                    ]
-                ],
-
-
-
-            ],
-        ]); */?>
-
-
 <?php
 $this->registerCss("
 .kv-detail-container{padding:0px;border:none;}
+.select2-container .select2-selection--single .select2-selection__rendered{margin-top:0px;}
+.kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;border-bottom: 1px #ddd solid;}
 ");
 ?>
 </div>

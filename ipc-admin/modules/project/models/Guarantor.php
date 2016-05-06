@@ -11,7 +11,7 @@ use Yii;
  * @property integer $user_id
  * @property integer $status
  */
-class ProjectGuarantor extends \system\libs\base\BaseActiveRecord
+class Guarantor extends \system\libs\base\BaseActiveRecord
 {
     /**
      * @inheritdoc

@@ -10,7 +10,7 @@ use ipc\modules\project\models\ProjectGuarantor;
 /**
  * ProjectGuarantorSearch represents the model behind the search form about `ipc\modules\project\models\ProjectGuarantor`.
  */
-class ProjectGuarantorSearch extends ProjectGuarantor
+class GuarantorSearch extends ProjectGuarantor
 {
     /**
      * @inheritdoc

@@ -12,7 +12,7 @@ return [
     'Product' => '主要产品',
     'Text' => '简要说明',
     'Bussiness' => '经营范围',
-    'Amount' => '申请金额 （万元）',
+    'Amount' => '申请金额 （万）',
 
     'Due' => '期限 （月）',
     'Tender' => '标的种类',
