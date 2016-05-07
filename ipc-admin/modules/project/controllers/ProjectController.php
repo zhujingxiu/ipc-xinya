@@ -8,6 +8,7 @@ use ipc\modules\project\models\ProjectSearch;
 use system\libs\base\BaseController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\InvalidCallException;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
@@ -121,4 +122,5 @@ class ProjectController extends BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

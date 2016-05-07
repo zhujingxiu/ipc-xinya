@@ -69,6 +69,7 @@ class Apply extends Project
         return $this->project_id;
     }
 
+
     public function getName()
     {
         return implode(" ",[
@@ -83,4 +84,5 @@ class Apply extends Project
     {
         return $this->parentIsDisabled();
     }
+
 }

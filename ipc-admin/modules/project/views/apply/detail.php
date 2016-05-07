@@ -142,7 +142,7 @@ $attributes = [
                 'valueColOptions'=>['style'=>'width:30%'],
                 'type'=>DetailView::INPUT_SELECT2,
                 'widgetOptions'=>[
-                    'data'=>ArrayHelper::map(Tender::find()->asArray()->all(), 'tender_id', 'title'),
+                    'data'=>ArrayHelper::map(Tender::find()->where(['status'=>1])->asArray()->all(), 'tender_id', 'title'),
                     'options' => ['placeholder' => 'Select ...'],
                     'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
                 ],
@@ -158,7 +158,7 @@ $attributes = [
                 'valueColOptions'=>['style'=>'width:20%'],
                 'type'=>DetailView::INPUT_SELECT2,
                 'widgetOptions'=>[
-                    'data'=>ArrayHelper::map(User::find()->where([])->asArray()->all(), 'user_id', 'realname'),
+                    'data'=>ArrayHelper::map(User::find()->where(['status'=>1])->asArray()->all(), 'user_id', 'realname'),
                     'options' => ['placeholder' => 'Select ...'],
                     'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
                 ],
@@ -223,80 +223,38 @@ $attributes = [
         ]
     ],
 ];
-echo DetailView::widget([
+$heading = empty($node->$nameAttribute) ? ArrayHelper::getValue($breadcrumbs, 'untitled') : $node->$nameAttribute ;
+$settings = [
     'model' => $node,
     'condensed'=>true,
     'hover'=>true,
     'mode'=>DetailView::MODE_EDIT,
     'labelColOptions' => ['style' => 'width: 12%;'],
     'panel'=>[
-        'heading'=> empty($node->$nameAttribute) ? ArrayHelper::getValue($breadcrumbs, 'untitled') : $node->$nameAttribute ,
-        'type'=>DetailView::TYPE_DEFAULT,
+        'heading'=> $heading,
+        'type'=>DetailView::TYPE_PRIMARY,
     ],
     'vAlign'=>'top',
     'formOptions' => [
         'action' => $action,
     ],
-    'buttons2' => $mode == 'update' ? '{view} {update} {save}' : '{save}',
-    'updateOptions' => [
+    'buttons2' => '{save}',
+    'attributes' => $attributes
+];
+if( $mode == 'update'):
+    $settings['buttons2'] = '{view} {update} {save}';
+    $settings['updateOptions'] = [
         'label' => '<i class="fa fa-gavel"></i>',
         'title' => '确认受理',
         'class' => 'btn-accept kv-action-btn',
         'data-key' => $node->project_id,
-        'data-title' => $node->$nameAttribute
-    ],
-    'attributes' => $attributes
-]);
+        'data-title' => $heading
+    ];
 
-// widget with default options
+endif;
+echo DetailView::widget($settings);
 
-?>
-<?php if(false && $mode == 'update'): ?>
-
-    <?php echo
-    DetailView::widget([
-        'model' => $node,
-        'condensed'=>true,
-        'hover'=>true,
-        'mode'=>DetailView::MODE_EDIT,
-        'labelColOptions' => ['style' => 'width: 10%;'],
-        'panel'=>[
-            'heading'=> '认定受理 '.  $node->$nameAttribute ,
-            'type'=>DetailView::TYPE_PRIMARY,
-        ],
-        'vAlign'=>'top',
-        'attributes' => [
-            [
-                'columns' => [
-                    [
-                        'attribute' => 'text',
-                        'label' => msgModule::t('apply','Accept Text'),
-                        'value' => $node->text,
-                        'valueColOptions'=>['style'=>'width:90%;'],
-                        'options' => [
-                            'id' => 'tmce-'.uniqid()
-                        ],
-                        'type'=>DetailView::INPUT_WIDGET,
-                        'widgetOptions' => [
-                            'class' => '\pendalf89\tinymce\Tinymce',
-                            'clientOptions' => [
-                                'menubar' => false,
-                                'language' => 'zh_CN',
-                                'height' => 500,
-                                'plugins' => [
-                                    'advlist autolink lists charmap preview anchor searchreplace visualblocks contextmenu table',
-                                ],
-                                'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
-                            ]
-                        ]
-                    ],
-                ]
-            ],
-        ]
-    ]);
-    ?>
-<?php endif ?>
-<?php
+if( $mode == 'update'):
 echo Dialog::widget([
     'libName' => 'acceptDialog', // optional if not set will default to `krajeeDialog`
     'options' => [
@@ -308,12 +266,10 @@ echo Dialog::widget([
             [
                 'label' => '确定受理',
                 'action' => new \yii\web\JsExpression("function(dialog) {
-                    var _entry = $('#accept-form input[name=\"project_id\"]').val(),
-                    level = $('#accept-form input[name=\"level\"]:checked').val();
                     $.ajax({
                         'url':'/project/apply/accept',
                         'type':'post',
-                        'data':{entry:_entry,level:level},
+                        'data':{project_id:$('#accept-form input[name=\"project_id\"]').val(),level:$('#accept-form input[name=\"level\"]:checked').val()},
                         'dataType':'json',
                         'success':function(json){
 
@@ -352,4 +308,5 @@ $('.btn-accept').on('click',function(){
 });
 JS;
 $this->registerJs($js);
+endif;
 ?>

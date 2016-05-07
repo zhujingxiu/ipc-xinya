@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php echo TreeView::widget([
-        'query' => Apply::find()->addOrderBy('level,addtime'),
+        'query' => Apply::find()->where(['status'=>Apply::STATUS_QUEUING])->addOrderBy('level,addtime'),
         'fontAwesome' => true,
         'isAdmin' => false,
         'displayValue' => 3,
@@ -48,6 +48,9 @@ $this->params['breadcrumbs'][] = $this->title;
             TreeView::BTN_MOVE_DOWN => false,
             TreeView::BTN_MOVE_LEFT => false,
             TreeView::BTN_MOVE_RIGHT => false,
+        ],
+        'breadcrumbs'=>[
+            'untitled' => Module::t('apply','New Apply')
         ]
     ]);?>
 <?php

@@ -12,4 +12,6 @@ return [
     'Due Unit' => '月',
     'Column Amount' => '金额',
     'Amount Unit' => '万',
+
+    'New Apply' => '新增申请',
 ];
