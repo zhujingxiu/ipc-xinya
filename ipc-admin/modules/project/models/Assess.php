@@ -2,33 +2,41 @@
 
 namespace ipc\modules\project\models;
 
-use ipc\modules\project\Module as msgModule;
 use Yii;
-
+use ipc\modules\project\Module as msgModule;
 /**
  * This is the model class for table "{{%project}}".
  *
  * @property integer $project_id
- * @property integer $project_sn
+ * @property string $project_sn
  * @property string $borrower
+ * @property string $corporator
  * @property string $phone
  * @property string $company
+ * @property string $address
+ * @property string $product
+ * @property string $bussiness
+ * @property string $text
  * @property string $amount
  * @property integer $due
  * @property integer $tender
- * @property string $income
- * @property string $fee
  * @property integer $repayment
- * @property string $prebidding
+ * @property integer $agent_a
+ * @property integer $agent_b
+ * @property string $intent
+ * @property string $source
+ * @property string $ensure
  * @property integer $addtime
+ * @property integer $status
+ * @property integer $level
+ * @property integer $user_id
+ * @property integer $edittime
  */
-class Apply extends Project
+class Assess extends Project
 {
-
     use \kartik\tree\models\TreeTrait {
         isDisabled as parentIsDisabled; // note the alias
     }
-
     public $lvl = 0;
     public $lft = 1;
     public $rgt = 2;
@@ -76,12 +84,7 @@ class Apply extends Project
     public function init()
     {
         parent::init();
-        $this->status = self::STATUS_QUEUING;
-    }
-
-    public function rules(){
-
-        return parent::rules();
+        $this->status = self::STATUS_ACCEPT;
     }
 
     public function getName()
@@ -94,9 +97,4 @@ class Apply extends Project
         ]);
     }
 
-    public static function getFirstNode(){
-        $result = self::find()->where(['status' => self::STATUS_QUEUING])->addOrderBy('level,addtime')->asArray()->one();
-
-        return empty($result['project_id']) ? 0 :  $result['project_id'];
-    }
 }

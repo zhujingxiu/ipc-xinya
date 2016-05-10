@@ -27,11 +27,12 @@ class Module extends \yii\base\Module
     {
         Yii::$app->i18n->translations['modules/project/*'] = [
             'class' => 'yii\i18n\PhpMessageSource',
-            //'sourceLanguage' => 'en-US',
+            //'sourceLanguage' => 'zh-CN',
             'basePath' => __DIR__.'/messages',
             'fileMap' => [
                 'modules/project/apply' => 'apply.php',
                 'modules/project/project' => 'project.php',
+                'modules/project/assess' => 'assess.php',
             ],
         ];
     }

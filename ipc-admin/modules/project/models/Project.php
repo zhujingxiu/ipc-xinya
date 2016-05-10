@@ -95,14 +95,15 @@ class Project extends \system\libs\base\BaseActiveRecord
     {
         return [
             [['project_sn', 'borrower', 'corporator', 'company','address','product','bussiness', 'amount', 'due', 'tender', 'repayment','agent_a'], 'required'],
+            // Unique
+            [['project_sn'], 'unique'],
             [[ 'due', 'tender', 'repayment', 'addtime','status','level','user_id','edittime','agent_a','agent_b'], 'integer'],
             [['amount'], 'number'],
             [['intent','source','ensure','text'], 'safe'],
             [['borrower','corporator'], 'string', 'max' => 64],
             [['project_sn','phone'], 'string', 'max' => 32],
             [['company','address','product','bussiness'], 'string', 'max' => 128],
-            // Unique
-            [['project_sn'], 'unique'],
+
 
         ];
     }

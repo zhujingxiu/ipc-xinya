@@ -18,40 +18,7 @@ class ApplyController extends ProjectController{
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'history' => new ApplyHistory(),
         ]);
-    }
-
-    public function actionCreate()
-    {
-        $model = new Apply();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if($model->project_id){
-                $log = new ApplyHistory();
-                $log->project_id = $model->project_id;
-
-                $log->status($log->status);
-                $log->insert();
-            }
-            //return $this->redirect(['update', 'id' => $model->project_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->project_id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
     }
 
     public function actionAccept(){
@@ -65,8 +32,11 @@ class ApplyController extends ProjectController{
         $model->status = Apply::STATUS_ACCEPT;
 
         if($model->save()){
+            $history = new ApplyHistory();
+            $history->project_id = $model->project_id;
+            $history->status = Apply::STATUS_ACCEPT;
+            $history->save();
             $session->setFlash('success', '修改成功');
-            $session->set('kvNodeId', $model->project_id);
         }
 
         return $this->redirect('/project/apply');
@@ -87,18 +57,22 @@ class ApplyController extends ProjectController{
         } else {
             $model = new Project();
             $successMsg = Yii::t('kvtree', 'The node was successfully created.');
-        }
 
+        }
         $model->attributes = $p;
 
-        if ($model->validate() && $model->save()) {
+        if ($model->save()) {
+            $session->set('currentProject', $model->project_id);
+            if($model->isNewRecord){
+                $history = new ApplyHistory();
+                $history->project_id = $model->project_id;
+                $history->status = $model->status;
+                $history->save();
+            }
             $session->setFlash('success', $successMsg);
-            $session->set('kvNodeId', $model->project_id);
         } else {
-            $errorMsg = '<ul style="margin:0"><li>' . implode('</li><li>', $model->getFirstErrors()) . '</li></ul>';
-            $session->setFlash('error', $errorMsg);
+            $session->setFlash('error','<ul style="margin:0"><li>' . implode('</li><li>', $model->getFirstErrors()) . '</li></ul>');
         }
-
         return $this->redirect('/project/apply');
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
-use yii\helpers\Html;
-
-use ipc\modules\project\Module;
+use ipc\modules\project\Module as msgModule;
 use kartik\tree\Module as kvModule;
 use kartik\tree\TreeView;
 use yii\helpers\Url;
@@ -11,8 +9,9 @@ use ipc\modules\project\models\Apply;
 /* @var $searchModel ipc\modules\project\models\ProjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Module::t('apply', 'Projects');
+$this->title = msgModule::t('apply', 'Projects');
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="project-index">
 
@@ -22,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'query' => Apply::find()->where(['status'=>Apply::STATUS_QUEUING])->addOrderBy('level,addtime'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => 3,
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Apply::getFirstNode() : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],
@@ -34,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //Module::NODE_MOVE => Url::to(['/treemanager/node/move']),
         ],
         'rootOptions' => [
-            'label'=>Module::t('apply', 'Projects'),  // custom root label
+            'label'=>msgModule::t('apply', 'Projects'),  // custom root label
             'class'=>'text-success'
         ],
         'treeOptions' => [
@@ -43,6 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'toolbar' => [
             TreeView::BTN_CREATE => false,
+            TreeView::BTN_CREATE_ROOT => [
+                'icon' => 'fa fa-plus',
+                'options' => [
+                    'title' => Yii::t('app', '添加申请'),
+                ]
+            ],
             TreeView::BTN_REMOVE => false,
             TreeView::BTN_MOVE_UP => false,
             TreeView::BTN_MOVE_DOWN => false,
@@ -50,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
             TreeView::BTN_MOVE_RIGHT => false,
         ],
         'breadcrumbs'=>[
-            'untitled' => Module::t('apply','New Apply')
+            'untitled' => msgModule::t('apply','New Apply')
         ]
     ]);?>
 <?php

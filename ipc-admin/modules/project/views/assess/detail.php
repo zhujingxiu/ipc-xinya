@@ -5,11 +5,11 @@ use ipc\modules\project\Module as msgModule;
 use system\models\User;
 use ipc\modules\project\modules\config\models\Tender;
 use ipc\modules\project\modules\config\models\Repayment;
-use ipc\modules\project\models\Apply;
-use kartik\dialog\Dialog;
+use ipc\modules\project\models\Assess;
+
 
 extract($params);
-$mode = $node->project_sn ? 'update' : 'create';
+
 
 $attributes = [
     [
@@ -32,7 +32,7 @@ $attributes = [
             [
                 'attribute' => 'project_sn',
                 'label' => msgModule::t('project','Project SN'),
-                'displayOnly' => $mode == 'update',
+                'displayOnly' => true,
                 'value' => $node->project_sn,
                 'labelColOptions' =>[
                     'style'=>'width:80%;text-align:right;'
@@ -214,80 +214,82 @@ $attributes = [
         ]
     ],
 ];
-$heading = empty($node->$nameAttribute) ? ArrayHelper::getValue($breadcrumbs, 'untitled') : $node->$nameAttribute ;
 $settings = [
     'model' => $node,
     'condensed'=>true,
     'hover'=>true,
-    'mode'=>DetailView::MODE_EDIT,
+    'mode'=>DetailView::MODE_VIEW,
     'labelColOptions' => ['style' => 'width: 12%;'],
     'panel'=>[
-        'heading'=> $heading,
-        'type'=>DetailView::TYPE_PRIMARY,
+        'heading'=> $node->$nameAttribute,
+        'type'=>DetailView::TYPE_DEFAULT,
     ],
     'vAlign'=>'top',
     'formOptions' => [
         'action' => $action,
     ],
-    'buttons2' => '{save}',
+    'buttons1' => false,
+    'buttons2' => false,
     'attributes' => $attributes
 ];
-if( $mode == 'update'):
-    $settings['buttons2'] = '{view} {update} {save}';
-    $settings['updateOptions'] = [
-        'label' => '<i class="fa fa-gavel"></i>',
-        'title' => '确认受理',
-        'class' => 'btn-accept kv-action-btn',
-        'data-key' => $node->project_id,
-        'data-title' => $heading
-    ];
-endif;
+
 echo DetailView::widget($settings);
 
-if( $mode == 'update'):
-echo Dialog::widget([
-    'libName' => 'acceptDialog', // optional if not set will default to `krajeeDialog`
-    'options' => [
-        'type' => Dialog::TYPE_SUCCESS,
-        'draggable' => true,
-        'closable' => true,
-        'title'=>'认定受理',
-        'buttons' => [
-            [
-                'label' => '确定受理',
-                'action' => new \yii\web\JsExpression("function(dialog) {
-                    $.ajax({
-                        'url':'/project/apply/accept',
-                        'type':'post',
-                        'data':{project_id:$('#accept-form input[name=\"project_id\"]').val(),level:$('#accept-form input[name=\"level\"]:checked').val()},
-                        'dataType':'json',
-                        'success':function(json){
+$history = new \ipc\modules\project\models\History();
+echo DetailView::widget([
+    'model' => $history,
+    'condensed'=>true,
+    'hover'=>true,
+    'mode'=>DetailView::MODE_EDIT,
+    'labelColOptions' => ['style' => 'width: 12%;'],
+    'panel'=>[
+        'heading'=> ' &nbsp; ',//$node->$nameAttribute,
+        'type'=>DetailView::TYPE_PRIMARY,
+    ],
+    'vAlign'=>'top',
+    'formOptions' => [
+        'action' => 'project/assess/confirm',
+    ],
 
-                        }
-                    });
-                }")
-            ],
+    'buttons2' => "{update} {save}",
+    'updateOptions' => [
+        'label' => '<i class="fa fa-reply"></i>',
+        'title' => '驳回',
+        'class' => 'btn-reject kv-action-btn',
+        'data-key' => $node->project_id,
+        'data-title' => $node->$nameAttribute
+    ],
+    'saveOptions' => [
+        'title' => '提交',
+    ],
+    'attributes' =>[
+        [
+            'columns' => [
+                [
+                    'attribute' => 'note',
+                    'label' => '承办意见',
+                    'value' => $history->note,
+                    'valueColOptions'=>['style'=>'width:90%;'],
+                    'options' => [
+                        'id' => 'tmce-'.uniqid()
+                    ],
+                    'type'=>DetailView::INPUT_WIDGET,
+                    'widgetOptions' => [
+                        'class' => '\pendalf89\tinymce\Tinymce',
+                        'clientOptions' => [
+                            'menubar' => false,
+                            'language' => 'zh_CN',
+                            'height' => 360,
+                            'plugins' => [
+                                'advlist autolink lists charmap preview anchor searchreplace visualblocks contextmenu table',
+                            ],
+                            'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
+                        ]
+                    ]
+                ],
+
+            ]
         ]
-    ], // custom options
+    ]
 ]);
-$level = '';
-foreach(Apply::getArrayLevel() as $id=>$title){
-    $level .='<div class="radio-inline" style="width: 100px"><label><input type="radio" name="level" value="'.$id.'"> '.$title.' </label></div>';
-}
-$js = <<< JS
-$('.btn-accept').on('click',function(){
-
-    var _html = '<form id="accept-form"><input type="hidden" class="form-control" name="project_id" value="'+$(this).attr('data-key')+'">';
-    _html +='<dl>';
-    _html +='   <dt class="text-center"><h3> '+$(this).attr('data-title')+' </h3></dt>';
-    _html +='   <dt><label class="control-label" for="apply-level">指定星级</label></dt>';
-    _html +='   <dd>$level</dd>';
-    _html +='</dl></form>';
-    acceptDialog.dialog(_html, function (result) {
-
-    });
-});
-JS;
-$this->registerJs($js);
-endif;
 ?>
