@@ -17,6 +17,8 @@ class Repayment extends \system\libs\base\BaseActiveRecord
     /**
      * @inheritdoc
      */
+
+    private $_title;
     public static function tableName()
     {
         return '{{%config_repayment}}';
@@ -45,5 +47,10 @@ class Repayment extends \system\libs\base\BaseActiveRecord
             'code' => Yii::t('app', 'Code'),
             'status' => Yii::t('app', 'Status'),
         ];
+    }
+
+    public function getTitleLabel($repaymentId){
+        $repayment = Repayment::findOne($repaymentId);
+        return empty($repayment['title']) ? '' : $repayment['title'];
     }
 }

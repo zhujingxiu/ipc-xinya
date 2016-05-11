@@ -2,10 +2,13 @@
 
 namespace ipc\modules\project\controllers;
 
+use ipc\modules\project\models\History;
+use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\models\Project;
 use ipc\modules\project\models\ProjectSearch;
 use system\libs\base\BaseController;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\base\InvalidCallException;
@@ -45,23 +48,6 @@ class ProjectController extends BaseController
         ]);
     }
 
-    /**
-     * Displays a single Project model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Project model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Project();

@@ -7,7 +7,7 @@ use ipc\modules\project\Module as msgModule;
 use system\models\User;
 use ipc\modules\project\modules\config\models\Tender;
 use ipc\modules\project\modules\config\models\Repayment;
-use ipc\modules\project\models\Assess;
+use ipc\modules\project\models\Check;
 use kartik\dialog\Dialog;
 
 extract($params);
@@ -228,12 +228,12 @@ echo DetailView::widget([
     'mode'=>DetailView::MODE_EDIT,
     'labelColOptions' => ['style' => 'width: 12%;'],
     'panel'=>[
-        'heading'=> ' &nbsp; ',//$node->$nameAttribute,
+        'heading'=> ' 签批意见 ',//$node->$nameAttribute,
         'type'=>DetailView::TYPE_PRIMARY,
     ],
     'vAlign'=>'top',
     'formOptions' => [
-        'action' => '/project/assess/confirm',
+        'action' => '/project/check/confirm',
     ],
     'buttons2' => "{update} {save}",
     'updateOptions' => [
@@ -259,26 +259,32 @@ echo DetailView::widget([
         [
             'columns' => [
                 [
+                    'attribute' => 'project_id',
+                    'label' => '风险调查等级',
+                    'value' => $history->project_id,
+                ],
+            ]
+        ],
+        [
+            'columns' => [
+                [
+                    'attribute' => 'project_id',
+                    'label' => '指定风险官',
+                    'value' => $history->project_id,
+                ],
+            ]
+        ],
+        [
+            'columns' => [
+                [
                     'attribute' => 'note',
-                    'label' => '承办意见',
                     'value' => $history->note,
-                    'valueColOptions'=>['style'=>'width:90%;'],
-                    'options' => [
-                        'id' => 'tmce-'.uniqid()
+                    'labelColOptions' => [
+                        'style' => 'display:none'
                     ],
-                    'type'=>DetailView::INPUT_WIDGET,
-                    'widgetOptions' => [
-                        'class' => '\pendalf89\tinymce\Tinymce',
-                        'clientOptions' => [
-                            'menubar' => false,
-                            'language' => 'zh_CN',
-                            'height' => 360,
-                            'plugins' => [
-                                'advlist autolink lists charmap preview anchor searchreplace visualblocks contextmenu table',
-                            ],
-                            'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent ',
-                        ]
-                    ]
+                    'type'=>DetailView::INPUT_TEXTAREA,
+                    'valueColOptions'=>['style'=>'width:90%','rows'=>5]
+
                 ],
 
             ]
@@ -305,7 +311,7 @@ echo Dialog::widget([
                         _note.next('.help-block').css('display','none').parent('.form-group').removeClass('has-error');
                     }
                     $.ajax({
-                        'url':'/project/assess/reject',
+                        'url':'/project/check/reject',
                         'type':'post',
                         'data':{project_id:$('#reject-form input[name=\"project_id\"]').val(),note:_note.val()},
                         'dataType':'json',

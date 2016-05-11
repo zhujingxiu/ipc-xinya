@@ -300,4 +300,9 @@ class User extends \common\models\User
         return empty($curr['node_id']) ? false : in_array($curr['node_id'],$permissions) ;
 
     }
+
+    public function getRealnameLabel($userId){
+        $user = User::findOne($userId);
+        return empty($user['realname']) ? '' : $user['realname'];
+    }
 }

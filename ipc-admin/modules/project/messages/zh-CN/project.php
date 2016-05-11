@@ -28,4 +28,8 @@ return [
     'Phone' => '联系方式',
     'Level' => '星级',
 
+    'Column Due' => '期限',
+    'Due Unit' => '月',
+    'Column Amount' => '金额',
+    'Amount Unit' => '万',
 ];

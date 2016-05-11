@@ -5,6 +5,7 @@ use kartik\tree\Module as kvModule;
 use kartik\tree\TreeView;
 use yii\helpers\Url;
 use ipc\modules\project\models\Apply;
+use ipc\modules\project\modules\config\models\Status;
 /* @var $this yii\web\View */
 /* @var $searchModel ipc\modules\project\models\ProjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -12,16 +13,17 @@ use ipc\modules\project\models\Apply;
 $this->title = msgModule::t('apply', 'Projects');
 $this->params['breadcrumbs'][] = $this->title;
 
+$status = [Status::getValue(Status::QUEUING),Status::getValue(Status::REJECTED)] ;
 ?>
 <div class="project-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php echo TreeView::widget([
-        'query' => Apply::find()->where(['status'=>Apply::STATUS_QUEUING])->addOrderBy('level,addtime'),
+        'query' => Apply::find()->where(['status'=>$status])->addOrderBy('level,addtime'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => empty(Yii::$app->session['currentProject']) ? Apply::getFirstNode() : Yii::$app->session['currentProject'],
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Apply::getFirstNode($status) : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],

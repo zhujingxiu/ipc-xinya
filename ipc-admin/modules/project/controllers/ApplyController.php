@@ -1,8 +1,10 @@
 <?php
 namespace ipc\modules\project\controllers;
 
-use ipc\modules\project\models\ApplyHistory;
+
+use ipc\modules\project\models\History;
 use ipc\modules\project\models\Project;
+use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\models\Apply;
 use ipc\modules\project\models\ApplySearch;
@@ -27,16 +29,17 @@ class ApplyController extends ProjectController{
         if(empty(Yii::$app->request->post('project_id'))){
             $session->setFlash('error', '参数异常');
         }
-        $model = $this->findModel(Yii::$app->request->post('project_id'));
+        $model = Apply::findOne(Yii::$app->request->post('project_id')) ;
         $model->level =  Yii::$app->request->post('level');
-        $model->status = Apply::STATUS_ACCEPT;
+        $model->status = Apply::STATUS_CONFIRMED;
 
         if($model->save()){
-            $history = new ApplyHistory();
+            $history = new History();
             $history->project_id = $model->project_id;
-            $history->status = Apply::STATUS_ACCEPT;
+            $history->status = Status::getValue(Status::CONFIRMED);
             $history->save();
             $session->setFlash('success', '修改成功');
+            unset($session['currentProject']);
         }
 
         return $this->redirect('/project/apply');
@@ -64,7 +67,7 @@ class ApplyController extends ProjectController{
         if ($model->save()) {
             $session->set('currentProject', $model->project_id);
             if($model->isNewRecord){
-                $history = new ApplyHistory();
+                $history = new History();
                 $history->project_id = $model->project_id;
                 $history->status = $model->status;
                 $history->save();

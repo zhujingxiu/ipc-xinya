@@ -2,34 +2,42 @@
 
 namespace ipc\modules\project\models;
 
-use ipc\modules\project\Module as msgModule;
 use ipc\modules\project\modules\config\models\Status;
 use Yii;
-
+use ipc\modules\project\Module as msgModule;
 /**
  * This is the model class for table "{{%project}}".
  *
  * @property integer $project_id
- * @property integer $project_sn
+ * @property string $project_sn
  * @property string $borrower
+ * @property string $corporator
  * @property string $phone
  * @property string $company
+ * @property string $address
+ * @property string $product
+ * @property string $bussiness
+ * @property string $text
  * @property string $amount
  * @property integer $due
  * @property integer $tender
- * @property string $income
- * @property string $fee
  * @property integer $repayment
- * @property string $prebidding
+ * @property integer $agent_a
+ * @property integer $agent_b
+ * @property string $intent
+ * @property string $source
+ * @property string $ensure
  * @property integer $addtime
+ * @property integer $status
+ * @property integer $level
+ * @property integer $user_id
+ * @property integer $edittime
  */
-class Apply extends Project
+class Check extends Project
 {
-
     use \kartik\tree\models\TreeTrait {
         isDisabled as parentIsDisabled; // note the alias
     }
-
     public $lvl = 0;
     public $lft = 1;
     public $rgt = 2;
@@ -77,7 +85,7 @@ class Apply extends Project
     public function init()
     {
         parent::init();
-        $this->status = Status::getValue(Status::QUEUING);
+        $this->status = Status::getValue(Status::CONFIRMED);
     }
 
     public function rules(){
@@ -87,22 +95,13 @@ class Apply extends Project
 
     public function getName()
     {
-
         return implode(" ",[
+            $this->getRatingLabel(),
             $this->project_sn,
             $this->borrower,
             number_format($this->amount,2).msgModule::t('apply','Amount Unit'),
-            $this->getTenderLabel(),
-            $this->statusTitle()
+            $this->getTenderLabel()
         ]);
-    }
-
-    private function statusTitle()
-    {
-
-        $status = Status::getStatus($this->status);
-
-        return empty($status['title']) ? '' : $status['title'];
     }
 
 }

@@ -33,6 +33,8 @@ class Module extends \yii\base\Module
                 'modules/project/apply' => 'apply.php',
                 'modules/project/project' => 'project.php',
                 'modules/project/assess' => 'assess.php',
+                'modules/project/history' => 'history.php',
+                'modules/project/check' => 'check.php',
             ],
         ];
     }

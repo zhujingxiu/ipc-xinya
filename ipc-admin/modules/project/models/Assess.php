@@ -2,6 +2,7 @@
 
 namespace ipc\modules\project\models;
 
+use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\Module as msgModule;
 /**
@@ -84,12 +85,18 @@ class Assess extends Project
     public function init()
     {
         parent::init();
-        $this->status = self::STATUS_ACCEPT;
+        $this->status = Status::getValue(Status::CONFIRMED);
+    }
+
+    public function rules(){
+
+        return parent::rules();
     }
 
     public function getName()
     {
         return implode(" ",[
+            $this->getRatingLabel(),
             $this->project_sn,
             $this->borrower,
             number_format($this->amount,2).msgModule::t('apply','Amount Unit'),

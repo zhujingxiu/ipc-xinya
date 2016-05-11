@@ -46,4 +46,9 @@ class Tender extends \system\libs\base\BaseActiveRecord
             'status' => Yii::t('app', 'Status'),
         ];
     }
+
+    public function getTitleLabel($tenderId){
+        $tender = Tender::findOne($tenderId);
+        return empty($tender['title']) ? '' : $tender['title'];
+    }
 }

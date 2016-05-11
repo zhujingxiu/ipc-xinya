@@ -5,13 +5,13 @@ namespace ipc\modules\project\controllers;
 use ipc\modules\project\models\History;
 use ipc\modules\project\modules\config\models\Status;
 use Yii;
-use ipc\modules\project\models\Assess;
+use ipc\modules\project\models\Check;
 
 
 /**
- * AssessController implements the CRUD actions for Assess model.
+ * CheckController implements the CRUD actions for Check model.
  */
-class AssessController extends ProjectController
+class CheckController extends ProjectController
 {
 
 
@@ -21,9 +21,9 @@ class AssessController extends ProjectController
 
         if(empty(Yii::$app->request->post('project_id'))){
             $session->setFlash('error', '参数异常');
-            return $this->redirect('/project/assess');
+            return $this->redirect('/project/check');
         }
-        $model = Assess::findOne(Yii::$app->request->post('project_id')) ;
+        $model = Check::findOne(Yii::$app->request->post('project_id')) ;
 
         $model->status = Status::getValue(Status::REJECTED);
 
@@ -37,7 +37,7 @@ class AssessController extends ProjectController
             unset($session['currentProject']);
         }
 
-        return $this->redirect('/project/assess');
+        return $this->redirect('/project/check');
     }
 
     public function actionConfirm()
@@ -46,9 +46,9 @@ class AssessController extends ProjectController
         $p = Yii::$app->request->post('History');
         if(empty($p['project_id'])){
             $session->setFlash('error', '参数异常');
-            return $this->redirect('/project/assess');
+            return $this->redirect('/project/check');
         }
-        $model = Assess::findOne($p['project_id']) ;
+        $model = Check::findOne($p['project_id']) ;
 
         $model->status = Status::getValue(Status::CHECKING);
 
@@ -62,6 +62,6 @@ class AssessController extends ProjectController
             unset($session['currentProject']);
         }
 
-        return $this->redirect('/project/assess');
+        return $this->redirect('/project/check');
     }
 }

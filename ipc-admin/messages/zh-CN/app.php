@@ -92,6 +92,7 @@ return [
     'Approve' => '审批',
     'Sign' => '签订合同',
     'Borrowing' => '借款挂标',
-    'Manage' => '贷后管理'
+    'Manage' => '贷后管理',
 
+    'Reject' => '驳回',
 ];

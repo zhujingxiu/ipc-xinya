@@ -3,13 +3,13 @@
 use ipc\modules\project\Module as msgModule;
 use kartik\tree\TreeView;
 use ipc\modules\project\modules\config\models\Status;
-use ipc\modules\project\models\Assess;
+use ipc\modules\project\models\Check;
 
 /* @var $this yii\web\View */
-/* @var $searchModel ipc\modules\project\models\AssessSearch */
+/* @var $searchModel ipc\modules\project\models\CheckSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = msgModule::t('assess', 'Projects');
+$this->title = msgModule::t('check', 'Projects');
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerCss("
 .kv-detail-container{padding:0px;border:none;}
@@ -19,16 +19,16 @@ $this->registerCss("
 ?>
 <div class="assess-index">
     <?php echo TreeView::widget([
-        'query' => Assess::find()->where(['status'=>Status::getValue(Status::CONFIRMED)])->addOrderBy('level desc,addtime desc'),
+        'query' => Check::find()->where(['status'=>Status::getValue(Status::CHECKING)])->addOrderBy('level desc,addtime desc'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => empty(Yii::$app->session['currentProject']) ? Assess::getFirstNode(Status::getValue(Status::CONFIRMED)) : Yii::$app->session['currentProject'],
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode(Status::getValue(Status::CHECKING)) : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],
-        'nodeView' => '@ipc/modules/project/views/assess/detail',
+        'nodeView' => '@ipc/modules/project/views/check/detail',
         'rootOptions' => [
-            'label'=>msgModule::t('assess', 'Projects'),  // custom root label
+            'label'=>msgModule::t('check', 'Projects'),  // custom root label
             'class'=>'text-success'
         ],
         'treeOptions' => [

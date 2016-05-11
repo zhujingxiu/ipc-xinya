@@ -18,19 +18,6 @@ use yii\helpers\StringHelper;
  */
 class History extends \system\libs\base\BaseActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-
-    const STATUS_QUEUING = 'queuing';
-    const STATUS_CONFIRMED = 'confirmed';
-    const STATUS_CHECKING = 'checking';
-    const STATUS_APPROVED= 'approved';
-    const STATUS_SIGNED= 'signed';
-    const STATUS_FINISHED= 'finished';
-    const STATUS_LACKING= 'lacking';
-    const STATUS_REFUSED= 'refused';
-    const STATUS_TERMINATED= 'terminated';
 
     public static function tableName()
     {

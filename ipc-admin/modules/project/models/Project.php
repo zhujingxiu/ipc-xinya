@@ -39,10 +39,11 @@ class Project extends \system\libs\base\BaseActiveRecord
 {
 
     const STATUS_QUEUING = 1;
-    const STATUS_ACCEPT = 2;
+    const STATUS_CONFIRMED = 2;
 
     private $_tenderLabel;
     private $_repaymentLabel;
+    private $_ratingLabel;
     /**
      * @inheritdoc
      */
@@ -50,6 +51,7 @@ class Project extends \system\libs\base\BaseActiveRecord
     {
         return '{{%project}}';
     }
+
     public static function getArrayLevel(){
         return [
             1 => '<i class="fa fa-star"></i>',
@@ -70,6 +72,16 @@ class Project extends \system\libs\base\BaseActiveRecord
         return ArrayHelper::map(Repayment::find()->where(['status'=>1])->addOrderBy('repayment_id')->asArray()->all(), 'repayment_id', 'title');
     }
 
+    public function getRatingLabel()
+    {
+        if ($this->_ratingLabel === null) {
+            $levels = self::getArrayLevel();
+
+            $this->_ratingLabel = $levels[$this->level];
+        }
+        return $this->_ratingLabel;
+    }
+
     public function getTenderLabel()
     {
         if ($this->_tenderLabel === null) {
@@ -79,6 +91,7 @@ class Project extends \system\libs\base\BaseActiveRecord
         }
         return $this->_tenderLabel;
     }
+
     public function getRepaymentLabel()
     {
         if ($this->_repaymentLabel === null) {
@@ -103,7 +116,6 @@ class Project extends \system\libs\base\BaseActiveRecord
             [['borrower','corporator'], 'string', 'max' => 64],
             [['project_sn','phone'], 'string', 'max' => 32],
             [['company','address','product','bussiness'], 'string', 'max' => 128],
-
 
         ];
     }
@@ -154,4 +166,9 @@ class Project extends \system\libs\base\BaseActiveRecord
         return false;
     }
 
+    public static function getFirstNode($status){
+        $result = self::find()->where(['status' =>$status])->addOrderBy('level,addtime')->asArray()->one();
+
+        return empty($result['project_id']) ? 0 :  $result['project_id'];
+    }
 }

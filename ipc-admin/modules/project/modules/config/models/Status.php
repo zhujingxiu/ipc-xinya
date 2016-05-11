@@ -13,6 +13,16 @@ use Yii;
  */
 class Status extends \system\libs\base\BaseActiveRecord
 {
+
+    const QUEUING = 'queuing';
+    const CONFIRMED = 'confirmed';
+    const CHECKING = 'checking';
+    const APPROVED= 'approved';
+    const SIGNED= 'signed';
+    const FINISHED= 'finished';
+    const LACKING= 'lacking';
+    const REJECTED= 'rejected';
+    const TERMINATED= 'terminated';
     /**
      * @inheritdoc
      */
@@ -45,7 +55,12 @@ class Status extends \system\libs\base\BaseActiveRecord
         ];
     }
 
-    public function getStatus($code){
-        return Status::find()->where(['code'=>strtolower($code)])->asArray()->one();
+    public static function getStatus($value){
+        return is_numeric($value) ? Status::findOne(['status_id'=>(int)$value]) : Status::findOne(['code'=>strtolower($value)]);
+    }
+
+    public static function getValue($code){
+        $status = self::getStatus($code);
+        return empty($status['status_id']) ? false : $status['status_id'];
     }
 }
