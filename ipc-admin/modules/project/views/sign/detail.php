@@ -7,15 +7,12 @@ use ipc\modules\project\Module as msgModule;
 use system\models\User;
 use ipc\modules\project\modules\config\models\Tender;
 use ipc\modules\project\modules\config\models\Repayment;
-
+use ipc\modules\project\models\Check;
+use kartik\dialog\Dialog;
 
 extract($params);
-$comment = \ipc\modules\project\models\Comment::findOne(['project_id'=>$node->project_id]);
-/*var_dump($comment->level);
-var_dump($comment->officer);
-echo '<pre>';
-print_r($comment);
-echo '</pre>';exit;*/
+
+
 $attributes = [
     [
         'columns' => [
@@ -203,50 +200,7 @@ $attributes = [
             ],
         ]
     ],
-    [
-        'group'=>true,
-        'label'=>msgModule::t('project','Sign Info'),
-        'rowOptions'=>['class'=>'info']
-    ],
-    [
-        'columns' => [
-            [
-                'attribute' => 'level',
-                'displayOnly'=>true,
-                'label' => '风险调查等级',
-                'value' => \ipc\modules\project\modules\config\models\Check::getTitleLabel($comment->level),
 
-            ],
-        ]
-    ],
-    [
-        'columns' => [
-            [
-                'attribute' => 'officer',
-                'displayOnly'=>true,
-                'label' => '指定风险官',
-                'value' => User::getRealnameLabel($comment->officer),
-
-            ],
-        ]
-    ],
-    [
-        'columns' => [
-            [
-                'attribute' => 'remark',
-                'displayOnly'=>true,
-                'format' => 'raw',
-                'value' => "<div class=''>".$comment->remark."</div> <br><div class='pull-left'>分管领导：".User::getRealnameLabel($comment->user_id).'</div><div class="pull-right">'.date('Y-m-d',$comment['addtime']).'</div>',
-                'labelColOptions' => [
-                    'style' => 'display:none'
-                ],
-                'type'=>DetailView::INPUT_TEXTAREA,
-                'valueColOptions'=>['style'=>'width:90%'],
-                'options'=>['rows'=>5]
-            ],
-
-        ]
-    ]
 ];
 $settings = [
     'model' => $node,
@@ -266,23 +220,22 @@ $settings = [
 
 echo DetailView::widget($settings);
 
-
-$attach = new \ipc\modules\project\models\Attach();
-$attach->project_id = $node->project_id;
+$comment = new \ipc\modules\project\models\Comment();
+$comment->project_id = $node->project_id;
 echo DetailView::widget([
-    'model' => $attach,
+    'model' => $comment,
     'condensed'=>true,
     'hover'=>true,
     'mode'=>DetailView::MODE_EDIT,
     'labelColOptions' => ['style' => 'width: 12%;'],
     'panel'=>[
-        'heading'=> ' 调查报告 ',//$node->$nameAttribute,
+        'heading'=> ' 签批意见 ',//$node->$nameAttribute,
         'type'=>DetailView::TYPE_PRIMARY,
     ],
     'formOptions' => [
-        'action' => '/project/check/upload',
+        'action' => '/project/sign/confirm',
     ],
-    'buttons2' => "{update} ",
+    'buttons2' => "{update} {save}",
     'updateOptions' => [
         'label' => '<i class="fa fa-reply"></i>',
         'title' => Yii::t('app','Reject'),
@@ -298,7 +251,7 @@ echo DetailView::widget([
             'columns' => [
                 [
                     'attribute' => 'project_id',
-                    'value' => $attach->project_id,
+                    'value' => $comment->project_id,
                     'type' => DetailView::INPUT_HIDDEN
                 ],
             ]
@@ -306,17 +259,95 @@ echo DetailView::widget([
         [
             'columns' => [
                 [
-                    'attribute' => 'title',
+                    'attribute' => 'level',
                     'label' => '风险调查等级',
-                    'value' => $attach->title,
-                    'type' => DetailView::INPUT_FILEINPUT,
-
+                    'value' => $comment->level,
+                    'type' => DetailView::INPUT_RADIO_LIST,
+                    'items' => \ipc\modules\project\modules\config\models\Check::getArrayLevel(),
+                    'options' => [
+                        'class' => 'radio'
+                    ]
                 ],
             ]
         ],
+        [
+            'columns' => [
+                [
+                    'attribute' => 'officer',
+                    'label' => '指定风险官',
+                    'value' => $comment->officer,
+                    'type' => DetailView::INPUT_SELECT2,
+                    'widgetOptions'=>[
+                        'data'=>ArrayHelper::map(User::getRoleUsers(\system\modules\auth\models\Role::RISK), 'user_id', 'realname'),
+                        'options' => ['placeholder' => 'Select ...'],
+                        'pluginOptions' => ['allowClear'=>true, 'width'=>'100%'],
+                    ],
+                ],
+            ]
+        ],
+        [
+            'columns' => [
+                [
+                    'attribute' => 'remark',
+                    'value' => $comment->remark,
+                    'labelColOptions' => [
+                        'style' => 'display:none'
+                    ],
+                    'type'=>DetailView::INPUT_TEXTAREA,
+                    'valueColOptions'=>['style'=>'width:90%'],
+                    'options'=>['rows'=>5]
+                ],
 
-
+            ]
+        ]
     ]
 ]);
 
+echo Dialog::widget([
+    'libName' => 'rejectDialog', // optional if not set will default to `krajeeDialog`
+    'options' => [
+        'type' => Dialog::TYPE_SUCCESS,
+        'draggable' => true,
+        'closable' => true,
+        'title'=>'请填写驳回理由',
+        'buttons' => [
+            [
+                'label' => '确定驳回',
+                'action' => new \yii\web\JsExpression("function(dialog) {
+                    var _note = $('#reject-form textarea[name=\"note\"]');
+                    if($.trim(_note.val()) == ''){
+                        _note.next('.help-block').css('display','block').parent('.form-group').addClass('has-error');
+                        return;
+                    }else{
+                        _note.next('.help-block').css('display','none').parent('.form-group').removeClass('has-error');
+                    }
+                    $.ajax({
+                        'url':'/project/check/reject',
+                        'type':'post',
+                        'data':{project_id:$('#reject-form input[name=\"project_id\"]').val(),note:_note.val()},
+                        'dataType':'json',
+                        'success':function(json){
+
+                        }
+                    });
+                }")
+            ],
+        ]
+    ], // custom options
+]);
+
+$js = <<< JS
+$('.btn-reject').on('click',function(){
+
+    var _html = '<form id="reject-form"><input type="hidden" class="form-control" name="project_id" value="'+$(this).attr('data-key')+'">';
+    _html +='<dl >';
+    _html +='   <dt class="text-center"><h3> '+$(this).attr('data-title')+' </h3></dt>';
+    _html +='   <dd class="form-group"><textarea name="note" rows="5" style="width:99%;"></textarea><div class="help-block" style="display:none">必须填写驳回理由</dd>';
+    _html +='</dl></form>';
+    rejectDialog.dialog(_html, function (result) {
+
+    });
+});
+JS;
+$this->registerJs($js);
 ?>

@@ -7,21 +7,10 @@ use ipc\modules\project\models\Project;
 use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\models\Apply;
-use ipc\modules\project\models\ApplySearch;
 
 use yii\web\Response;
 
 class ApplyController extends ProjectController{
-
-    public function actionIndex()
-    {
-        $searchModel = new ApplySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     public function actionAccept(){
         $session = Yii::$app->session;

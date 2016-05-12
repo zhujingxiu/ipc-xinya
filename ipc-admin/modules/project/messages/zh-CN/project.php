@@ -3,6 +3,7 @@ return [
     'Create Project' => '信贷申请意向表',
     'Company Info' => ' &nbsp; 一、企业基本情况',
     'Loan Info' => ' &nbsp; 二、申请借款项目情况',
+    'Sign Info' => ' &nbsp; 三、签批意见',
     'Project SN' => '编号',
     'Projects' => '项目列表',
     'Borrower' => '申请人',

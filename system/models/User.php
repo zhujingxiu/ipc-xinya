@@ -75,7 +75,7 @@ class User extends \common\models\User
             $roles = self::getArrayRole();
             $label = [];
 
-            $tmp = is_string($this->role) ? StringHelper::explode(",",$this->role) : $this->role;
+            $tmp = is_string($this->role) ? explode(",",$this->role) : $this->role;
             foreach($tmp as $item){
                 if(isset($roles[$item]))
                     $label[] = $roles[$item];
@@ -304,5 +304,11 @@ class User extends \common\models\User
     public function getRealnameLabel($userId){
         $user = User::findOne($userId);
         return empty($user['realname']) ? '' : $user['realname'];
+    }
+
+    public function getRoleUsers($value){
+        $role_id = is_numeric($value) ? $value : Role::getRoleId($value);
+
+        return User::find()->where(['role'=>[$role_id],'status'=>1])->orderBy('user_id,created_at')->asArray()->all();
     }
 }

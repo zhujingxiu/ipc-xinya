@@ -16,6 +16,7 @@ class Status extends \system\libs\base\BaseActiveRecord
 
     const QUEUING = 'queuing';
     const CONFIRMED = 'confirmed';
+    const ASSESSED = 'assessed';
     const CHECKING = 'checking';
     const APPROVED= 'approved';
     const SIGNED= 'signed';

@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'Projects' => '待评估项目',
-    'Confirm' => '调查评估',
+    'Projects' => '待签批项目',
+    'Confirm' => '认定受理',
     'Cancel' => '取消',
 
     'Addtime' => '添加日期',

@@ -35,6 +35,8 @@ class Module extends \yii\base\Module
                 'modules/project/assess' => 'assess.php',
                 'modules/project/history' => 'history.php',
                 'modules/project/check' => 'check.php',
+                'modules/project/comment' => 'comment.php',
+                'modules/project/sign' => 'sign.php',
             ],
         ];
     }

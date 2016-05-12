@@ -260,7 +260,7 @@ echo DetailView::widget([
             'columns' => [
                 [
                     'attribute' => 'note',
-                    'label' => '承办意见',
+                    'label' => '调查评估',
                     'value' => $history->note,
                     'valueColOptions'=>['style'=>'width:90%;'],
                     'options' => [

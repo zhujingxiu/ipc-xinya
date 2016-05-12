@@ -108,7 +108,7 @@ class UserController extends \system\libs\base\BaseController
     {
         $model = new User(['scenario' => 'admin-create']);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $model->id);
+//            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $model->id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -127,8 +127,8 @@ class UserController extends \system\libs\base\BaseController
         $model = $this->findModel($id);
         $model->setScenario('admin-update');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->authManager->revokeAll($id);
-            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $id);
+//            Yii::$app->authManager->revokeAll($id);
+//            Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $id);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

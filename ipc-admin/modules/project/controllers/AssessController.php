@@ -50,7 +50,7 @@ class AssessController extends ProjectController
         }
         $model = Assess::findOne($p['project_id']) ;
 
-        $model->status = Status::getValue(Status::CHECKING);
+        $model->status = Status::getValue(Status::ASSESSED);
 
         if($model->save()){
             $history = new History();

@@ -1,22 +1,18 @@
 <?php
 
-namespace ipc\modules\project\controllers;
+namespace ipc\modules\project\modules\config\controllers;
 
-use ipc\modules\project\models\History;
-use ipc\modules\project\modules\config\models\Status;
 use Yii;
-use ipc\modules\project\models\Project;
-use ipc\modules\project\models\ProjectSearch;
-use system\libs\base\BaseController;
-use yii\helpers\Url;
+use ipc\modules\project\modules\config\models\Check;
+use ipc\modules\project\modules\config\models\CheckSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\base\InvalidCallException;
 
 /**
- * ProjectController implements the CRUD actions for Project model.
+ * CheckController implements the CRUD actions for Check model.
  */
-class ProjectController extends BaseController
+class CheckController extends Controller
 {
     /**
      * @inheritdoc
@@ -34,26 +30,43 @@ class ProjectController extends BaseController
     }
 
     /**
-     * Lists all Project models.
+     * Lists all Check models.
      * @return mixed
      */
     public function actionIndex()
     {
-//        $searchModel = new ProjectSearch();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new CheckSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-//            'searchModel' => $searchModel,
-//            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
+    /**
+     * Displays a single Check model.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionView($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
+    }
+
+    /**
+     * Creates a new Check model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
     public function actionCreate()
     {
-        $model = new Project();
+        $model = new Check();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->project_id]);
+            return $this->redirect(['view', 'id' => $model->check_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -62,7 +75,7 @@ class ProjectController extends BaseController
     }
 
     /**
-     * Updates an existing Project model.
+     * Updates an existing Check model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -72,7 +85,7 @@ class ProjectController extends BaseController
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->project_id]);
+            return $this->redirect(['view', 'id' => $model->check_id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -81,7 +94,7 @@ class ProjectController extends BaseController
     }
 
     /**
-     * Deletes an existing Project model.
+     * Deletes an existing Check model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -94,19 +107,18 @@ class ProjectController extends BaseController
     }
 
     /**
-     * Finds the Project model based on its primary key value.
+     * Finds the Check model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Project the loaded model
+     * @return Check the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Project::findOne($id)) !== null) {
+        if (($model = Check::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

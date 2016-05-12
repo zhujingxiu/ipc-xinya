@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 ?>
 <p>
     <?= Html::submitButton( Yii::t('app', 'Save'), ['class' => 'btn btn-primary','form'=>'user-form']) ?>
-</p
+</p>
 <?php $form = ActiveForm::begin(['id'=>'user-form']); ?>
 <div class="col-lg-5">
     <div class="box">
@@ -24,6 +24,7 @@ use yii\helpers\ArrayHelper;
         <div class="user-form box-body">
 
             <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'realname')->textInput(['maxlength' => 64]) ?>
 
             <?= $form->field($model, 'password')->passwordInput(['maxlength' => 255]) ?>
 

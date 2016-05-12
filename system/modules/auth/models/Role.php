@@ -2,6 +2,7 @@
 
 namespace system\modules\auth\models;
 
+use system\models\User;
 use Yii;
 
 /**
@@ -35,6 +36,11 @@ use Yii;
  */
 class Role extends \system\modules\auth\models\Node
 {
+    const DEVELOPER = 'developer';
+    const CREDIT = 'credit';
+    const RISK = 'risk';
+    const FINANCIAL = 'financial';
+    const COMMITTEE = 'committee';
 
     public function init()
     {
@@ -42,4 +48,19 @@ class Role extends \system\modules\auth\models\Node
         $this->mode = parent::MODE_ROLE;
     }
 
+    public static function getRole($value)
+    {
+        return Role::findOne(['path'=>strtolower($value)]);
+
+    }
+
+    public static function getRoleId($value){
+        $role = self::getRole($value);
+
+        if(empty($role['node_id'])){
+            return false;
+        }
+
+        return $role['node_id'];
+    }
 }
