@@ -15,14 +15,15 @@ $this->registerCss("
 .kv-detail-container{padding:0px;border:none;}
 .select2-container .select2-selection--single .select2-selection__rendered{margin-top:0px;}
 .kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;}
+.input-group .kv-fileinput-caption{min-width:220px;}
 ");
 ?>
 <div class="assess-index">
     <?php echo TreeView::widget([
-        'query' => Check::find()->where(['status'=>Status::getValue(Status::CHECKING)])->addOrderBy('level desc,addtime desc'),
+        'query' => Check::find()->where(['status'=>Status::getValue(Status::SIGNED)])->addOrderBy('level desc,addtime desc'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode(Status::getValue(Status::CHECKING)) : Yii::$app->session['currentProject'],
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode(Status::getValue(Status::SIGNED)) : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],

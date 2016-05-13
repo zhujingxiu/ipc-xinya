@@ -17,7 +17,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'dist/js/app.min.js',
-
+        'dist/js/json.min.js',
     ];
     public $depends = [
 

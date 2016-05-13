@@ -56,7 +56,7 @@ class SiteController extends \system\libs\base\BaseController
     {
         if($error=Yii::$app->errorHandler->exception)
         {
-            var_dump($error);
+
             if(Yii::$app->request->isAjax)
                 echo $error['message'];
             else
@@ -65,8 +65,6 @@ class SiteController extends \system\libs\base\BaseController
     }
     public function actionIndex()
     {
-
-
         return $this->render('index');
     }
 
@@ -93,4 +91,5 @@ class SiteController extends \system\libs\base\BaseController
 
         return $this->goHome();
     }
+
 }

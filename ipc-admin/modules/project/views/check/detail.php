@@ -7,15 +7,11 @@ use ipc\modules\project\Module as msgModule;
 use system\models\User;
 use ipc\modules\project\modules\config\models\Tender;
 use ipc\modules\project\modules\config\models\Repayment;
-
-
+use ipc\modules\project\modules\config\models\Prove;
+use ipc\modules\project\modules\config\models\Check;
 extract($params);
 $comment = \ipc\modules\project\models\Comment::findOne(['project_id'=>$node->project_id]);
-/*var_dump($comment->level);
-var_dump($comment->officer);
-echo '<pre>';
-print_r($comment);
-echo '</pre>';exit;*/
+
 $attributes = [
     [
         'columns' => [
@@ -214,7 +210,7 @@ $attributes = [
                 'attribute' => 'level',
                 'displayOnly'=>true,
                 'label' => '风险调查等级',
-                'value' => \ipc\modules\project\modules\config\models\Check::getTitleLabel($comment->level),
+                'value' => Check::getTitleLabel($comment->level),
 
             ],
         ]
@@ -269,6 +265,7 @@ echo DetailView::widget($settings);
 
 $attach = new \ipc\modules\project\models\Attach();
 $attach->project_id = $node->project_id;
+$attach->prove_id = Prove::getValue(Prove::CHECKING);
 echo DetailView::widget([
     'model' => $attach,
     'condensed'=>true,
@@ -279,10 +276,11 @@ echo DetailView::widget([
         'heading'=> ' 调查报告 ',//$node->$nameAttribute,
         'type'=>DetailView::TYPE_PRIMARY,
     ],
+    'vAlign'=>'top',
     'formOptions' => [
-        'action' => '/project/check/upload',
+        'action' => '/project/check/save',
     ],
-    'buttons2' => "{update} ",
+    'buttons2' => "{update} {save}",
     'updateOptions' => [
         'label' => '<i class="fa fa-reply"></i>',
         'title' => Yii::t('app','Reject'),
@@ -306,17 +304,61 @@ echo DetailView::widget([
         [
             'columns' => [
                 [
-                    'attribute' => 'title',
-                    'label' => '风险调查等级',
-                    'value' => $attach->title,
-                    'type' => DetailView::INPUT_FILEINPUT,
-
+                    'attribute' => 'prove_id',
+                    'value' => $attach->prove_id,
+                    'type' => DetailView::INPUT_HIDDEN
                 ],
             ]
         ],
-
-
+        [
+            'columns' => [
+                [
+                    'attribute' => 'title',
+                    'label' => '报告标题',
+                    'value' => $attach->title,
+                ],
+            ]
+        ],
+        [
+            'columns' => [
+                [
+                    'attribute' => 'file',
+                    'label' => '上传文件',
+                    'value' => $attach->path,
+                    'type' => DetailView::INPUT_FILEINPUT,
+                    'widgetOptions'=>[
+                        'language' => 'zh-CN',
+                        'options' => ['multiple' => true,'id'=>'project-attach'],
+                        'pluginOptions' => [
+                            'showUpload' => false,
+                            'uploadUrl' => \yii\helpers\Url::to(['/project/check/upload']),
+                            'uploadAsync' => true,
+                            'maxFileCount' => 3,
+                            'uploadExtraData' => [
+                                'sn' => $node->project_sn
+                            ]
+                        ],
+                        'pluginEvents' => [
+                            'fileuploaded' => 'function(event,data,previewId,index) {
+                                var _val = {"name":data.response.name,"path":data.response.path,"type":data.response.type};
+                                $("#project-attach").after("<input type=\"hidden\" name=\"Attach[file][]\" id=\""+previewId+"\" value="+$.toJSON(_val)+" />");
+                            }',
+                        ]
+                    ],
+                ],
+            ]
+        ],
+        [
+            'columns' => [
+                [
+                    'attribute' => 'remark',
+                    'label'=>'简要描述',
+                    'value' => $attach->remark,
+                    'type'=>DetailView::INPUT_TEXTAREA,
+                    'valueColOptions'=>['style'=>'width:90%'],
+                ],
+            ]
+        ]
     ]
 ]);
 
-?>

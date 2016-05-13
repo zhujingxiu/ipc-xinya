@@ -54,7 +54,7 @@ class SignController extends ProjectController
         if($model !== null){
             $comment = new Comment();
             if($comment->load(Yii::$app->request->post()) && $comment->save()){
-                $model->status = Status::getValue(Status::CHECKING);
+                $model->status = Status::getValue(Status::SIGNED);
                 if($model->save()){
                     $history = new History();
                     $history->project_id = $model->project_id;

@@ -2,11 +2,14 @@
 
 namespace ipc\modules\project\controllers;
 
+use ipc\modules\project\models\Attach;
 use ipc\modules\project\models\Comment;
 use ipc\modules\project\models\History;
 use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\models\Check;
+use yii\helpers\Json;
+use yii\web\Response;
 
 
 /**
@@ -14,7 +17,6 @@ use ipc\modules\project\models\Check;
  */
 class CheckController extends ProjectController
 {
-
 
     public function actionReject()
     {
@@ -41,10 +43,14 @@ class CheckController extends ProjectController
         return $this->redirect('/project/check');
     }
 
-    public function actionConfirm()
+    public function actionSave()
     {
+
+        $p = Yii::$app->request->post('Attach');
+
+
         $session = Yii::$app->session;
-        $p = Yii::$app->request->post('Comment');
+
         if(empty($p['project_id'])){
             $session->setFlash('error', '参数异常');
             return $this->redirect('/project/check');
@@ -54,16 +60,23 @@ class CheckController extends ProjectController
         $model->status = Status::getValue(Status::CHECKING);
 
         if($model->save()){
-            $comment = Comment::findOne(['project_id'=>$model->project_id]);
-            if($comment == null)
-            {
-                $comment = new Comment();
-                $comment->project_id = $model->project_id;
+            $tmp = [];
+            if(is_array($p['file'])){
+                foreach($p['file'] as $item){
+                    $tmp[] = Json::decode($item);
+                }
             }
-            $comment->level = $p['level'];
-            $comment->officer = $p['officer'];
-            $comment->remark = $p['remark'];
-            $comment->save();
+            $attach = Attach::findOne(['project_id'=>$model->project_id]);
+            if($attach == null)
+            {
+                $attach = new Attach();
+                $attach->project_id = $model->project_id;
+            }
+            $attach->prove_id = $p['prove_id'];
+            $attach->title = $p['title'];
+            $attach->file = Json::encode($tmp);
+            $attach->remark = $p['remark'];
+            $attach->save();
 
             $history = new History();
             $history->project_id = $model->project_id;
@@ -76,5 +89,30 @@ class CheckController extends ProjectController
         }
 
         return $this->redirect('/project/check');
+    }
+
+    public function actionUpload()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $routes = empty(Yii::$app->modules['filemanager']['routes']) ? false : Yii::$app->modules['filemanager']['routes'] ;
+        if($routes === false)
+        {
+            $routes = [
+                'baseUrl' => '',
+                'basePath' => '@ipc/web',
+                'uploadPath' => 'uploads',
+            ];
+        }
+
+        $routes['sn'] = Yii::$app->request->post('sn');
+        $model = new Attach();
+
+        $result = $model->saveUploadedFile($routes);
+
+        if ($model->isImage()) {
+            $model->createDefaultThumb($routes['basePath']);
+        }
+
+        return $result;
     }
 }
