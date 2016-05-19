@@ -3,33 +3,32 @@
 use ipc\modules\project\Module as msgModule;
 use kartik\tree\TreeView;
 use ipc\modules\project\modules\config\models\Status;
-use ipc\modules\project\models\Assess;
+use ipc\modules\project\models\Check;
 
 /* @var $this yii\web\View */
-/* @var $searchModel ipc\modules\project\models\AssessSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = msgModule::t('assess', 'Projects');
+$this->title = msgModule::t('check', 'Projects');
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerCss("
 .kv-detail-container{padding:0px;border:none;}
 .select2-container .select2-selection--single .select2-selection__rendered{margin-top:0px;}
 .kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;}
+.input-group .kv-fileinput-caption{min-width:220px;}
 ");
-$status = Status::getValue(Status::CONFIRMED);
+$status = Status::getValue(Status::CHECKING);
 ?>
-<div class="assess-index">
+<div class="approve-index">
     <?php echo TreeView::widget([
-        'query' => Assess::find()->where(['status'=>$status])->addOrderBy('level desc,addtime desc'),
+        'query' => Check::find()->where(['status'=>$status])->addOrderBy('level desc,addtime desc'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => empty(Yii::$app->session['currentProject']) ? Assess::getFirstNode($status) : Yii::$app->session['currentProject'],
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode($status) : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],
-        'nodeView' => '@ipc/modules/project/views/assess/detail',
+        'nodeView' => '@ipc/modules/project/views/approve/detail',
         'rootOptions' => [
-            'label'=>msgModule::t('assess', 'Projects'),  // custom root label
+            'label'=> $this->title ,  // custom root label
             'class'=>'text-success'
         ],
         'treeOptions' => [

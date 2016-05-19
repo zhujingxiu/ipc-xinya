@@ -219,7 +219,7 @@ $settings = [
     'model' => $node,
     'condensed'=>true,
     'hover'=>true,
-    'mode'=>DetailView::MODE_EDIT,
+    'mode'=> $mode == 'update' ? DetailView::MODE_VIEW : DetailView::MODE_EDIT,
     'labelColOptions' => ['style' => 'width: 12%;'],
     'panel'=>[
         'heading'=> $heading,
@@ -229,18 +229,21 @@ $settings = [
     'formOptions' => [
         'action' => $action,
     ],
-    'buttons2' => '{save}',
+
+    'buttons2' => '{view} {save} {delete}',
     'attributes' => $attributes
 ];
 if( $mode == 'update'):
-    $settings['buttons2'] = '{view} {update} {save}';
-    $settings['updateOptions'] = [
+    $settings['buttons1'] = '{reset} {update}';
+    $settings['resetOptions'] = [
         'label' => '<i class="fa fa-gavel"></i>',
         'title' => '确认受理',
         'class' => 'btn-accept kv-action-btn',
         'data-key' => $node->project_id,
         'data-title' => $heading
     ];
+else :
+    $settings['buttons2'] = '{save}';
 endif;
 echo DetailView::widget($settings);
 

@@ -10,31 +10,9 @@ use Yii;
 
 class DefaultController extends \system\libs\base\BaseController
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@']
-                    ]
-                ]
-            ],
-        ];
-    }
 
     public function actionIndex()
     {
-        //if(!Yii::$app->user->can('readPost')) throw new HttpException(403, 'No Auth');
-
         if(Yii::$app->request->isPost)
         {
             $config = Yii::$app->request->post('Config');

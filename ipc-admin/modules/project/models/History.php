@@ -2,6 +2,7 @@
 
 namespace ipc\modules\project\models;
 
+use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\Module;
 use yii\helpers\StringHelper;
@@ -62,6 +63,5 @@ class History extends \system\libs\base\BaseActiveRecord
         }
         return false;
     }
-
 
 }

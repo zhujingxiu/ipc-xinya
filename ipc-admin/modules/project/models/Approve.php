@@ -5,6 +5,8 @@ namespace ipc\modules\project\models;
 use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\Module as msgModule;
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table "{{%project}}".
  *
@@ -33,7 +35,7 @@ use ipc\modules\project\Module as msgModule;
  * @property integer $user_id
  * @property integer $edittime
  */
-class Check extends Project
+class Approve extends Project
 {
     use \kartik\tree\models\TreeTrait {
         isDisabled as parentIsDisabled; // note the alias
@@ -85,7 +87,7 @@ class Check extends Project
     public function init()
     {
         parent::init();
-        $this->status = Status::getValue(Status::SIGNED);
+        $this->status = Status::getValue(Status::CHECKING);
     }
 
     public function rules(){
@@ -128,5 +130,10 @@ class Check extends Project
                 return $log;
             }
         }
+    }
+
+    public function getConfirmers()
+    {
+        return ArrayHelper::map($this->hasMany(Comment::className(),['project_id'=>'project_id'])->asArray()->all(),'comment_id','user_id','mode');
     }
 }

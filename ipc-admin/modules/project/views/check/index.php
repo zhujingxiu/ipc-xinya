@@ -17,13 +17,14 @@ $this->registerCss("
 .kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;}
 .input-group .kv-fileinput-caption{min-width:220px;}
 ");
+$status = Status::getValue(Status::SIGNED);
 ?>
 <div class="assess-index">
     <?php echo TreeView::widget([
-        'query' => Check::find()->where(['status'=>Status::getValue(Status::SIGNED)])->addOrderBy('level desc,addtime desc'),
+        'query' => Check::find()->where(['status'=>$status])->addOrderBy('level desc,addtime desc'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode(Status::getValue(Status::SIGNED)) : Yii::$app->session['currentProject'],
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode($status) : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],

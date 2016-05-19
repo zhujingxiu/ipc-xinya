@@ -2,21 +2,23 @@
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 ?>
-    <ul class="navbar-nav navbar-left nav">
-        <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-bell-o"></i>
-                <span class="label label-warning notifications-icon-count">0</span>
-            </a>
-            <ul class="dropdown-menu">
-                <li class="header">您有<span class="notifications-header-count">0</span>个消息</li>
-                <li>
-                    <div id="notifications"></div>
-                </li>
-            </ul>
-        </li>
-    </ul>
+<ul class="navbar-nav navbar-left nav">
+    <li class="dropdown notifications-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bell-o"></i>
+            <span class="label label-warning notifications-icon-count">0</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="header">您有<span class="notifications-header-count">0</span>个消息</li>
+            <li>
+                <div id="notifications"></div>
+            </li>
+        </ul>
+    </li>
+</ul>
 <?php
+
+
 $menuItems = [
 
     [

@@ -8,6 +8,7 @@ use Yii;
 use ipc\modules\project\models\Project;
 use ipc\modules\project\models\ProjectSearch;
 use system\libs\base\BaseController;
+use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,20 +19,6 @@ use yii\base\InvalidCallException;
  */
 class ProjectController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Project models.

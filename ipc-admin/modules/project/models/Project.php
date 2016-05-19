@@ -3,6 +3,7 @@
 namespace ipc\modules\project\models;
 
 use ipc\modules\project\modules\config\models\Repayment;
+use ipc\modules\project\modules\config\models\Status;
 use ipc\modules\project\modules\config\models\Tender;
 use Yii;
 use ipc\modules\project\Module;
@@ -171,4 +172,11 @@ class Project extends \system\libs\base\BaseActiveRecord
 
         return empty($result['project_id']) ? 0 :  $result['project_id'];
     }
+
+    public function getHistories()
+    {
+        return $this->hasMany(History::className(),['project_id' => 'project_id'])->addOrderBy('addtime desc')->asArray()->all();
+    }
+
+
 }

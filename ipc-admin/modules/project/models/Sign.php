@@ -103,5 +103,18 @@ class Sign extends Project
             $this->getTenderLabel()
         ]);
     }
+    public function getHistories()
+    {
+        return parent::getHistories();
+    }
 
+    public function getHistory($code)
+    {
+        $histories = self::getHistories();
+        foreach($histories as $log){
+            if($log['status'] == Status::getValue(strtolower($code))){
+                return $log;
+            }
+        }
+    }
 }

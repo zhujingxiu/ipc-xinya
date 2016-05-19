@@ -16,13 +16,14 @@ $this->registerCss("
 .select2-container .select2-selection--single .select2-selection__rendered{margin-top:0px;}
 .kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;}
 ");
+$status = Status::getValue(Status::ASSESSED);
 ?>
 <div class="assess-index">
     <?php echo TreeView::widget([
-        'query' => Check::find()->where(['status'=>Status::getValue(Status::ASSESSED)])->addOrderBy('level desc,addtime desc'),
+        'query' => Check::find()->where(['status'=>$status])->addOrderBy('level desc,addtime desc'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode(Status::getValue(Status::ASSESSED)) : Yii::$app->session['currentProject'],
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode($status) : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],

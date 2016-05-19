@@ -2,6 +2,7 @@
 
 namespace ipc\modules\project\modules\config\controllers;
 
+use system\libs\base\BaseController;
 use Yii;
 use ipc\modules\project\modules\config\models\Check;
 use ipc\modules\project\modules\config\models\CheckSearch;
@@ -12,23 +13,8 @@ use yii\filters\VerbFilter;
 /**
  * CheckController implements the CRUD actions for Check model.
  */
-class CheckController extends Controller
+class CheckController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Check models.
      * @return mixed

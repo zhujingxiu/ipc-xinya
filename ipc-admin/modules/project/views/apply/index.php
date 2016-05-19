@@ -64,7 +64,7 @@ $status = [Status::getValue(Status::QUEUING),Status::getValue(Status::REJECTED)]
 $this->registerCss("
 .kv-detail-container{padding:0px;border:none;}
 .select2-container .select2-selection--single .select2-selection__rendered{margin-top:0px;}
-.kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;border-bottom: 1px #ddd solid;}
+.kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;}
 ");
 ?>
 </div>

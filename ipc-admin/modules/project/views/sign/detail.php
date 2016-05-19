@@ -11,7 +11,8 @@ use ipc\modules\project\models\Check;
 use kartik\dialog\Dialog;
 
 extract($params);
-
+$sign = \ipc\modules\project\models\Sign::findOne( $node->project_id);
+$assessed = $sign->getHistory(\ipc\modules\project\modules\config\models\Status::ASSESSED);
 
 $attributes = [
     [
@@ -85,8 +86,10 @@ $attributes = [
         'columns' => [
             [
                 'attribute' => 'text',
-                'label' => msgModule::t('project','Text'),
-                'value' => $node->text,
+                'displayOnly' => true,
+                'format' => 'raw',
+                'labelColOptions' => [ 'style' => 'display:none' ],
+                'value' => empty($assessed['note']) ? '' : $assessed['note'],
                 'type'=>DetailView::INPUT_TEXTAREA,
                 'valueColOptions'=>['style'=>'width:90%'],
                 'options'=>['rows'=>5]
@@ -220,10 +223,10 @@ $settings = [
 
 echo DetailView::widget($settings);
 
-$comment = new \ipc\modules\project\models\Comment();
-$comment->project_id = $node->project_id;
+$process = new \ipc\modules\project\models\Process();
+$process->project_id = $node->project_id;
 echo DetailView::widget([
-    'model' => $comment,
+    'model' => $process,
     'condensed'=>true,
     'hover'=>true,
     'mode'=>DetailView::MODE_EDIT,
@@ -251,7 +254,7 @@ echo DetailView::widget([
             'columns' => [
                 [
                     'attribute' => 'project_id',
-                    'value' => $comment->project_id,
+                    'value' => $process->project_id,
                     'type' => DetailView::INPUT_HIDDEN
                 ],
             ]
@@ -261,7 +264,7 @@ echo DetailView::widget([
                 [
                     'attribute' => 'level',
                     'label' => '风险调查等级',
-                    'value' => $comment->level,
+                    'value' => $process->level,
                     'type' => DetailView::INPUT_RADIO_LIST,
                     'items' => \ipc\modules\project\modules\config\models\Check::getArrayLevel(),
                     'options' => [
@@ -275,7 +278,7 @@ echo DetailView::widget([
                 [
                     'attribute' => 'officer',
                     'label' => '指定风险官',
-                    'value' => $comment->officer,
+                    'value' => $process->officer,
                     'type' => DetailView::INPUT_SELECT2,
                     'widgetOptions'=>[
                         'data'=>ArrayHelper::map(User::getRoleUsers(\system\modules\auth\models\Role::RISK), 'user_id', 'realname'),
@@ -289,7 +292,7 @@ echo DetailView::widget([
             'columns' => [
                 [
                     'attribute' => 'remark',
-                    'value' => $comment->remark,
+                    'value' => $process->remark,
                     'labelColOptions' => [
                         'style' => 'display:none'
                     ],

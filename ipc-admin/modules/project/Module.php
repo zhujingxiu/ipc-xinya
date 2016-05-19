@@ -31,12 +31,14 @@ class Module extends \yii\base\Module
             'basePath' => __DIR__.'/messages',
             'fileMap' => [
                 'modules/project/apply' => 'apply.php',
+                'modules/project/approve' => 'approve.php',
                 'modules/project/project' => 'project.php',
                 'modules/project/assess' => 'assess.php',
                 'modules/project/history' => 'history.php',
                 'modules/project/check' => 'check.php',
                 'modules/project/comment' => 'comment.php',
                 'modules/project/sign' => 'sign.php',
+                'modules/project/process' => 'process.php',
             ],
         ];
     }

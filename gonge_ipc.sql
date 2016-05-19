@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-05-13 12:42:13
+-- Generation Time: 2016-05-17 12:06:12
 -- 服务器版本： 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -62,12 +62,12 @@ CREATE TABLE `ipc_auth_node` (
 
 INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`, `icon`, `icon_type`, `mode`, `is_root`, `path`, `rule`, `rule_param`, `sets`, `remark`, `active`, `selected`, `disabled`, `readonly`, `visible`, `collapsed`, `movable_u`, `movable_d`, `movable_l`, `movable_r`, `removable`, `removable_all`) VALUES
 (1, 1, 1, 2, 0, '客户管理', 'fa fa-users', 1, 'menu', 0, 'customer', '', 's:0:"";', '31,32,33,34', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(2, 2, 1, 16, 0, '信贷业务', 'fa fa-cubes', 1, 'menu', 0, '', '', 's:0:"";', '35,36,37,38,39,40,41,42,43,47,48,49,50,51,52,53,54,55', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(2, 2, 1, 16, 0, '信贷业务', 'fa fa-cubes', 1, 'menu', 0, '', '', 's:0:"";', '35,36,37,38,39,40,41,42,43,47,48,49,50,51,52,53,54,55,56,57,58,59', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (3, 2, 2, 3, 1, '客户申请', 'fa fa-envelope', 1, 'menu', 0, 'project/apply', '', 's:0:"";', '36,37,38,39,40', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (4, 2, 4, 5, 1, '调查评估', 'fa fa-binoculars', 1, 'menu', 0, 'project/assess', '', 's:0:"";', '41,42,43,47', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (5, 2, 6, 7, 1, '评审签批', 'fa fa-edit', 1, 'menu', 0, 'project/sign', '', 's:0:"";', '48,49,50,51', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (6, 2, 8, 9, 1, '审查核实', 'fa fa-check-square', 1, 'menu', 0, 'project/check', '', 's:0:"";', '52,53,54,55', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(7, 2, 10, 11, 1, '项目审批', 'fa fa-gavel', 1, 'menu', 0, 'project/approve', '', 's:0:"";', '', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(7, 2, 10, 11, 1, '项目审批', 'fa fa-gavel', 1, 'menu', 0, 'project/approve', '', 's:0:"";', '56,57,58,59', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (8, 2, 12, 13, 1, '签订合同', 'fa fa-book', 1, 'menu', 0, 'project/contract', '', 's:0:"";', '', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (9, 2, 14, 15, 1, '贷后管理', 'fa fa-tree', 1, 'menu', 0, 'project/manage', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (10, 10, 1, 10, 0, '用户与菜单', 'fa fa-sitemap', 1, 'menu', 0, '', '', 's:0:"";', '24,25,26,27,28,29,30', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
@@ -78,11 +78,11 @@ INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`
 (15, 15, 1, 6, 0, '工具', 'fa fa-cogs', 1, 'menu', 0, '', '', 's:0:"";', '', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (16, 15, 2, 3, 1, '数据备份', 'fa fa-database', 1, 'menu', 0, 'tool/backup', NULL, NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (17, 15, 4, 5, 1, '数据恢复', 'fa fa-recycle', 1, 'menu', 0, 'tool/recycle', NULL, NULL, NULL, NULL, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(18, 18, 1, 2, 0, '技术运营部', '', 1, 'role', 1, NULL, '', 's:0:"";', '', '技术运营部，为方便测试整个系统，开放全部权限，应配置为根用户组，无需分配其他权限', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0),
-(19, 19, 1, 2, 0, '技术运营', '', 1, 'role', 0, 'developer', '', NULL, NULL, NULL, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(18, 18, 1, 2, 0, '根', '', 1, 'role', 1, 'root', '', 's:0:"";', '', '系统', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0),
+(19, 19, 1, 2, 0, '技术运营', '', 1, 'role', 0, 'developer', '', NULL, NULL, '技术运营部，为方便测试整个系统，开放全部权限，应配置为根用户组，无需分配其他权限', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (20, 20, 1, 2, 0, '信贷部', '', 1, 'role', 0, 'credit', '', 's:0:"";', '31,32,33,34,36,37,38,39,40', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (21, 21, 1, 2, 0, '风控部', '', 1, 'role', 0, 'risk', '', 's:0:"";', '41,42,43', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(22, 22, 1, 2, 0, '财务部', '', 1, 'role', 0, 'financial', '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(22, 22, 1, 2, 0, '财务部', '', 1, 'role', 0, 'accounting', '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (23, 23, 1, 2, 0, '信贷评审委员会', '', 1, 'role', 0, 'committee', '', 's:0:"";', '31,32,33,34,35,36,37,38,39,40,41,42,43', '', 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (24, 24, 1, 8, 0, '员工管理', '', 1, 'permission', 0, 'user', '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (25, 24, 2, 3, 1, '员工列表', '', 1, 'permission', 0, 'user/index', '', NULL, NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
@@ -95,7 +95,7 @@ INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`
 (32, 31, 2, 3, 1, '客户列表', '', 1, 'permission', 0, 'customer/index', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (33, 31, 4, 5, 1, '添加客户', '', 1, 'permission', 0, 'customer/create', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (34, 31, 6, 7, 1, '编辑客户[修改-删除]', '', 1, 'permission', 0, 'customer/view', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(35, 35, 1, 36, 0, '信贷业务', '', 1, 'permission', 0, 'project', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(35, 35, 1, 44, 0, '信贷业务', '', 1, 'permission', 0, 'project', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (36, 35, 2, 11, 1, '客户申请', '', 1, 'permission', 0, 'project/apply', '', 's:0:"";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (37, 35, 3, 4, 2, '申请列表', '', 1, 'permission', 0, 'project/apply/index', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (38, 35, 5, 6, 2, '新增申请', '', 1, 'permission', 0, 'project/apply/create', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
@@ -115,7 +115,11 @@ INSERT INTO `ipc_auth_node` (`node_id`, `parent_id`, `lft`, `rgt`, `lvl`, `name`
 (52, 35, 28, 35, 1, '审查核实', '', 1, 'permission', 0, 'check', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (53, 35, 29, 30, 2, '列表', '', 1, 'permission', 0, 'project/check', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
 (54, 35, 31, 32, 2, '提交资料', '', 1, 'permission', 0, 'project/check/save', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
-(55, 35, 33, 34, 2, '驳回项目', '', 1, 'permission', 0, 'project/check/reject', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0);
+(55, 35, 33, 34, 2, '驳回项目', '', 1, 'permission', 0, 'project/check/reject', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(56, 35, 36, 43, 1, '项目审批', '', 1, 'permission', 0, 'approve', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(57, 35, 37, 38, 2, '列表', '', 1, 'permission', 0, 'project/approve', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(58, 35, 39, 40, 2, '提交资料', '', 1, 'permission', 0, 'project/approve', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0),
+(59, 35, 41, 42, 2, '驳回项目', '', 1, 'permission', 0, 'project/approve/reject', '', 's:7:"s:0:"";";', NULL, NULL, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -627,16 +631,16 @@ CREATE TABLE `ipc_project` (
 --
 
 INSERT INTO `ipc_project` (`project_id`, `project_sn`, `borrower`, `corporator`, `phone`, `company`, `address`, `product`, `bussiness`, `text`, `amount`, `due`, `tender`, `repayment`, `agent_a`, `agent_b`, `intent`, `source`, `ensure`, `addtime`, `status`, `level`, `user_id`, `edittime`) VALUES
-(3, '0056', '曾国藩', '曾国藩456456', '', '湘军', '湘军sssss', '湘军4654645', '湘军', 'sdasdasdsadsassssssss', '200.0000', 36, 5, 1, 2, 3, '剿匪', '打败长毛贼，攻破天京城', '苛捐杂税', 1462265448, 8, 4, 1, 1462937078),
+(3, '0056', '曾国藩', '曾国藩456456', '', '湘军', '湘军sssss', '湘军4654645', '湘军', 'sdasdasdsadsassssssss', '200.0000', 36, 5, 1, 2, 3, '剿匪', '打败长毛贼，攻破天京城', '苛捐杂税', 1463477491, 4, 4, 1, 1463477491),
 (4, '0059', '李鸿章', '李鸿章', '', '淮军', '淮军', '淮军', '淮军', 'ewrewrewdsadsadsa', '200.0000', 36, 5, 1, 2, 3, '剿灭长毛', '慈禧太后封赏', '苛捐杂税', 1462332389, 1, 0, 1, 1462865471),
-(15, '0052', '左宗棠', '左宗棠', '', '楚军', '楚军', '楚军', '楚军', 'sadsadsadsa', '300.0000', 24, 4, 2, 2, 3, '', '', '', 1462334374, 1, 0, 1, 1462781236),
-(16, '0562', '朱景修', '朱景修', '', '珠宝公司', '珠宝公司珠宝公司珠宝公司', '珠宝', '珠宝批发零售', 'sadsa', '200.0000', 12, 5, 2, 2, 3, '', '', '', 1462610168, 4, 5, 1, 1463134004),
+(15, '0052', '左宗棠', '左宗棠', '', '楚军', '楚军', '楚军', '楚军', 'sadsadsadsa', '300.0000', 24, 4, 2, 2, 3, '', '', '', 1462334374, 2, 4, 1, 1463364101),
+(16, '0562', '朱景修', '朱景修', '', '珠宝公司', '珠宝公司珠宝公司珠宝公司', '珠宝', '珠宝批发零售', 'sadsa', '200.0000', 12, 5, 2, 2, 3, '', '', '', 1462610168, 9, 5, 1, 1463134004),
 (17, '0058', '许一城', '许一城', '', '五眼梅花', '老北京', '古玩鉴定', '古玩批发零售', 'sadasdasdsa', '250.0000', 12, 5, 3, 3, 2, '', '', '', 1463134994, 4, 4, 1, 1463134994),
-(18, '0060', '庄睿', '庄睿', '', '典当行', '中海市', '典当行', '典当行', 'asdsa', '130.0000', 18, 5, 2, 3, 2, '', '', '', 1463136025, 4, 4, 1, 1463136025),
-(19, '0062', '药慎行', '药慎行', '', '药慎行', '药慎行', '药慎行', '药慎行药慎行', '药慎行药慎行', '100.0000', 12, 5, 3, 3, 2, '', '', '', 1462612185, 2, 5, 1, 1463109299),
+(18, '0060', '庄睿', '庄睿', '', '典当行', '中海市', '典当行', '典当行', 'asdsa', '130.0000', 18, 5, 2, 3, 2, '', '', '', 1463363204, 4, 4, 1, 1463363204),
+(19, '0062', '药慎行', '药慎行', '', '药慎行', '药慎行', '药慎行', '药慎行药慎行', '药慎行药慎行', '100.0000', 12, 5, 3, 3, 2, '', '', '', 1463364152, 6, 5, 1, 1463364152),
 (20, '0063', '夏洛特', '夏洛特', '', '英国侦探社', '伦敦贝克街', '私人侦探', '私人侦探', 'sadsadsasasadasdas', '300.0000', 12, 5, 2, 1, 2, '97879', '', '', 1462777259, 3, 5, 1, 1463109329),
-(22, '0068', '林建清', '林建清', '', '东峤一典一珠宝', '珠宝公司珠宝公司珠宝公司', '金镶玉', '珠宝批发零售', '', '300.0000', 12, 5, 2, 1, 2, '', '', '', 1462869125, 2, 5, 1, 1462950167),
-(24, '0069', '某某某', '某某某', '', '某某某', '某某某', '某某某', '某某某', '某某某', '200.0000', 36, 4, 2, 2, 1, '', '', '', 1462869644, 4, 5, 1, 1463109394);
+(22, '0068', '林建清', '林建清', '', '东峤一典一珠宝', '珠宝公司珠宝公司珠宝公司', '金镶玉', '珠宝批发零售', '', '300.0000', 12, 5, 2, 1, 2, '', '', '', 1463364163, 6, 5, 1, 1463364163),
+(24, '0069', '某某某', '某某某', '', '某某某', '某某某', '某某某', '某某某', '某某某', '200.0000', 36, 4, 2, 2, 1, '', '', '', 1463475741, 4, 5, 1, 1463475741);
 
 -- --------------------------------------------------------
 
@@ -651,7 +655,7 @@ CREATE TABLE `ipc_project_attach` (
   `file` text COLLATE utf8_unicode_ci,
   `title` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
   `remark` text COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL,
   `addtime` int(11) NOT NULL,
   `sort` smallint(6) NOT NULL DEFAULT '1'
@@ -663,7 +667,10 @@ CREATE TABLE `ipc_project_attach` (
 
 INSERT INTO `ipc_project_attach` (`attach_id`, `project_id`, `prove_id`, `file`, `title`, `remark`, `status`, `user_id`, `addtime`, `sort`) VALUES
 (1, 16, 11, '["[{\\"name\\":\\"copydireactory.jpg\\",\\"path\\":\\"/uploads/2016/05/0562-13175335-a090af.jpg\\",\\"type\\":\\"image/jpeg\\"}]","[{\\"name\\":\\"icreader.png\\",\\"path\\":\\"/uploads/2016/05/0562-13175335-ad2623.png\\",\\"type\\":\\"image/png\\"}]"]', 'sasssss', 'sssss', 1, 0, 0, 1),
-(2, 18, 11, '[{"name":"MOISN_Y_KJ9_Z_L~AT27_Z1.png","path":"/uploads/2016/05/0060-13183702-243b6e.png","type":"image/png"},{"name":"copydireactory.jpg","path":"/uploads/2016/05/0060-13183643-d40ee8.jpg","type":"image/jpeg"}]', '1321321', '', 1, 0, 0, 1);
+(2, 18, 11, '[{"name":"icreader.png","path":"/uploads/2016/05/16094637-54acfc.png","type":"image/png"}]', '3213123123123', '', 1, 0, 0, 1),
+(3, 17, 11, '[{"name":"icreader.png","path":"/uploads/2016/05/16094637-54acfc.png","type":"image/png"}]', 'sasssss', 'sssss', 1, 6, 0, 1),
+(4, 24, 11, '[{"name":"photo4.jpg","path":"/uploads/2016/05/17170214-432a05.jpg","type":"image/jpeg"},{"name":"photo3.jpg","path":"/uploads/2016/05/17170213-ea1a4f.jpg","type":"image/jpeg"},{"name":"photo1.png","path":"/uploads/2016/05/17170212-06d903.png","type":"image/png"}]', 'sadsadsa', 'dasdsadsasa', 0, 0, 0, 1),
+(6, 3, 11, '[{"name":"调查报告.docx","path":"/uploads/2016/05/17173124-8e8d6d.docx","type":"application/octet-stream"}]', '565454', '566', 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -674,34 +681,11 @@ INSERT INTO `ipc_project_attach` (`attach_id`, `project_id`, `prove_id`, `file`,
 CREATE TABLE `ipc_project_comment` (
   `comment_id` int(11) NOT NULL,
   `project_id` int(11) NOT NULL,
-  `level` tinyint(4) NOT NULL COMMENT '调查等级',
-  `officer` int(11) NOT NULL COMMENT '风险官',
-  `remark` text COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `mode` enum('undertake','credit','risk','committee') NOT NULL DEFAULT 'undertake',
+  `content` text NOT NULL,
+  `addtime` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `addtime` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- 转存表中的数据 `ipc_project_comment`
---
-
-INSERT INTO `ipc_project_comment` (`comment_id`, `project_id`, `level`, `officer`, `remark`, `status`, `user_id`, `addtime`) VALUES
-(1, 16, 3, 6, 'asdsadsa', 1, 1, 1463044872),
-(2, 24, 4, 6, 'asdsadsadsa', 1, 1, 1463109394),
-(3, 17, 2, 6, '654654', 1, 1, 1463134994),
-(4, 18, 3, 6, '21313', 1, 1, 1463135159);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `ipc_project_guarantor`
---
-
-CREATE TABLE `ipc_project_guarantor` (
-  `project_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='项目担保人';
 
 -- --------------------------------------------------------
@@ -729,7 +713,6 @@ INSERT INTO `ipc_project_history` (`history_id`, `project_id`, `status`, `user_i
 (5, 15, 0, 1, NULL, 1462334374),
 (6, 20, 0, 1, NULL, 1462871074),
 (7, 24, 0, 1, NULL, 1462871118),
-(8, 18, 0, 1, NULL, 1462930628),
 (9, 19, 8, 1, 'ssss', 1462936980),
 (10, 3, 8, 1, '12321321', 1462937078),
 (11, 20, 8, 1, 'sadsa', 1462937270),
@@ -773,7 +756,53 @@ INSERT INTO `ipc_project_history` (`history_id`, `project_id`, `status`, `user_i
 (49, 16, 4, 1, 'sssss', 1463134004),
 (50, 17, 4, 1, '654654', 1463134994),
 (51, 18, 6, 1, '21313', 1463135159),
-(52, 18, 4, 1, '', 1463136025);
+(52, 18, 4, 1, '', 1463136025),
+(53, 18, 4, 1, '', 1463363204),
+(54, 15, 2, 1, NULL, 1463364101),
+(55, 19, 3, 1, '<p>8777997798</p>', 1463364116),
+(56, 22, 3, 1, '<p>899797897</p>', 1463364126),
+(57, 19, 6, 1, '79978789978', 1463364152),
+(58, 22, 6, 1, '97946651', 1463364163),
+(59, 24, 6, 1, '12312321', 1463475707),
+(60, 24, 4, 1, 'dasdsadsasa', 1463475741),
+(61, 3, 2, 1, NULL, 1463476665),
+(62, 3, 3, 1, '<p class="MsoNormal"><span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma;">该客户由</span><span lang="EN-US">XX</span><span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma;">担保公司</span><span lang="EN-US">XXX</span><span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma;">介绍至我公司。客观化</span><span lang="EN-US">sadsa</span><span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma;">按时回家汇款后看见爱是会尽快的还是卡件号地块</span> <span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma;">看哈撒空间的海口市安徽的卡仕达撒的空间会撒娇看好的空间会撒娇看哈撒烤菊花贷款哈萨克的凯撒和的卡号撒看好的卡萨好看的花洒空间号地块萨地区为婆婆是泼妇是假的</span> <span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma;">几乎是立刻答复还是贷款恢复</span></p>\r\n<p>&nbsp;</p>\r\n<p class="MsoNormal"><em><span lang="EN-US" style="font-family: ''Tahoma'',''sans-serif''; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></em><strong><em><span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi;">客户资产情况：a</span></em></strong></p>\r\n<p class="MsoNormal"><strong><em><span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi;">asdsadsad</span></em></strong><em><span style="font-family: ''微软雅黑'',''sans-serif''; mso-ascii-font-family: Tahoma; mso-hansi-font-family: Tahoma; mso-bidi-font-family: ''Times New Roman''; mso-bidi-theme-font: minor-bidi;">asdsadsadsa sadsads没得撒娇啊看见借款dlk</span></em></p>', 1463476922),
+(63, 3, 6, 1, 'asdsa', 1463477267),
+(64, 3, 4, 1, '', 1463477328),
+(65, 3, 6, 1, '564654', 1463477463),
+(66, 3, 4, 1, '566', 1463477491);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `ipc_project_process`
+--
+
+CREATE TABLE `ipc_project_process` (
+  `process_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `level` tinyint(4) NOT NULL COMMENT '调查等级',
+  `officer` int(11) NOT NULL COMMENT '风险官',
+  `remark` text COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1',
+  `user_id` int(11) NOT NULL,
+  `addtime` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- 转存表中的数据 `ipc_project_process`
+--
+
+INSERT INTO `ipc_project_process` (`process_id`, `project_id`, `level`, `officer`, `remark`, `status`, `user_id`, `addtime`) VALUES
+(1, 16, 3, 6, 'asdsadsa', 1, 1, 1463044872),
+(2, 24, 4, 6, 'asdsadsadsa', 1, 1, 1463109394),
+(3, 17, 2, 6, '654654', 1, 1, 1463134994),
+(4, 18, 3, 6, '21313', 1, 1, 1463135159),
+(5, 19, 3, 6, '79978789978', 1, 1, 1463364151),
+(6, 22, 3, 6, '97946651', 1, 1, 1463364163),
+(7, 24, 2, 7, '12312321', 1, 1, 1463475707),
+(8, 3, 3, 7, 'asdsa', 1, 1, 1463477267),
+(9, 3, 3, 7, '564654', 1, 1, 1463477463);
 
 -- --------------------------------------------------------
 
@@ -808,7 +837,8 @@ INSERT INTO `ipc_user` (`user_id`, `username`, `realname`, `auth_key`, `password
 (5, 'xinyan222', '马腾讯', 'dpXTlD8b_2RPlQZaRWGOB1wp4ogN7t_o', '$2y$13$cdweCjOIkpVWgD/Dri7Lo.hHfnmcbh3cEe3sphx12wnpHfAQgFPoa', '-BogDn5Mh0I8x2V3eTYJxN_cAOyjfICZ_1463014029', 'a@qq.com', 0, '20', 1, 1463014028, 1463014028),
 (6, 'xinyan333', '马阿狸', 'MgRzb_AvNhmrVRN7YXU-cEk2DtTjh5M6', '$2y$13$WchGxvGmsmoBo5CKwSzOn.0SAUewhEcyW2OO45jJMqV4hnOA2l/62', 'QAErW1lhP2OlvVisBJN5MHV7gR75tO1v_1463014122', 'a@taobao.c', 0, '21', 1, 1463014122, 1463014122),
 (7, 'xinyan444', '刘京东', 'WYXmpt5TYbW6Xo-Lk9mZ7oTFWEmKbiYF', '$2y$13$MM/Mdhh2SBbN3gMeEGnxtulvwLbYSiG5iK5RRhCOv1PGGubc1sS12', 'NKeW7w7xxNh07At5AKqWVg245SXbiyPe_1463014208', 'a@jd.c', 0, '21', 1, 1463014208, 1463014208),
-(8, 'xinyan888', '赵公明', 'uCMdbf3TUFkIU00_3H6sCuyhIADb60k5', '$2y$13$BUP1gkhTTDJpbd/b94Lkk.mCV0lJYouGf.hNPpreWpR/39w201/cm', 'LtICtjWsfDixs2iDOdIRd4lZ1TylP5vF_1463014964', 'a@caishen.c', 0, '23', 1, 1463014964, 1463014964);
+(8, 'xinyan888', '赵公明', 'uCMdbf3TUFkIU00_3H6sCuyhIADb60k5', '$2y$13$BUP1gkhTTDJpbd/b94Lkk.mCV0lJYouGf.hNPpreWpR/39w201/cm', 'LtICtjWsfDixs2iDOdIRd4lZ1TylP5vF_1463014964', 'a@caishen.c', 0, '23', 1, 1463014964, 1463014964),
+(9, 'xinyan999', '沈万三', 'jf8W0dMxnzoxK5f_SRjKKwJdF405jMpF', '$2y$13$UY4npSIzBKRQAvyzd59.4ubYq3IYxqFIJUByYv9UEpa0m7M2q5RrW', '9fZMYkWjeU0T5og8FzetUaOGlP5RlbCK_1463451526', '1@xinyan.c', 0, '23', 1, 1463451525, 1463451525);
 
 --
 -- Indexes for dumped tables
@@ -953,16 +983,16 @@ ALTER TABLE `ipc_project_comment`
   ADD PRIMARY KEY (`comment_id`);
 
 --
--- Indexes for table `ipc_project_guarantor`
---
-ALTER TABLE `ipc_project_guarantor`
-  ADD PRIMARY KEY (`project_id`);
-
---
 -- Indexes for table `ipc_project_history`
 --
 ALTER TABLE `ipc_project_history`
   ADD PRIMARY KEY (`history_id`);
+
+--
+-- Indexes for table `ipc_project_process`
+--
+ALTER TABLE `ipc_project_process`
+  ADD PRIMARY KEY (`process_id`);
 
 --
 -- Indexes for table `ipc_user`
@@ -981,7 +1011,7 @@ ALTER TABLE `ipc_user`
 -- 使用表AUTO_INCREMENT `ipc_auth_node`
 --
 ALTER TABLE `ipc_auth_node`
-  MODIFY `node_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `node_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- 使用表AUTO_INCREMENT `ipc_config`
 --
@@ -1006,7 +1036,7 @@ ALTER TABLE `ipc_config_handle`
 -- 使用表AUTO_INCREMENT `ipc_config_prove`
 --
 ALTER TABLE `ipc_config_prove`
-  MODIFY `prove_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `prove_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- 使用表AUTO_INCREMENT `ipc_config_repayment`
 --
@@ -1051,27 +1081,27 @@ ALTER TABLE `ipc_project`
 -- 使用表AUTO_INCREMENT `ipc_project_attach`
 --
 ALTER TABLE `ipc_project_attach`
-  MODIFY `attach_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `attach_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- 使用表AUTO_INCREMENT `ipc_project_comment`
 --
 ALTER TABLE `ipc_project_comment`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- 使用表AUTO_INCREMENT `ipc_project_guarantor`
---
-ALTER TABLE `ipc_project_guarantor`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- 使用表AUTO_INCREMENT `ipc_project_history`
 --
 ALTER TABLE `ipc_project_history`
-  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+--
+-- 使用表AUTO_INCREMENT `ipc_project_process`
+--
+ALTER TABLE `ipc_project_process`
+  MODIFY `process_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- 使用表AUTO_INCREMENT `ipc_user`
 --
 ALTER TABLE `ipc_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- 限制导出的表
 --

@@ -2,13 +2,15 @@
 
 namespace system\modules\auth\controllers;
 
-use yii\web\Controller;
+use system\libs\base\BaseController;
+
 
 /**
  * Default controller for the `auth` module
  */
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
+
     /**
      * Renders the index view for the module
      * @return string
@@ -17,4 +19,6 @@ class DefaultController extends Controller
     {
         return $this->render('index');
     }
+
+
 }

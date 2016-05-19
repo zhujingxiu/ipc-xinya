@@ -4,29 +4,31 @@ namespace ipc\modules\project\controllers;
 
 use ipc\modules\project\models\Attach;
 
+use ipc\modules\project\models\Comment;
 use ipc\modules\project\models\History;
 use ipc\modules\project\modules\config\models\Status;
 use Yii;
-use ipc\modules\project\models\Check;
+use ipc\modules\project\models\Approve;
 use yii\helpers\Json;
 use yii\web\Response;
 
 
 /**
- * CheckController implements the CRUD actions for Check model.
+ * ApproveController implements the CRUD actions for Approve model.
  */
-class CheckController extends ProjectController
+class ApproveController extends ProjectController
 {
 
+    public $selfUrl = '/project/approve';
     public function actionReject()
     {
         $session = Yii::$app->session;
 
         if(empty(Yii::$app->request->post('project_id'))){
             $session->setFlash('error', '参数异常');
-            return $this->redirect('/project/check');
+            return $this->redirect($this->selfUrl);
         }
-        $model = Check::findOne(Yii::$app->request->post('project_id')) ;
+        $model = Approve::findOne(Yii::$app->request->post('project_id')) ;
 
         $model->status = Status::getValue(Status::REJECTED);
 
@@ -40,7 +42,7 @@ class CheckController extends ProjectController
             unset($session['currentProject']);
         }
 
-        return $this->redirect('/project/check');
+        return $this->redirect($this->selfUrl);
     }
 
     public function actionSave()
@@ -51,9 +53,9 @@ class CheckController extends ProjectController
 
         if(empty($p['project_id'])){
             $session->setFlash('error', '参数异常');
-            return $this->redirect('/project/check');
+            return $this->redirect($this->selfUrl);
         }
-        $model = Check::findOne($p['project_id']) ;
+        $model = Approve::findOne($p['project_id']) ;
 
         $tmp = [];
         if(is_array($p['file']))
@@ -88,30 +90,22 @@ class CheckController extends ProjectController
 
         }
 
-        return $this->redirect('/project/check');
+        return $this->redirect($this->selfUrl);
     }
 
-    public function actionUpload()
+    public function actionCommit()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $routes = empty(Yii::$app->modules['filemanager']['routes']) ? false : Yii::$app->modules['filemanager']['routes'] ;
-        if($routes === false || empty($routes['uploads']))
-        {
-            $routes = [
-                'baseUrl' => '',
-                'basePath' => '@ipc/web',
-                'uploadPath' => 'uploads',
-            ];
+        $session = Yii::$app->session;
+        $p = Yii::$app->request->post();
+        $model = new Comment();
+
+        if($model->load($p) && $model->save()){
+            $session->setFlash('success', '修改成功');
+        }else{
+            $session->setFlash('error', '参数异常');
         }
-
-        $model = new Attach();
-
-        $result = $model->saveUploadedFile($routes);
-
-        if ($model->isImage()) {
-            $model->createDefaultThumb($routes['basePath']);
-        }
-
-        return $result;
+        $session['currentProject'] = $p['Comment']['project_id'];
+        return $this->redirect($this->selfUrl);
     }
+
 }

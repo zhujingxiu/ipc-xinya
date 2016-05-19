@@ -3,6 +3,8 @@ namespace system\libs\base;
 
 use Yii;
 use yii\base\NotSupportedException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\StringHelper;
@@ -19,6 +21,27 @@ class BaseController extends \yii\web\Controller
         parent::init();
 
         $this->identity = Yii::$app->user->identity;
+    }
+
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ]
+            ],
+        ];
     }
 
     public function beforeAction($action)
@@ -50,7 +73,6 @@ class BaseController extends \yii\web\Controller
                 }
                 $curr = Permission::find()->andWhere(['mode'=>'permission','path'=>$route])->asArray()->one();
                 $allowAccess = empty($curr['node_id']) ? 0 : in_array($curr['node_id'],$this->permissions) ;
-
             }
 
             if ($allowAccess === false) {
@@ -63,10 +85,7 @@ class BaseController extends \yii\web\Controller
                 ];
                 return false;
             } else if($allowAccess === 0) {
-
-
                 return false;
-
             } else {
                 return parent::beforeAction($action);
             }
@@ -78,8 +97,6 @@ class BaseController extends \yii\web\Controller
 
     public function afterAction($action, $result)
     {
-
-
         return parent::afterAction($action, $result);
     }
 

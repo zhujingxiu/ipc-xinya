@@ -10,7 +10,7 @@ use ipc\modules\project\modules\config\models\Repayment;
 use ipc\modules\project\modules\config\models\Prove;
 use ipc\modules\project\modules\config\models\Check;
 extract($params);
-$comment = \ipc\modules\project\models\Comment::findOne(['project_id'=>$node->project_id]);
+$process = \ipc\modules\project\models\Process::findOne(['project_id'=>$node->project_id]);
 
 $attributes = [
     [
@@ -192,7 +192,7 @@ $attributes = [
         'columns' => [
             [
                 'attribute' => 'ensure',
-                'label' => msgModule::t('project','保证措施'),
+                'label' => msgModule::t('project','Ensure'),
                 'value' => $node->ensure,
                 'type'=>DetailView::INPUT_TEXTAREA,
                 'valueColOptions'=>['style'=>'width:90%']
@@ -210,7 +210,7 @@ $attributes = [
                 'attribute' => 'level',
                 'displayOnly'=>true,
                 'label' => '风险调查等级',
-                'value' => Check::getTitleLabel($comment->level),
+                'value' => Check::getTitleLabel($process->level),
 
             ],
         ]
@@ -221,7 +221,7 @@ $attributes = [
                 'attribute' => 'officer',
                 'displayOnly'=>true,
                 'label' => '指定风险官',
-                'value' => User::getRealnameLabel($comment->officer),
+                'value' => User::getRealnameLabel($process->officer),
 
             ],
         ]
@@ -232,7 +232,7 @@ $attributes = [
                 'attribute' => 'remark',
                 'displayOnly'=>true,
                 'format' => 'raw',
-                'value' => "<div class=''>".$comment->remark."</div> <br><div class='pull-left'>分管领导：".User::getRealnameLabel($comment->user_id).'</div><div class="pull-right">'.date('Y-m-d',$comment['addtime']).'</div>',
+                'value' => "<div class=''>".$process->remark."</div> <br><div class='pull-left'>分管领导：<b>".User::getRealnameLabel($process->user_id).'</b></div><div class="pull-right">'.date(Yii::t('app','Date CN'),$process['addtime']).'</div>',
                 'labelColOptions' => [
                     'style' => 'display:none'
                 ],

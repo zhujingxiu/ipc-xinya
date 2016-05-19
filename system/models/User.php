@@ -248,14 +248,10 @@ class User extends \common\models\User
     }
 
     public function userRoles(){
-/*        $user = User::find()->andWhere(['user_id' => (string) Yii::$app->user->getId()])->asArray()->one();
-        if(empty($user['role'])){
-            return [];
-        }
-        $user_role = explode(",",$user['role']);*/
+
         $return = [];
         if ($this->role) {
-            $return = array_filter(StringHelper::explode($this->role, ',', true, true), function ($roleId) {
+            $return = array_filter(explode($this->role, ',', true, true), function ($roleId) {
                 return is_numeric($roleId) && Role::find()->where(['mode'=>'role','node_id'=>$roleId])->exists();
             });
         }
@@ -272,7 +268,6 @@ class User extends \common\models\User
             return false;
         }
 
-
         if($this->isRoot()){
             return true;
         }
@@ -287,9 +282,7 @@ class User extends \common\models\User
                 if(!empty($_role['sets'])){
                     $tmp = explode(",",$_role['sets']);
                     if(is_array($tmp) && count($tmp)){
-                        foreach($tmp as $i){
-                            $permissions[] = $i;
-                        }
+                        $permissions = array_merge($permissions,$tmp);
                     }
                 }
             }
@@ -298,7 +291,6 @@ class User extends \common\models\User
         $curr = Permission::find()->andWhere(['mode'=>'permission','path'=>trim($path)])->asArray()->one();
 
         return empty($curr['node_id']) ? false : in_array($curr['node_id'],$permissions) ;
-
     }
 
     public function getRealnameLabel($userId){
@@ -308,7 +300,21 @@ class User extends \common\models\User
 
     public function getRoleUsers($value){
         $role_id = is_numeric($value) ? $value : Role::getRoleId($value);
+        $sql = "SELECT user_id,username,realname,email,is_root,role FROM ".User::tableName()." WHERE FIND_IN_SET(".$role_id.",`role`) AND status = 1 ORDER BY user_id ASC , created_at ASC";
+        return User::findBySql($sql)->asArray()->all();
+    }
 
-        return User::find()->where(['role'=>[$role_id],'status'=>1])->orderBy('user_id,created_at')->asArray()->all();
+    public function getUsersByRole($code = '')
+    {
+        if(empty($code)){
+            return [];
+        }
+        $node = Role::findOne(['path'=>strtolower(trim($code))]);
+        $node_id = empty($node['node_id']) ? false : $node['node_id'];
+        if($node_id === false)
+        {
+            return [];
+        }
+        return self::getRoleUsers($node_id);
     }
 }

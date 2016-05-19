@@ -20,6 +20,7 @@ return [
     'Please Filter' => '请筛选',
     'Please Select' => '请选择',
     'No Option' => '无',
+    'Date CN' => 'Y年m月d日',
 
     'Create ' => '创建',
     'Create' => '创建',
@@ -63,7 +64,7 @@ return [
     'Repassword' => '确认密码',
     'Remember Me' => '自动登录',
     'Email' => '电子邮箱',
-    'Role' => '角色',
+
     'Status' => '状态',
     'Created At' => '创建时间',
     'Updated At' => '更新时间',

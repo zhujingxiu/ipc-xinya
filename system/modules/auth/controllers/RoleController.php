@@ -15,31 +15,14 @@ use yii\filters\VerbFilter;
 class RoleController extends BaseController
 {
     /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
-    /**
      * Lists all Role models.
      * @return mixed
      */
     public function actionIndex()
     {
-
         return $this->render('index', [
             'model' => new Role()
         ]);
     }
-
 
 }
