@@ -80,14 +80,13 @@ class Apply extends Project
         $this->status = Status::getValue(Status::QUEUING);
     }
 
-    public function rules(){
-
+    public function rules()
+    {
         return parent::rules();
     }
 
     public function getName()
     {
-
         return implode(" ",[
             $this->project_sn,
             $this->borrower,
@@ -99,7 +98,6 @@ class Apply extends Project
 
     private function statusTitle()
     {
-
         $status = Status::getStatus($this->status);
 
         return empty($status['title']) ? '' : $status['title'];

@@ -104,4 +104,9 @@ class Assess extends Project
         ]);
     }
 
+    public function beforeSave($insert)
+    {
+        return parent::beforeSave($insert);
+    }
+
 }

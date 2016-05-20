@@ -4,7 +4,7 @@ namespace ipc\modules\project\controllers;
 
 
 use ipc\modules\project\models\History;
-use ipc\modules\project\models\Process;
+use ipc\modules\project\models\Investigate;
 use ipc\modules\project\modules\config\models\Status;
 use Yii;
 use ipc\modules\project\models\Check;
@@ -45,7 +45,7 @@ class SignController extends ProjectController
     public function actionConfirm()
     {
         $session = Yii::$app->session;
-        $p = Yii::$app->request->post('Process');
+        $p = Yii::$app->request->post('Investigate');
         if(empty($p['project_id'])){
             $session->setFlash('error', '参数异常');
             return $this->redirect('/project/sign');
@@ -53,8 +53,8 @@ class SignController extends ProjectController
         $model = Check::findOne($p['project_id']) ;
 
         if($model !== null){
-            $process = new Process();
-            if($process->load(Yii::$app->request->post()) && $process->save()){
+            $investigate = new Investigate();
+            if($investigate->load(Yii::$app->request->post()) && $investigate->save()){
                 $model->status = Status::getValue(Status::SIGNED);
                 if($model->save()){
                     $history = new History();
@@ -70,7 +70,7 @@ class SignController extends ProjectController
                 }
             }else{
 
-                $msg = 'Process Exception:\n'.implode("|",$process->errors);
+                $msg = 'Process Exception:\n'.implode("|",$investigate->errors);
             }
 
         }else{

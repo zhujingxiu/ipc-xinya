@@ -19,7 +19,6 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
         // custom initialization code goes here
         $this->registerTranslations();
     }
@@ -30,15 +29,17 @@ class Module extends \yii\base\Module
             //'sourceLanguage' => 'zh-CN',
             'basePath' => __DIR__.'/messages',
             'fileMap' => [
-                'modules/project/apply' => 'apply.php',
-                'modules/project/approve' => 'approve.php',
-                'modules/project/project' => 'project.php',
-                'modules/project/assess' => 'assess.php',
-                'modules/project/history' => 'history.php',
-                'modules/project/check' => 'check.php',
-                'modules/project/comment' => 'comment.php',
-                'modules/project/sign' => 'sign.php',
-                'modules/project/process' => 'process.php',
+                'modules/project/apply'         => 'apply.php',
+                'modules/project/approve'       => 'approve.php',
+                'modules/project/assess'        => 'assess.php',
+                'modules/project/attach'        => 'attach.php',
+                'modules/project/check'         => 'check.php',
+                'modules/project/comment'       => 'comment.php',
+                'modules/project/history'       => 'history.php',
+                'modules/project/investigate'   => 'investigate.php',
+                'modules/project/sign'          => 'sign.php',
+                'modules/project/publish'       => 'publish.php',
+                'modules/project/project'       => 'project.php',
             ],
         ];
     }

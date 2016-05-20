@@ -3,6 +3,8 @@
 namespace ipc\modules\project\models;
 
 use ipc\modules\project\Module;
+
+use ipc\modules\project\modules\config\models\Status;
 use system\models\User;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -10,7 +12,7 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "{{%project_comment}}".
  *
- * @property integer $approve_id
+ * @property integer $comment_id
  * @property integer $project_id
  * @property string $mode
  * @property string $content
@@ -62,7 +64,7 @@ class Comment extends \system\libs\base\BaseActiveRecord
     public function attributeLabels()
     {
         return [
-            'approve_id' => Module::t('comment', 'Approve ID'),
+            'comment_id' => Module::t('comment', 'Comment ID'),
             'project_id' => Module::t('comment', 'Project ID'),
             'mode' => Module::t('comment', 'Mode'),
             'content' => Module::t('comment', 'Content'),
@@ -74,13 +76,39 @@ class Comment extends \system\libs\base\BaseActiveRecord
 
     public function beforeSave($insert)
     {
-
         if(parent::beforeSave($insert)){
-            $this->user_id = Yii::$app->user->id;
-            $this->addtime = time();
+            if ($this->isNewRecord) {
+                $this->user_id = Yii::$app->user->id;
+                $this->addtime = time();
 
-            return true;
+                return true;
+            }
         }
         return false;
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if($this->mode == self::MODE_COMMITTEE){
+            $users = array_keys(ArrayHelper::map(User::getUsersByRole(self::MODE_COMMITTEE),'user_id','realname'));
+            if($users){
+                $totals = Comment::find()->where(['user_id'=>$users,'status'=>1,'project_id'=>$this->project_id,'mode' => $this->mode])->distinct()->count();
+                if($totals == count($users))
+                {
+                    $model = Approve::findOne($this->project_id);
+                    $model->status = Status::getValue(Status::APPROVED);
+                    if($model->save())
+                    {
+                        $history = new History();
+                        $history->project_id = $model->project_id;
+                        $history->status = $model->status;
+                        $history->save();
+                    }
+                }
+            }
+        }
+
+        return parent::afterSave($insert, $changedAttributes);
+    }
+
 }

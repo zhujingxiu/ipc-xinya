@@ -54,15 +54,21 @@ class SiteController extends \system\libs\base\BaseController
     }
     public function actionError()
     {
+
         if($error=Yii::$app->errorHandler->exception)
         {
-
             if(Yii::$app->request->isAjax)
                 echo $error['message'];
             else
                 $this->render('error', $error);
         }
     }
+
+    public function actionPermission()
+    {
+        $this->render('permission', []);
+    }
+
     public function actionIndex()
     {
         return $this->render('index');

@@ -30,7 +30,8 @@
         "kartik-v/yii2-editable": "*",
         "machour/yii2-notifications": "@dev",
         "kartik-v/yii2-mpdf": "@dev",
-        "kartik-v/yii2-tabs-x": "@dev"
+        "kartik-v/yii2-tabs-x": "@dev",
+        "xj/yii2-jquery-zoom-widget": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

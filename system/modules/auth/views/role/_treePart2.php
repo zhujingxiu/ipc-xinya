@@ -42,6 +42,11 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <?php echo $form->field($node, 'path')->textInput()->label('关键字'); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <?php echo $form->field($node, 'rule')->textInput(); ?>
                 </div>
             </div>

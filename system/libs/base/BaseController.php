@@ -14,13 +14,15 @@ use system\modules\auth\models\Permission;
 class BaseController extends \yii\web\Controller
 {
     public $identity;
-    public $permissions;
+    public $session;
+    public $permissions = [];
     public $publicRoute = [];
 
     public  function init(){
         parent::init();
 
         $this->identity = Yii::$app->user->identity;
+        $this->session = Yii::$app->session;
     }
 
     public function behaviors()
@@ -47,10 +49,12 @@ class BaseController extends \yii\web\Controller
     public function beforeAction($action)
     {
         $route = Yii::$app->requestedRoute;
+
         $allowAccess = in_array($route, [
             '',
             'site/login',
-            'site/logout'
+            'site/logout',
+            'site/permission'
         ]);
         if (!$allowAccess && $this->identity) {
             if ($this->identity->isRoot()) {
@@ -65,27 +69,22 @@ class BaseController extends \yii\web\Controller
                     if(!empty($_role['sets'])){
                         $tmp = explode(",",$_role['sets']);
                         if(is_array($tmp) && count($tmp)){
-                            foreach($tmp as $i){
-                                $this->permissions[] = $i;
-                            }
+                            $this->permissions = array_merge($this->permissions,$tmp);
                         }
                     }
                 }
+
                 $curr = Permission::find()->andWhere(['mode'=>'permission','path'=>$route])->asArray()->one();
+
                 $allowAccess = empty($curr['node_id']) ? 0 : in_array($curr['node_id'],$this->permissions) ;
             }
 
             if ($allowAccess === false) {
-                $response = Yii::$app->response;
-                $response->format = Response::FORMAT_JSON;
-                $response->data = [
-                    'success' => false,
-                    'msg' => '权限不足',
-                    'code' => 2,
-                ];
-                return false;
+
+                return $this->redirect('/site/permission');
+
             } else if($allowAccess === 0) {
-                return false;
+                return $this->redirect('/site/error',404);
             } else {
                 return parent::beforeAction($action);
             }

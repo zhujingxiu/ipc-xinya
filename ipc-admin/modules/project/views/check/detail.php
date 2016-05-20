@@ -10,7 +10,7 @@ use ipc\modules\project\modules\config\models\Repayment;
 use ipc\modules\project\modules\config\models\Prove;
 use ipc\modules\project\modules\config\models\Check;
 extract($params);
-$process = \ipc\modules\project\models\Process::findOne(['project_id'=>$node->project_id]);
+$investigate = \ipc\modules\project\models\Investigate::findOne(['project_id'=>$node->project_id]);
 
 $attributes = [
     [
@@ -210,7 +210,7 @@ $attributes = [
                 'attribute' => 'level',
                 'displayOnly'=>true,
                 'label' => '风险调查等级',
-                'value' => Check::getTitleLabel($process->level),
+                'value' => Check::getTitleLabel($investigate->level),
 
             ],
         ]
@@ -221,7 +221,7 @@ $attributes = [
                 'attribute' => 'officer',
                 'displayOnly'=>true,
                 'label' => '指定风险官',
-                'value' => User::getRealnameLabel($process->officer),
+                'value' => User::getRealnameLabel($investigate->officer),
 
             ],
         ]
@@ -232,7 +232,7 @@ $attributes = [
                 'attribute' => 'remark',
                 'displayOnly'=>true,
                 'format' => 'raw',
-                'value' => "<div class=''>".$process->remark."</div> <br><div class='pull-left'>分管领导：<b>".User::getRealnameLabel($process->user_id).'</b></div><div class="pull-right">'.date(Yii::t('app','Date CN'),$process['addtime']).'</div>',
+                'value' => "<div class=''>".$investigate->remark."</div> <br><div class='pull-left'>分管领导：<b>".User::getRealnameLabel($investigate->user_id).'</b></div><div class="pull-right">'.date(Yii::t('app','Date CN'),$investigate['addtime']).'</div>',
                 'labelColOptions' => [
                     'style' => 'display:none'
                 ],
@@ -265,7 +265,7 @@ echo DetailView::widget($settings);
 
 $attach = new \ipc\modules\project\models\Attach();
 $attach->project_id = $node->project_id;
-$attach->prove_id = Prove::getValue(Prove::CHECKING);
+$attach->prove_id = Prove::getValue(Prove::REPORT);
 echo DetailView::widget([
     'model' => $attach,
     'condensed'=>true,

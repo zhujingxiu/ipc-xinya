@@ -114,4 +114,23 @@ class CheckController extends ProjectController
 
         return $result;
     }
+
+    public function actionConfirm()
+    {
+        $session = Yii::$app->session;
+        $p = Yii::$app->request->post();
+        if(empty($p['Attach']['attach_id'])){
+            $session->setFlash('error', '参数异常');
+            return $this->redirect('/project/approve');
+        }
+        $model = Attach::findOne($p['Attach']['attach_id']);
+        $model->status = 1;
+        if($model->save()){
+            $session->setFlash('success', '修改成功');
+        }else{
+            $session->setFlash('error', '参数异常');
+        }
+//        $session['currentProject'] = $model->project_id;
+        return $this->redirect($this->selfUrl);
+    }
 }

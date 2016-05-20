@@ -150,3 +150,11 @@ echo Menu::widget(
         'items' => $nodes
     ]
 );
+$js = <<<JS
+$.each($('.main-sidebar .treeview'),function() {
+    if($(this).children('ul.treeview-menu').length == 0){
+        $(this).remove();
+    }
+})
+JS;
+$this->registerJs($js);

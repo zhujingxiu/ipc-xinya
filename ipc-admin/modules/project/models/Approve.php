@@ -90,8 +90,8 @@ class Approve extends Project
         $this->status = Status::getValue(Status::CHECKING);
     }
 
-    public function rules(){
-
+    public function rules()
+    {
         return parent::rules();
     }
 
@@ -108,13 +108,7 @@ class Approve extends Project
 
     public function beforeSave($insert)
     {
-        if (parent::beforeSave($insert)) {
-
-            $this->user_id = Yii::$app->user->id;
-            $this->addtime = time();
-            return true;
-        }
-        return false;
+        return parent::beforeSave($insert);
     }
 
     public function getHistories()
@@ -132,8 +126,13 @@ class Approve extends Project
         }
     }
 
-    public function getConfirmers()
+    public function getCommentConfirmers()
     {
         return ArrayHelper::map($this->hasMany(Comment::className(),['project_id'=>'project_id'])->asArray()->all(),'comment_id','user_id','mode');
+    }
+
+    public function getPublishConfirmers()
+    {
+        return ArrayHelper::map($this->hasMany(Publish::className(),['project_id'=>'project_id'])->asArray()->all(),'publish_id','user_id','mode');
     }
 }

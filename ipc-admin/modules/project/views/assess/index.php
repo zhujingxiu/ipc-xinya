@@ -29,7 +29,7 @@ $status = Status::getValue(Status::CONFIRMED);
         ],
         'nodeView' => '@ipc/modules/project/views/assess/detail',
         'rootOptions' => [
-            'label'=>msgModule::t('assess', 'Projects'),  // custom root label
+            'label'=> $this->title,  // custom root label
             'class'=>'text-success'
         ],
         'treeOptions' => [
@@ -47,7 +47,17 @@ $status = Status::getValue(Status::CONFIRMED);
             TreeView::BTN_MOVE_DOWN => false,
             TreeView::BTN_MOVE_LEFT => false,
             TreeView::BTN_MOVE_RIGHT => false,
-        ]
+        ],
+        'mainTemplate' => '
+            <div class="row">
+                <div class="col-sm-9">
+                    {detail}
+                </div>
+                <div class="col-sm-3">
+                    {wrapper}
+                </div>
+            </div>
+        '
     ]);
 
     ?>

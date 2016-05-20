@@ -251,7 +251,7 @@ class User extends \common\models\User
 
         $return = [];
         if ($this->role) {
-            $return = array_filter(explode($this->role, ',', true, true), function ($roleId) {
+            $return = array_filter(StringHelper::explode($this->role, ',', true, true), function ($roleId) {
                 return is_numeric($roleId) && Role::find()->where(['mode'=>'role','node_id'=>$roleId])->exists();
             });
         }

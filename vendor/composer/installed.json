@@ -3681,5 +3681,75 @@
             "tabs",
             "tabs-x"
         ]
+    },
+    {
+        "name": "bower-asset/jquery-zoom",
+        "version": "1.7.15",
+        "version_normalized": "1.7.15.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jackmoore/zoom.git",
+            "reference": "6bc60cb68f8365a81346499cfd4b9ec3caa471a0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jackmoore/zoom/zipball/6bc60cb68f8365a81346499cfd4b9ec3caa471a0",
+            "reference": "6bc60cb68f8365a81346499cfd4b9ec3caa471a0",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery": ">=1.7"
+        },
+        "type": "bower-asset-library",
+        "extra": {
+            "bower-asset-main": "jquery.zoom.js"
+        },
+        "installation-source": "dist",
+        "description": "Enlarge images on click or mouseover.",
+        "keywords": [
+            "images",
+            "jQuery",
+            "jquery-plugin",
+            "ui",
+            "zoom"
+        ]
+    },
+    {
+        "name": "xj/yii2-jquery-zoom-widget",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/xjflyttp/yii2-jquery-zoom-widget.git",
+            "reference": "ab44b14829b636d6039aa26f260797b2dbe3c9f4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/xjflyttp/yii2-jquery-zoom-widget/zipball/ab44b14829b636d6039aa26f260797b2dbe3c9f4",
+            "reference": "ab44b14829b636d6039aa26f260797b2dbe3c9f4",
+            "shasum": ""
+        },
+        "require": {
+            "bower-asset/jquery-zoom": "*"
+        },
+        "time": "2015-10-30 09:04:51",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "xj\\jqueryzoom\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "xjflyttp",
+                "email": "xjflyttp@gmail.com"
+            }
+        ],
+        "description": "yii2-jquery-zoom-widget"
     }
 ]

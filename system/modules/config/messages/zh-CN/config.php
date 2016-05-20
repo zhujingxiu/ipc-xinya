@@ -16,6 +16,7 @@ return [
     'siteName' => '站点名称',
     'siteTitle' => '站点标题',
     'siteKeyword' => '站点关键字',
+    'chairman' => '董事长',
 
     'timezone' => '时区',
     'commentCheck' => '评论审核',

@@ -15,6 +15,7 @@ return array(
     'yii\\codeception\\' => array($vendorDir . '/yiisoft/yii2-codeception'),
     'yii\\bootstrap\\' => array($vendorDir . '/yiisoft/yii2-bootstrap'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
+    'xj\\jqueryzoom\\' => array($vendorDir . '/xj/yii2-jquery-zoom-widget'),
     'pendalf89\\tinymce\\' => array($vendorDir . '/pendalf89/yii2-tinymce'),
     'pendalf89\\filemanager\\' => array($vendorDir . '/pendalf89/yii2-filemanager'),
     'machour\\yii2\\notifications\\' => array($vendorDir . '/machour/yii2-notifications'),

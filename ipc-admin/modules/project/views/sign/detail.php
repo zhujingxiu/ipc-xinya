@@ -223,10 +223,10 @@ $settings = [
 
 echo DetailView::widget($settings);
 
-$process = new \ipc\modules\project\models\Process();
-$process->project_id = $node->project_id;
+$investigate = new \ipc\modules\project\models\Investigate();
+$investigate->project_id = $node->project_id;
 echo DetailView::widget([
-    'model' => $process,
+    'model' => $investigate,
     'condensed'=>true,
     'hover'=>true,
     'mode'=>DetailView::MODE_EDIT,
@@ -254,7 +254,7 @@ echo DetailView::widget([
             'columns' => [
                 [
                     'attribute' => 'project_id',
-                    'value' => $process->project_id,
+                    'value' => $investigate->project_id,
                     'type' => DetailView::INPUT_HIDDEN
                 ],
             ]
@@ -264,7 +264,7 @@ echo DetailView::widget([
                 [
                     'attribute' => 'level',
                     'label' => '风险调查等级',
-                    'value' => $process->level,
+                    'value' => $investigate->level,
                     'type' => DetailView::INPUT_RADIO_LIST,
                     'items' => \ipc\modules\project\modules\config\models\Check::getArrayLevel(),
                     'options' => [
@@ -278,7 +278,7 @@ echo DetailView::widget([
                 [
                     'attribute' => 'officer',
                     'label' => '指定风险官',
-                    'value' => $process->officer,
+                    'value' => $investigate->officer,
                     'type' => DetailView::INPUT_SELECT2,
                     'widgetOptions'=>[
                         'data'=>ArrayHelper::map(User::getRoleUsers(\system\modules\auth\models\Role::RISK), 'user_id', 'realname'),
@@ -292,7 +292,7 @@ echo DetailView::widget([
             'columns' => [
                 [
                     'attribute' => 'remark',
-                    'value' => $process->remark,
+                    'value' => $investigate->remark,
                     'labelColOptions' => [
                         'style' => 'display:none'
                     ],

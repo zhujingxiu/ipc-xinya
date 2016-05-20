@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d6c598744449f94b98943b2c676d25c",
-    "content-hash": "3ec7f60281856a5cf1e995a37667eda1",
+    "hash": "2a078e95f0d0b703495a850894dd8750",
+    "content-hash": "99993b390aae895f1bb3100381f322ab",
     "packages": [
         {
             "name": "2amigos/yii2-file-upload-widget",
@@ -526,6 +526,36 @@
                 "javascript",
                 "jquery",
                 "library"
+            ]
+        },
+        {
+            "name": "bower-asset/jquery-zoom",
+            "version": "1.7.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jackmoore/zoom.git",
+                "reference": "6bc60cb68f8365a81346499cfd4b9ec3caa471a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jackmoore/zoom/zipball/6bc60cb68f8365a81346499cfd4b9ec3caa471a0",
+                "reference": "6bc60cb68f8365a81346499cfd4b9ec3caa471a0",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.7"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "jquery.zoom.js"
+            },
+            "description": "Enlarge images on click or mouseover.",
+            "keywords": [
+                "images",
+                "jQuery",
+                "jquery-plugin",
+                "ui",
+                "zoom"
             ]
         },
         {
@@ -2945,6 +2975,42 @@
                 "wysiwyg"
             ],
             "time": "2016-04-25 02:19:14"
+        },
+        {
+            "name": "xj/yii2-jquery-zoom-widget",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/xjflyttp/yii2-jquery-zoom-widget.git",
+                "reference": "ab44b14829b636d6039aa26f260797b2dbe3c9f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/xjflyttp/yii2-jquery-zoom-widget/zipball/ab44b14829b636d6039aa26f260797b2dbe3c9f4",
+                "reference": "ab44b14829b636d6039aa26f260797b2dbe3c9f4",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery-zoom": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "xj\\jqueryzoom\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "xjflyttp",
+                    "email": "xjflyttp@gmail.com"
+                }
+            ],
+            "description": "yii2-jquery-zoom-widget",
+            "time": "2015-10-30 09:04:51"
         },
         {
             "name": "yiisoft/yii2",

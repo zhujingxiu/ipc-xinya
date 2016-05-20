@@ -1,22 +1,23 @@
 <?php
 
-
 use kartik\detail\DetailView;
 use yii\helpers\ArrayHelper;
 use ipc\modules\project\Module as msgModule;
 use system\models\User;
 use ipc\modules\project\modules\config\models\Tender;
 use ipc\modules\project\modules\config\models\Repayment;
-use ipc\modules\project\models\Approve;
+use ipc\modules\project\models\Investigate;
 use ipc\modules\project\modules\config\models\Check;
 use kartik\tabs\TabsX;
 use ipc\modules\project\models\Comment;
 use ipc\modules\project\modules\config\models\Status;
 use system\modules\auth\models\Role;
+
+xj\jqueryzoom\ZoomAsset::register($this);
 extract($params);
 
 $user_id = Yii::$app->user->id;
-$process = \ipc\modules\project\models\Process::findOne(['project_id'=>$node->project_id]);
+$investigate = Investigate::findOne(['project_id'=>$node->project_id]);
 
 $attributes = [
     [
@@ -33,7 +34,6 @@ $attributes = [
             ],
         ]
     ],
-
     [
         'columns' => [
             [
@@ -82,7 +82,6 @@ $attributes = [
             ],
         ]
     ],
-
     [
         'columns' => [
             [
@@ -159,7 +158,7 @@ $attributes = [
                 'attribute' => 'level',
                 'displayOnly'=>true,
                 'label' => '风险调查等级',
-                'value' => Check::getTitleLabel($process->level),
+                'value' => Check::getTitleLabel($investigate->level),
             ],
         ]
     ],
@@ -169,7 +168,7 @@ $attributes = [
                 'attribute' => 'officer',
                 'displayOnly'=>true,
                 'label' => '指定风险官',
-                'value' => User::getRealnameLabel($process->officer),
+                'value' => User::getRealnameLabel($investigate->officer),
             ],
         ]
     ],
@@ -179,7 +178,7 @@ $attributes = [
                 'attribute' => 'remark',
                 'displayOnly'=>true,
                 'format' => 'raw',
-                'value' => $process->remark,
+                'value' => $investigate->remark,
                 'type'=>DetailView::INPUT_TEXTAREA,
                 'valueColOptions'=>['style'=>'width:90%'],
                 'options'=>['rows'=>5]
@@ -226,14 +225,12 @@ $common = [
     'buttons1' => false,
     'buttons2' => false,
     'panel' => [ 'heading'=> '' ],
-    'formOptions' => [
-        'action' => '/project/approve/commit',
-    ],
+    'formOptions' => [ 'action' => '/project/approve/commit', ],
     'attributes' => []
 ];
 $approve = \ipc\modules\project\models\Approve::findOne( $node->project_id);
 $assessed = $approve->getHistory(Status::ASSESSED);
-$confirmed = $approve->confirmers;
+$confirmed = $approve->commentConfirmers;
 
 //undertake
 $undertake = Comment::findOne(['project_id' => $node->project_id,'mode'=>Comment::MODE_UNDERTAKE]);
@@ -264,7 +261,7 @@ $items[] = [
     'content'=> DetailView::widget( array_merge($common ,
         [
             'model' => $undertake,
-            'mode'=>DetailView::MODE_VIEW,
+            'mode' => DetailView::MODE_VIEW,
             'panel' => [ 'heading' => '承办人确认' ],
             'attributes' => [
                 [
@@ -385,7 +382,7 @@ $items[] = [
     )
 ];
 
-//rist
+//risk
 $risk = Comment::findOne(['project_id' => $node->project_id,'mode'=>Comment::MODE_RISK]);
 if($risk === null) {
     $risk = new Comment();
@@ -457,7 +454,6 @@ $items[] = [
     )
 ];
 
-
 // committee
 $committee = Comment::findOne(['project_id' => $node->project_id,'mode'=>Comment::MODE_COMMITTEE]);
 if($committee === null) {
@@ -492,6 +488,22 @@ $items[] = [
                 [
                     'columns' => [
                         [
+                            'attribute' => 'project_id',
+                            'value' => $committee->project_id,
+                            'labelColOptions' => [ 'style' => 'display:none' ],
+                            'type'=>DetailView::INPUT_HIDDEN,
+                        ],
+                        [
+                            'attribute' => 'mode',
+                            'value' => $committee->mode,
+                            'labelColOptions' => [ 'style' => 'display:none' ],
+                            'type'=>DetailView::INPUT_HIDDEN,
+                        ],
+                    ]
+                ],
+                [
+                    'columns' => [
+                        [
                             'attribute' => 'content',
                             'value' => $committee->content,
                             'labelColOptions' => [ 'style' => 'display:none' ],
@@ -517,20 +529,19 @@ $items[] = [
         ])
     ),
 ];
-$process = \ipc\modules\project\models\Process::findOne(['project_id'=>$node->project_id]);
-$operators = '<div style="width: 280px">调查人：'.User::getRealnameLabel($process->officer) ;
+
+$operators = '<div style="width: 280px">调查人：'.User::getRealnameLabel($investigate->officer) ;
 if(isset($confirmed['risk']) ){
-    $operators .=   '<a class="pull-right btn btn-success" disabled>已确认</a>';
+    $operators .= '<a class="pull-right btn btn-success" disabled>已确认</a>';
 }else{
     $operators .= '<a class="pull-right btn btn-default" disabled>未确认</a>';
 }
 $operators .= '</div>';
 
-
 $files = \yii\helpers\Json::decode($attach->file);
 $images = [];
 foreach($files as $file){
-    $images[] = '<a class="thumbnail" href="#"><img src="'.$file['path'].'" title="'.$file['name'].'" /></a>';
+    $images[] = '<a href="javascript:;" class="thumbnail zoom"><img src="'.$file['path'].'" title="'.$file['name'].'" /></a>';
 }
 $items[] = [
     'label'=>'<i class="fa fa-book"></i> 调查报告',
@@ -538,8 +549,19 @@ $items[] = [
         [
             'model' => $attach,
             'panel' => [ 'heading'=> '调查人确认：', ],
+            'formOptions' => [ 'action' => '/project/check/confirm', ],
             'attributes' => [
+                [
+                    'columns' => [
+                        [
+                            'attribute' => 'attach_id',
+                            'value' => $attach->attach_id,
+                            'labelColOptions' => [ 'style' => 'display:none' ],
+                            'type'=>DetailView::INPUT_HIDDEN,
+                        ],
 
+                    ]
+                ],
                 [
                     'columns' => [
                         [
@@ -570,7 +592,6 @@ $items[] = [
             ]
         ])
     ),
-
 ];
 
 echo TabsX::widget([
@@ -580,3 +601,11 @@ echo TabsX::widget([
     'bordered' => true,
     'encodeLabels'=>false
 ]);
+$js = <<<JS
+$(document).ready(function(){
+    if ($ && $.fn.zoom) {
+        $('.zoom').zoom();
+    }
+});
+JS;
+$this->registerJs($js);

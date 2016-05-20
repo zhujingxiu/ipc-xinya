@@ -30,7 +30,7 @@ $status = Status::getValue(Status::SIGNED);
         ],
         'nodeView' => '@ipc/modules/project/views/check/detail',
         'rootOptions' => [
-            'label'=>msgModule::t('check', 'Projects'),  // custom root label
+            'label'=> $this->title,  // custom root label
             'class'=>'text-success'
         ],
         'treeOptions' => [
@@ -48,7 +48,17 @@ $status = Status::getValue(Status::SIGNED);
             TreeView::BTN_MOVE_DOWN => false,
             TreeView::BTN_MOVE_LEFT => false,
             TreeView::BTN_MOVE_RIGHT => false,
-        ]
+        ],
+        'mainTemplate' => '
+            <div class="row">
+                <div class="col-sm-9">
+                    {detail}
+                </div>
+                <div class="col-sm-3">
+                    {wrapper}
+                </div>
+            </div>
+        '
     ]);
 
     ?>

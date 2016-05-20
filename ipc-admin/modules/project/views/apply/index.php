@@ -35,13 +35,12 @@ $status = [Status::getValue(Status::QUEUING),Status::getValue(Status::REJECTED)]
             //Module::NODE_MOVE => Url::to(['/treemanager/node/move']),
         ],
         'rootOptions' => [
-            'label'=>msgModule::t('apply', 'Projects'),  // custom root label
-            'class'=>'text-success'
+            'label' => $this->title,  // custom root label
+            'class' => 'text-success'
         ],
         'treeOptions' => [
             'style' => 'height:620px'
         ],
-
         'toolbar' => [
             TreeView::BTN_CREATE => false,
             TreeView::BTN_CREATE_ROOT => [
@@ -58,7 +57,17 @@ $status = [Status::getValue(Status::QUEUING),Status::getValue(Status::REJECTED)]
         ],
         'breadcrumbs'=>[
             'untitled' => msgModule::t('apply','New Apply')
-        ]
+        ],
+        'mainTemplate' => '
+            <div class="row">
+                <div class="col-sm-9">
+                    {detail}
+                </div>
+                <div class="col-sm-3">
+                    {wrapper}
+                </div>
+            </div>
+        '
     ]);?>
 <?php
 $this->registerCss("

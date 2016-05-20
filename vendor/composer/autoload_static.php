@@ -24,6 +24,10 @@ class ComposerStaticInit955f65235e15484eba9eeb90f9ec92ff
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        'x' => 
+        array (
+            'xj\\jqueryzoom\\' => 14,
+        ),
         'p' => 
         array (
             'pendalf89\\tinymce\\' => 18,
@@ -126,6 +130,10 @@ class ComposerStaticInit955f65235e15484eba9eeb90f9ec92ff
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'xj\\jqueryzoom\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/xj/yii2-jquery-zoom-widget',
         ),
         'pendalf89\\tinymce\\' => 
         array (

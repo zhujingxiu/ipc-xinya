@@ -41,6 +41,7 @@ class Role extends \system\modules\auth\models\Node
     const RISK = 'risk';
     const FINANCIAL = 'financial';
     const COMMITTEE = 'committee';
+    const CHAIRMAN = 'chairman';
 
     public function init()
     {

@@ -23,7 +23,6 @@ class ApproveController extends ProjectController
     public function actionReject()
     {
         $session = Yii::$app->session;
-
         if(empty(Yii::$app->request->post('project_id'))){
             $session->setFlash('error', '参数异常');
             return $this->redirect($this->selfUrl);
@@ -32,12 +31,14 @@ class ApproveController extends ProjectController
 
         $model->status = Status::getValue(Status::REJECTED);
 
-        if($model->save()){
+        if($model->save())
+        {
             $history = new History();
             $history->project_id = $model->project_id;
             $history->status = $model->status;
             $history->note = Yii::$app->request->post('note');
             $history->save();
+
             $session->setFlash('success', '修改成功');
             unset($session['currentProject']);
         }
@@ -48,7 +49,6 @@ class ApproveController extends ProjectController
     public function actionSave()
     {
         $p = Yii::$app->request->post('Attach');
-
         $session = Yii::$app->session;
 
         if(empty($p['project_id'])){
@@ -75,7 +75,8 @@ class ApproveController extends ProjectController
         $attach->file = Json::encode($tmp);
         $attach->remark = $p['remark'];
 
-        if($model !== null && $attach->save()){
+        if($model !== null && $attach->save())
+        {
             $model->status = Status::getValue(Status::CHECKING);
             if($model->save()){
                 $history = new History();
@@ -87,9 +88,7 @@ class ApproveController extends ProjectController
                 $session->setFlash('success', '修改成功');
                 unset($session['currentProject']);
             }
-
         }
-
         return $this->redirect($this->selfUrl);
     }
 

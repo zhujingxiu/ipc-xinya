@@ -106,13 +106,7 @@ class Check extends Project
 
     public function beforeSave($insert)
     {
-        if (parent::beforeSave($insert)) {
-
-            $this->user_id = Yii::$app->user->id;
-            $this->addtime = time();
-            return true;
-        }
-        return false;
+        return parent::beforeSave($insert);
     }
 
     public function getHistories()

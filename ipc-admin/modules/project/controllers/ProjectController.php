@@ -26,13 +26,7 @@ class ProjectController extends BaseController
      */
     public function actionIndex()
     {
-//        $searchModel = new ProjectSearch();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-//            'searchModel' => $searchModel,
-//            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render('index', [ ]);
     }
 
     public function actionCreate()

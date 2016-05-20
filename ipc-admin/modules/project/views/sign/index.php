@@ -3,11 +3,9 @@
 use ipc\modules\project\Module as msgModule;
 use kartik\tree\TreeView;
 use ipc\modules\project\modules\config\models\Status;
-use ipc\modules\project\models\Check;
+use ipc\modules\project\models\Sign;
 
 /* @var $this yii\web\View */
-/* @var $searchModel ipc\modules\project\models\CheckSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = msgModule::t('sign', 'Projects');
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,16 +18,16 @@ $status = Status::getValue(Status::ASSESSED);
 ?>
 <div class="assess-index">
     <?php echo TreeView::widget([
-        'query' => Check::find()->where(['status'=>$status])->addOrderBy('level desc,addtime desc'),
+        'query' => Sign::find()->where(['status'=>$status])->addOrderBy('level desc,addtime desc'),
         'fontAwesome' => true,
         'isAdmin' => false,
-        'displayValue' => empty(Yii::$app->session['currentProject']) ? Check::getFirstNode($status) : Yii::$app->session['currentProject'],
+        'displayValue' => empty(Yii::$app->session['currentProject']) ? Sign::getFirstNode($status) : Yii::$app->session['currentProject'],
         'cacheSettings' => [
             'enableCache' => false   // defaults to true
         ],
         'nodeView' => '@ipc/modules/project/views/sign/detail',
         'rootOptions' => [
-            'label'=>msgModule::t('sign', 'Projects'),  // custom root label
+            'label'=> $this->title,  // custom root label
             'class'=>'text-success'
         ],
         'treeOptions' => [
@@ -47,7 +45,17 @@ $status = Status::getValue(Status::ASSESSED);
             TreeView::BTN_MOVE_DOWN => false,
             TreeView::BTN_MOVE_LEFT => false,
             TreeView::BTN_MOVE_RIGHT => false,
-        ]
+        ],
+        'mainTemplate' => '
+            <div class="row">
+                <div class="col-sm-9">
+                    {detail}
+                </div>
+                <div class="col-sm-3">
+                    {wrapper}
+                </div>
+            </div>
+        '
     ]);
 
     ?>
