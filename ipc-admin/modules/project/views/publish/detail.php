@@ -380,60 +380,11 @@ if($order === null) {
     $operators .= '</div>';
     $items[] = [
         'label'=>'<i class="fa fa-user"></i> 合同签署',
-        'content'=> DetailView::widget( array_merge($common ,[
-            'model' => $contract,
-            'panel' => [ 'heading'=> '合同签署：' ],
-
-            'buttons2' => "{update}",
-            'updateOptions' => [
-                'label' => '<i class="fa fa-book"></i>',
-                'title' => Yii::t('app','合规审核表'),
-                'class' => 'btn-audit kv-action-btn',
-                'data-key' => $node->project_id,
-            ],
-            'attributes' => [
-                [
-                    'columns' => [
-                        [
-                            'attribute' => 'project_id',
-                            'value' => $contract->project_id,
-                            'labelColOptions' => [ 'style' => 'display:none' ],
-                            'type'=>DetailView::INPUT_HIDDEN,
-                        ],
-                        [
-                            'attribute' => 'mode',
-                            'value' => $contract->mode,
-                            'labelColOptions' => [ 'style' => 'display:none' ],
-                            'type'=>DetailView::INPUT_HIDDEN,
-                        ],
-                    ]
-                ],
-                [
-                    'columns' => [
-                        [
-                            'attribute' => 'content',
-                            'value' => $contract->content,
-                            'labelColOptions' => [ 'style' => 'display:none' ],
-                            'type'=>DetailView::INPUT_TEXTAREA,
-                            'valueColOptions'=>['style'=>'width:90%'],
-                        ],
-                    ]
-                ],
-                [
-                    'columns' => [
-                        [
-                            'attribute' => false,
-                            'displayOnly' => true,
-                            'labelColOptions' => [ 'style' => 'display:none' ],
-                            'format' => 'raw',
-                            'value' => '<div class="pull-left">'.$operators.'</div><div class="pull-right">'.date(Yii::t('app','Date CN')).'</div>',
-                            'type'=>DetailView::INPUT_TEXTAREA,
-                            'valueColOptions'=>['style'=>'width:90%']
-                        ],
-                    ]
-                ],
-            ]
-        ]))
+        'content'=> $this->render('contract',[
+            'common' => $common,
+            'contract' => $contract,
+            'operators' => $operators
+        ])
     ];
 
     //chairman

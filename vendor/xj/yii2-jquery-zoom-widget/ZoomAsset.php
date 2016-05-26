@@ -13,9 +13,6 @@ class ZoomAsset extends AssetBundle
 
     public $sourcePath = '@bower/jquery-zoom';
     public $basePath = '@webroot/assets';
-    public $css = [
-        'base.css',
-    ];
     public $js = ['jquery.zoom.js'];
     public $depends = ['yii\web\JqueryAsset'];
 

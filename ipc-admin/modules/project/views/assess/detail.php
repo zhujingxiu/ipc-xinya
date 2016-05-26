@@ -228,7 +228,7 @@ echo DetailView::widget([
     'mode'=>DetailView::MODE_EDIT,
     'labelColOptions' => ['style' => 'width: 12%;'],
     'panel'=>[
-        'heading'=> ' &nbsp; ',//$node->$nameAttribute,
+        'heading'=> '调查评估',//$node->$nameAttribute,
         'type'=>DetailView::TYPE_PRIMARY,
     ],
     'vAlign'=>'top',
@@ -260,9 +260,9 @@ echo DetailView::widget([
             'columns' => [
                 [
                     'attribute' => 'note',
-                    'label' => '调查评估',
+                    'labelColOptions' => ['style'=>'display:none;'],
                     'value' => $history->note,
-                    'valueColOptions'=>['style'=>'width:90%;'],
+                    'valueColOptions'=>['style'=>'width:100%;'],
                     'options' => [
                         'id' => 'tmce-'.uniqid()
                     ],

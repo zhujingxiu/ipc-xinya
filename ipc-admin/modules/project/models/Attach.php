@@ -24,35 +24,6 @@ use Imagine\Image\ImageInterface;
  */
 class Attach extends \system\libs\base\BaseActiveRecord
 {
-    /**
-     * @inheritdoc
-     */
-    const APPLY = 'apply';
-    const APPROVE = 'approve';
-    const SERVICE = 'service';
-    const BORROWER = 'borrower';
-    const ENTRUST = 'entrust';
-    const ASSURE = 'assure';
-    const REPORT = 'report';
-    const SIGNED = 'signed';
-    const APPLICANT = 'applicant';
-    const GUARANTOR = 'guarantor';
-
-    public function getArrayAudit()
-    {
-        return [
-            APPLY => '申请受理意向表',
-            APPROVE => '项目审批表',
-            SERVICE => '服务协议书',
-            BORROWER => '借款协议书',
-            ENTRUST => '委托担保合同',
-            ASSURE => '保证担保函',
-            REPORT => '项目调查报告',
-            SIGNED => '签名确认表',
-            APPLICANT => '申请人身份证',
-            GUARANTOR => '担保人身份证',
-        ];
-    }
 
     public $upload;
     public $name;

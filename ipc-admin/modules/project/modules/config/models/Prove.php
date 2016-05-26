@@ -26,23 +26,23 @@ class Prove extends \system\libs\base\BaseActiveRecord
     const ENTRUST = 'entrust';
     const ASSURE = 'assure';
     const REPORT = 'report';
-    const SIGNED = 'signed';
+    const SIGNATURE = 'signature';
     const APPLICANT = 'applicant';
     const GUARANTOR = 'guarantor';
 
     public function getArrayAudit()
     {
         return [
-            APPLY => '申请受理意向表',
-            APPROVE => '项目审批表',
-            SERVICE => '服务协议书',
-            BORROWER => '借款协议书',
-            ENTRUST => '委托担保合同',
-            ASSURE => '保证担保函',
-            REPORT => '项目调查报告',
-            SIGNED => '签名确认表',
-            APPLICANT => '申请人身份证',
-            GUARANTOR => '担保人身份证',
+            self::APPLY => '申请受理意向表',
+            self::APPROVE => '项目审批表',
+            self::SERVICE => '服务协议书',
+            self::BORROWER => '借款协议书',
+            self::ENTRUST => '委托担保合同',
+            self::ASSURE => '保证担保函',
+            self::REPORT => '项目调查报告',
+            self::SIGNATURE => '签名确认表',
+            self::APPLICANT => '申请人身份证',
+            self::GUARANTOR => '担保人身份证',
         ];
     }
     public static function tableName()

@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
  * @package yii2-tabs-x
- * @version 1.2.2
+ * @version 1.2.3
  */
 
 namespace kartik\tabs;
@@ -164,6 +164,26 @@ class TabsX extends Tabs
     public $pluginDestroyJs;
 
     /**
+     * @var bool whether this tab widget should be printable.
+     */
+    public $printable = true;
+
+    /**
+     * @var array the HTML attributes for the tab content header in print view.
+     */
+    public $printHeaderOptions = ['class' => 'h3'];
+
+    /**
+     * @var bool whether the headers in print view will prepend the main label to the item label in case of dropdowns.
+     */
+    public $printHeaderCrumbs = true;
+
+    /**
+     * @var string the crumb separator for the dropdown headers in the print view when `printHeaderCrumbs` is `true`
+     */
+    public $printCrumbSeparator = ' &raquo; ';
+
+    /**
      * @var string the hashed global variable name storing the pluginOptions
      */
     protected $_hashVar;
@@ -179,7 +199,7 @@ class TabsX extends Tabs
     protected $_encOptions = '';
 
     /**
-     * Initializes the widget.
+     * @inheritdoc
      */
     public function initWidget()
     {
@@ -191,6 +211,9 @@ class TabsX extends Tabs
         }
         $this->registerAssets();
         Html::addCssClass($this->options, 'nav ' . $this->navType);
+        if ($this->printable) {
+            Html::addCssClass($this->options, 'hidden-print');
+        }
         $this->options['role'] = 'tablist';
         $css = self::getCss("tabs-{$this->position}", $this->position != null) .
             self::getCss("tab-align-{$this->align}", $this->align != null) .
@@ -205,10 +228,11 @@ class TabsX extends Tabs
             ) .
             ' ' . ArrayHelper::getValue($this->pluginOptions, 'addCss', 'tabs-krajee');
         Html::addCssClass($this->containerOptions, $css);
+        Html::addCssClass($this->printHeaderOptions, 'visible-print-block');
     }
 
     /**
-     * Renders the widget.
+     * @inheritdoc
      */
     public function run()
     {
@@ -219,7 +243,7 @@ class TabsX extends Tabs
     /**
      * Parse the CSS content to append based on condition
      *
-     * @param string  $prop the css property
+     * @param string $prop the css property
      * @param boolean $condition the validation to append the CSS class
      *
      * @return string the parsed CSS
@@ -230,15 +254,28 @@ class TabsX extends Tabs
     }
 
     /**
-     * Renders tab items as specified on [[items]].
+     * Gets the label for an item configuration
+     * @param array $item
+     *
+     * @return string
+     * @throws InvalidConfigException
+     */
+    protected function getLabel($item = [])
+    {
+        if (!isset($item['label'])) {
+            throw new InvalidConfigException("The 'label' option is required.");
+        }
+        $encodeLabel = ArrayHelper::getValue($item, 'encode', $this->encodeLabels);
+        return $encodeLabel ? Html::encode($item['label']) : $item['label'];
+    }
+    /**
+     * Renders tab items as specified in [[items]].
      *
      * @return string the rendering result.
-     * @throws InvalidConfigException.
      */
     protected function renderItems()
     {
-        $headers = [];
-        $panes = [];
+        $headers = $panes = $labels = [];
 
         if (!$this->hasActiveTab() && !empty($this->items)) {
             $this->items[0]['active'] = true;
@@ -248,23 +285,20 @@ class TabsX extends Tabs
             if (!ArrayHelper::remove($item, 'visible', true)) {
                 continue;
             }
-            if (!isset($item['label'])) {
-                throw new InvalidConfigException("The 'label' option is required.");
-            }
-            $encodeLabel = isset($item['encode']) ? $item['encode'] : $this->encodeLabels;
-            $label = $encodeLabel ? Html::encode($item['label']) : $item['label'];
+            $label = $this->getLabel($item);
             $headerOptions = array_merge($this->headerOptions, ArrayHelper::getValue($item, 'headerOptions', []));
             $linkOptions = array_merge($this->linkOptions, ArrayHelper::getValue($item, 'linkOptions', []));
             $content = ArrayHelper::getValue($item, 'content', '');
-
             if (isset($item['items'])) {
+                foreach ($item['items'] as $subItem) {
+                    $subLabel = $this->getLabel($subItem);
+                    $labels[] = $this->printHeaderCrumbs ? $label . $this->printCrumbSeparator . $subLabel : $subLabel;
+                }
                 $label .= ' <b class="caret"></b>';
                 Html::addCssClass($headerOptions, 'dropdown');
-
                 if ($this->renderDropdown($n, $item['items'], $panes)) {
                     Html::addCssClass($headerOptions, 'active');
                 }
-
                 Html::addCssClass($linkOptions, 'dropdown-toggle');
                 $linkOptions['data-toggle'] = 'dropdown';
                 $header = Html::a($label, "#", $linkOptions) . "\n"
@@ -274,6 +308,7 @@ class TabsX extends Tabs
                         'view' => $this->getView()
                     ]);
             } else {
+                $labels[] = $label;
                 $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
                 $options['id'] = ArrayHelper::getValue($options, 'id', $this->options['id'] . '-tab' . $n);
                 $css = 'tab-pane';
@@ -297,12 +332,18 @@ class TabsX extends Tabs
                     $panes[] = Html::tag('div', $content, $options);
                 }
             }
-
             $headers[] = Html::tag('li', $header, $headerOptions);
         }
         $outHeader = Html::tag('ul', implode("\n", $headers), $this->options);
         if ($this->renderTabContent) {
-            $outPane = Html::tag('div', implode("\n", $panes), ['class' => 'tab-content']);
+            $outPane = Html::beginTag('div', ['class' => 'tab-content' . $this->getCss('printable', $this->printable)]);
+            foreach ($panes as $i => $pane) {
+                if ($this->printable) {
+                    $outPane .= Html::tag('div', ArrayHelper::getValue($labels, $i), $this->printHeaderOptions) . "\n";
+                }
+                $outPane .= "$pane\n";
+            }
+            $outPane .= Html::endTag('div');
             $tabs = $this->position == self::POS_BELOW ? $outPane . "\n" . $outHeader : $outHeader . "\n" . $outPane;
         } else {
             $tabs = $outHeader;
@@ -317,6 +358,9 @@ class TabsX extends Tabs
     {
         $view = $this->getView();
         TabsXAsset::register($view);
+        if ($this->printable) {
+            $view->registerCss('@media print { .tab-content.printable > .tab-pane { display: block; opacity: 1; }}');
+        }
         $id = 'jQuery("#' . $this->containerOptions['id'] . '")';
         $this->registerPlugin($this->pluginName, $id);
         if ($this->enableStickyTabs) {

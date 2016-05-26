@@ -12,7 +12,11 @@ use ipc\modules\project\modules\config\models\Status;
 
 $this->title = msgModule::t('apply', 'Projects');
 $this->params['breadcrumbs'][] = $this->title;
-
+$this->registerCss("
+.kv-detail-container{padding:0px;border:none;}
+.select2-container .select2-selection--single .select2-selection__rendered{margin-top:0px;}
+.kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;}
+");
 $status = [Status::getValue(Status::QUEUING),Status::getValue(Status::REJECTED)] ;
 ?>
 <div class="project-index">
@@ -69,11 +73,4 @@ $status = [Status::getValue(Status::QUEUING),Status::getValue(Status::REJECTED)]
             </div>
         '
     ]);?>
-<?php
-$this->registerCss("
-.kv-detail-container{padding:0px;border:none;}
-.select2-container .select2-selection--single .select2-selection__rendered{margin-top:0px;}
-.kv-child-table-row th,.kv-child-table-row td{border-top: 1px #ddd solid;}
-");
-?>
 </div>

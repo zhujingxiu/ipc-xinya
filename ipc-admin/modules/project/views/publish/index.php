@@ -34,7 +34,7 @@ $status = Status::getValue(Status::APPROVED);
             'style' => 'height:620px',
         ],
         'iconEditSettings' =>[
-            'type' => TreeView::ICON_RAW
+            'show' => 'none'
         ],
         'toolbar' => [
             TreeView::BTN_CREATE => false,

@@ -129,7 +129,7 @@ $attributes = [
             [
                 'attribute' => 'tender',
                 'label' => msgModule::t('project','Tender'),
-                'value' => $node->tender,
+                'value' => Tender::getTitleLabel($node->tender),
                 'valueColOptions'=>['style'=>'width:30%'],
                 'type'=>DetailView::INPUT_SELECT2,
                 'widgetOptions'=>[
@@ -145,7 +145,7 @@ $attributes = [
             [
                 'attribute' => 'agent_a',
                 'label' => msgModule::t('project', 'Agent A'),
-                'value' => $node->agent_a,
+                'value' => User::getRealnameLabel($node->agent_a),
                 'valueColOptions'=>['style'=>'width:20%'],
                 'type'=>DetailView::INPUT_SELECT2,
                 'widgetOptions'=>[
@@ -157,7 +157,7 @@ $attributes = [
             [
                 'attribute' => 'agent_b',
                 'label' => msgModule::t('project', 'Agent B'),
-                'value' => $node->agent_b,
+                'value' => User::getRealnameLabel($node->agent_b),
                 'valueColOptions'=>['style'=>'width:20%'],
                 'type'=>DetailView::INPUT_SELECT2,
                 'widgetOptions'=>[
@@ -169,7 +169,7 @@ $attributes = [
             [
                 'attribute' => 'repayment',
                 'label' => msgModule::t('project','Repayment'),
-                'value' => $node->repayment,
+                'value' => Repayment::getTitleLabel($node->repayment),
                 'valueColOptions'=>['style'=>'width:30%'],
                 'type'=>DetailView::INPUT_SELECT2,
                 'widgetOptions'=>[

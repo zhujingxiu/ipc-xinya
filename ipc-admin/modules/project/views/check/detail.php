@@ -84,10 +84,10 @@ $attributes = [
         'columns' => [
             [
                 'attribute' => 'text',
-                'label' => msgModule::t('project','Text'),
+                'labelColOptions' => ['style'=>'display:none'],
                 'value' => $node->text,
                 'type'=>DetailView::INPUT_TEXTAREA,
-                'valueColOptions'=>['style'=>'width:90%'],
+                'valueColOptions'=>['style'=>'width:90%;margin:5px;'],
                 'options'=>['rows'=>5]
             ],
         ]

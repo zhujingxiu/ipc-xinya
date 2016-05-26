@@ -16,6 +16,7 @@ return array(
     'yii\\bootstrap\\' => array($vendorDir . '/yiisoft/yii2-bootstrap'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
     'xj\\jqueryzoom\\' => array($vendorDir . '/xj/yii2-jquery-zoom-widget'),
+    'rmrevin\\yii\\fontawesome\\' => array($vendorDir . '/rmrevin/yii2-fontawesome'),
     'pendalf89\\tinymce\\' => array($vendorDir . '/pendalf89/yii2-tinymce'),
     'pendalf89\\filemanager\\' => array($vendorDir . '/pendalf89/yii2-filemanager'),
     'machour\\yii2\\notifications\\' => array($vendorDir . '/machour/yii2-notifications'),
