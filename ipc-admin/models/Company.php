@@ -29,6 +29,7 @@ class Company extends \system\libs\base\BaseActiveRecord
     }
 
     /**
+     * 12321321321
      * @inheritdoc
      */
     public function rules()
